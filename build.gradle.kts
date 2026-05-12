@@ -340,20 +340,32 @@ val codeqlCompileJvm = tasks.register<JavaExec>("codeqlCompileJvm") {
 
     val outDir = layout.buildDirectory.dir("classes/kotlin/codeql-jvm")
     val sources = fileTree("src/commonMain/kotlin") { include("**/*.kt") }
+    val generatedSourceDir = layout.buildDirectory.dir("generated/sources/codeqlCompileJvm/kotlin")
+    val sentinelSource = generatedSourceDir.map {
+        it.file("io/github/kotlinmania/opensslsys/CodeqlEmptySourceSentinel.kt")
+    }
     inputs.files(sources).withPathSensitivity(PathSensitivity.RELATIVE)
     inputs.files(codeqlSourceClasspath).withNormalizer(ClasspathNormalizer::class.java)
     outputs.dir(outDir)
-
-    // Skip when commonMain has no Kotlin source. kotlinc 2.3.21 with an
-    // empty source-file list drops into REPL mode and fails with
-    // "Kotlin REPL is deprecated and should be enabled explicitly". For
-    // a port that hasn't started yet (.gitkeep only under commonMain),
-    // a skipped CodeQL extraction is the correct outcome — there is
-    // genuinely no Kotlin to analyse.
-    onlyIf("commonMain has at least one Kotlin source") { sources.files.isNotEmpty() }
+    outputs.dir(generatedSourceDir)
 
     doFirst {
         outDir.get().asFile.mkdirs()
+        val compileSources =
+            sources.files
+                .sortedBy { it.invariantSeparatorsPath }
+                .ifEmpty {
+                    val sentinel = sentinelSource.get().asFile
+                    sentinel.parentFile.mkdirs()
+                    sentinel.writeText(
+                        """
+                        package io.github.kotlinmania.opensslsys
+
+                        internal object CodeqlEmptySourceSentinel
+                        """.trimIndent() + "\n",
+                    )
+                    listOf(sentinel)
+                }
         args = listOf(
             "-d", outDir.get().asFile.absolutePath,
             "-classpath", codeqlSourceClasspath.asPath,
@@ -365,7 +377,7 @@ val codeqlCompileJvm = tasks.register<JavaExec>("codeqlCompileJvm") {
             "-opt-in", "kotlin.time.ExperimentalTime",
             "-opt-in", "kotlin.concurrent.atomics.ExperimentalAtomicApi",
             "-Xexpect-actual-classes",
-        ) + sources.files.map { it.absolutePath }
+        ) + compileSources.map { it.absolutePath }
     }
 }
 
