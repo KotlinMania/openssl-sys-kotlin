@@ -50,6 +50,26 @@ kotlin {
 
     val xcf = XCFramework("OpensslSys")
 
+    // Native targets that can link against a system-provided OpenSSL 3 install
+    // get a cinterop binding generated from src/nativeInterop/cinterop/openssl.def.
+    // On macOS the binding resolves via Homebrew openssl@3.
+    //
+    // linuxX64, linuxArm64, mingwX64 are also valid cinterop hosts in principle
+    // — the .def file already carries their compilerOpts/linkerOpts — but the
+    // Kotlin/Native Linux/MinGW sysroots bundled under ~/.konan do not ship
+    // openssl headers, so generating their bindings requires running on a
+    // Linux/Windows runner that has libssl-dev / msys2 openssl installed.
+    // Until those runners are wired into the workflow matrix, they stay out
+    // of this set.
+    //
+    // Apple device, androidNative*, JS, WasmJS, WasmWASI: no path to libssl at
+    // link time. Their share of the openssl-sys port is constrained to the
+    // pure-constant commonMain modules (Aes.kt, Srtp.kt, etc.) until a
+    // vendored openssl-src strategy or Node N-API addon is wired in.
+    val opensslCinteropTargets = setOf(
+        "macosArm64",
+    )
+
     macosArm64 {
         binaries.framework { baseName = "OpensslSys"; xcf.add(this) }
     }
@@ -141,6 +161,16 @@ kotlin {
 
     }
     jvmToolchain(21)
+
+    targets.matching { it.name in opensslCinteropTargets }.configureEach {
+        val nativeTarget = this as org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget
+        nativeTarget.compilations.named("main") {
+            cinterops.create("openssl") {
+                defFile(project.file("src/nativeInterop/cinterop/openssl.def"))
+                packageName("openssl")
+            }
+        }
+    }
 }
 
 tasks.withType<AbstractTestTask>().configureEach {
