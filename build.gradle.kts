@@ -158,7 +158,20 @@ kotlin {
                 implementation(kotlin("test"))
             }
         }
-
+        val jsMain by getting {
+            dependencies {
+                // Local Node N-API addon. Yarn resolves file: paths from
+                // each consumer's generated package dir under
+                // build/js/packages/<consumer>/ — three levels up is the
+                // project root, then into ./node/. The addon's own
+                // package.json declares the name @openssl-sys-kotlin/openssl-shim,
+                // which is what OpensslShim.kt require()'s at runtime.
+                // The addon must be pre-built via
+                // `cd node && npm install && npm run build:native` before
+                // Kotlin/JS tests can load it.
+                implementation(npm("@openssl-sys-kotlin/openssl-shim", "file:${project.projectDir.absolutePath}/node"))
+            }
+        }
     }
     jvmToolchain(21)
 
