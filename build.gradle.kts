@@ -77,10 +77,18 @@ kotlin {
         binaries.framework { baseName = "OpensslSys"; xcf.add(this) }
     }
     iosSimulatorArm64 {
-        binaries.framework { baseName = "OpensslSys"; xcf.add(this) }
+        binaries.framework {
+            baseName = "OpensslSys"
+            isStatic = true
+            xcf.add(this)
+        }
     }
     iosX64 {
-        binaries.framework { baseName = "OpensslSys"; xcf.add(this) }
+        binaries.framework {
+            baseName = "OpensslSys"
+            isStatic = true
+            xcf.add(this)
+        }
     }
 
     tvosArm64 {
