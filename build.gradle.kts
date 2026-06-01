@@ -453,7 +453,7 @@ val patchedKarmaWebpackPackage =
 // TODO: NodeJsRootExtension.versions.* is deprecated and will be removed when the spec-based
 //       NodeJsEnvSpec API gains equivalent properties. Track KGP release notes before removing.
 rootProject.extensions.configure<NodeJsRootExtension>("kotlinNodeJs") {
-    versions.webpack.version = providers.gradleProperty("node.webpack.version").getOrElse("5.106.2")
+    versions.webpack.version = providers.gradleProperty("node.webpack.version").getOrElse("5.107.2")
     versions.webpackCli.version = providers.gradleProperty("node.webpackCli.version").getOrElse("7.0.2")
     versions.karma.version = providers.gradleProperty("node.karma.version").getOrElse("npm:karma-maintained@6.4.7")
     versions.karmaWebpack.version = "file:$patchedKarmaWebpackPackage"
