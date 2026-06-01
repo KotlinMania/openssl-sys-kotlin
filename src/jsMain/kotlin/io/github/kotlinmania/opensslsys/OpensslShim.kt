@@ -12,6 +12,7 @@ internal external interface OpensslShim {
         name: String,
         data: Uint8Array,
     ): Uint8Array?
+
     fun opensslVersionNumber(): Double
 }
 

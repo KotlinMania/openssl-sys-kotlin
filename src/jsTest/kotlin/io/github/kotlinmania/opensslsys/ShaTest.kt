@@ -15,6 +15,7 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertNotNull
 import kotlin.test.assertTrue
+
 private val isNodeRuntime: Boolean =
     js(
         "(typeof process !== 'undefined' && process.versions && process.versions.node) ? true : false",
