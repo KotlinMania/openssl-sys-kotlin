@@ -333,6 +333,7 @@ kotlin {
         jsMain.dependencies {
             implementation(npm("@openssl-sys-kotlin/openssl-shim", "file:${project.projectDir.absolutePath}/node"))
         }
+
     }
 
     targets.matching { it.name in opensslCinteropTargets }.configureEach {

@@ -9,7 +9,7 @@ import OpensslSys
 //   1. `embedSwiftExportForXcode` produced `OpensslSys.swiftmodule/`
 //      and the supporting KotlinRuntimeSupport / ExportedKotlinPackages /
 //      KotlinRuntime swiftmodule bundles. If any of them were missing,
-//      `import ProcMacro` above would fail at compile time.
+//      `import OpensslSys` above would fail at compile time.
 //
 //   2. The static archive `libOpensslSys.a` (produced by the
 //      `linkSwiftExportBinaryDebugStaticMacosArm64` and
@@ -23,7 +23,7 @@ import OpensslSys
 //      `flattenPackage = "io.github.kotlinmania.opensslsys"` configuration in
 //      build.gradle.kts produced a module name that's both syntactically
 //      valid as a Swift identifier and reachable from this Package.swift
-//      via the `ProcMacroLibrary` product.
+//      via the `OpensslSysLibrary` product.
 //
 // Add more meaningful per-API tests below as the Swift Export surface
 // grows. For now the import + a single passing assertion is the
