@@ -11,10 +11,10 @@ import platform.posix.size_t
 public const val SHA_LBLOCK: Int = 16
 
 // Upstream gate: cfg(not(osslconf = "OPENSSL_NO_DEPRECATED_3_0"))
-public typealias SHA_LONG = UInt
+public typealias ShaLong = UInt
 
 // Upstream gate: cfg(not(osslconf = "OPENSSL_NO_DEPRECATED_3_0"))
-public typealias SHA_LONG64 = ULong
+public typealias ShaLong64 = ULong
 
 // Upstream gate: cfg(ossl300). Ideally these would be macros, but that
 // crashes ctest in upstream Rust, so they are hand-written wrappers over
@@ -22,35 +22,35 @@ public typealias SHA_LONG64 = ULong
 // algorithm-name argument from a Kotlin String, so the explicit
 // null-terminator the Rust version appends manually is unnecessary here.
 @OptIn(ExperimentalForeignApi::class)
-public fun SHA1(
+public fun sha1(
     d: CPointer<UByteVar>?,
     n: size_t,
     md: CPointer<UByteVar>?,
 ): CPointer<UByteVar>? = if (EVP_Q_digest(null, "SHA1", null, d, n, md, null) != 0) md else null
 
 @OptIn(ExperimentalForeignApi::class)
-public fun SHA224(
+public fun sha224(
     d: CPointer<UByteVar>?,
     n: size_t,
     md: CPointer<UByteVar>?,
 ): CPointer<UByteVar>? = if (EVP_Q_digest(null, "SHA224", null, d, n, md, null) != 0) md else null
 
 @OptIn(ExperimentalForeignApi::class)
-public fun SHA256(
+public fun sha256(
     d: CPointer<UByteVar>?,
     n: size_t,
     md: CPointer<UByteVar>?,
 ): CPointer<UByteVar>? = if (EVP_Q_digest(null, "SHA256", null, d, n, md, null) != 0) md else null
 
 @OptIn(ExperimentalForeignApi::class)
-public fun SHA384(
+public fun sha384(
     d: CPointer<UByteVar>?,
     n: size_t,
     md: CPointer<UByteVar>?,
 ): CPointer<UByteVar>? = if (EVP_Q_digest(null, "SHA384", null, d, n, md, null) != 0) md else null
 
 @OptIn(ExperimentalForeignApi::class)
-public fun SHA512(
+public fun sha512(
     d: CPointer<UByteVar>?,
     n: size_t,
     md: CPointer<UByteVar>?,

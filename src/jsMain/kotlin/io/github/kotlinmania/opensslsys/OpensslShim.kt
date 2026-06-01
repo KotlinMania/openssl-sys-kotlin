@@ -1,5 +1,5 @@
-// port-lint: ignore — Kotlin/JS external bindings to the Node N-API addon
-// at node/build/Release/openssl_shim.node. The addon is loaded lazily on
+// Kotlin/JS external bindings to the Node N-API addon at
+// node/build/Release/openssl_shim.node. The addon is loaded lazily on
 // first use via require('@openssl-sys-kotlin/openssl-shim'); the jsNodejs
 // test target wires the addon directory in as a yarn-resolvable name.
 // Browser callers see opensslShimOrThrow() raise UnsupportedOperationException.
@@ -7,7 +7,7 @@ package io.github.kotlinmania.opensslsys
 
 import org.khronos.webgl.Uint8Array
 
-internal external interface OpensslShimAddon {
+internal external interface OpensslShim {
     fun evpQDigest(
         name: String,
         data: Uint8Array,
@@ -20,7 +20,7 @@ internal external interface OpensslShimAddon {
 // at module-load time. Both the runtime detection and the require call
 // happen on first access — browser bundles can ship this code as long as
 // no caller actually invokes an SHA function.
-private val shim: OpensslShimAddon? by lazy {
+private val shim: OpensslShim? by lazy {
     val resolved: dynamic =
         js(
             """
@@ -36,10 +36,10 @@ private val shim: OpensslShimAddon? by lazy {
         })()
         """,
         )
-    if (resolved == null) null else resolved.unsafeCast<OpensslShimAddon>()
+    if (resolved == null) null else resolved.unsafeCast<OpensslShim>()
 }
 
-internal fun opensslShimOrThrow(): OpensslShimAddon =
+internal fun opensslShimOrThrow(): OpensslShim =
     shim ?: throw UnsupportedOperationException(
         "openssl-sys-kotlin: the @openssl-sys-kotlin/openssl-shim N-API addon " +
             "is not available in this runtime. Browsers cannot load .node files; " +

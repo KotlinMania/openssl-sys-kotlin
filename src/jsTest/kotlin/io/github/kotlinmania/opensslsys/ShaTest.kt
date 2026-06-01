@@ -1,5 +1,5 @@
-// port-lint: ignore — host-only smoke test that exercises the jsMain
-// Sha bindings against the Node N-API addon. Mirrors macosArm64Test/ShaTest
+// Host-only smoke test that exercises the jsMain Sha bindings against
+// the Node N-API addon. Mirrors macosArm64Test/ShaTest
 // against the canonical RFC 6234 / NIST SHA-256 vector for "abc".
 //
 // The SHA-256 round-trip and OPENSSL_VERSION_NUMBER checks only run under
@@ -32,7 +32,7 @@ class ShaTest {
             data.asDynamic()[i] = input[i].toInt() and 0xFF
         }
 
-        val digest = SHA256(data)
+        val digest = sha256(data)
         assertNotNull(digest, "EVP_Q_digest via N-API returned null for SHA-256")
         assertEquals(32, digest.length)
 
@@ -62,8 +62,8 @@ class ShaTest {
     fun shaConstantsTrackUpstream() {
         // Pure-constant assertions — run on every JS runtime, no addon needed.
         assertEquals(16, SHA_LBLOCK)
-        val long: SHA_LONG = 0xFFFF_FFFFu
-        val long64: SHA_LONG64 = 0xFFFF_FFFF_FFFF_FFFFuL
+        val long: ShaLong = 0xFFFF_FFFFu
+        val long64: ShaLong64 = 0xFFFF_FFFF_FFFF_FFFFuL
         assertEquals(0xFFFF_FFFFu, long)
         assertEquals(0xFFFF_FFFF_FFFF_FFFFuL, long64)
     }

@@ -1,6 +1,6 @@
-// port-lint: ignore — host-only smoke test that exercises the macosArm64
-// cinterop binding by computing a known SHA-256 digest and comparing it
-// against the published RFC 6234 / NIST test vector for input "abc".
+// Host-only smoke test that exercises the macosArm64 cinterop binding by
+// computing a known SHA-256 digest and comparing it against the published
+// RFC 6234 / NIST test vector for input "abc".
 package io.github.kotlinmania.opensslsys
 
 import kotlinx.cinterop.ByteVar
@@ -26,7 +26,7 @@ class ShaTest {
         memScoped {
             val data = input.toCValues().ptr
             val md = allocArray<UByteVar>(32)
-            val result = SHA256(data, input.size.toULong(), md)
+            val result = sha256(data, input.size.toULong(), md)
             assertNotNull(result, "EVP_Q_digest returned NULL for SHA-256")
 
             val bytes = md.reinterpret<ByteVar>().readBytes(32)
@@ -43,12 +43,12 @@ class ShaTest {
 
     @Test
     fun shaConstantsTrackUpstream() {
-        // SHA_LBLOCK / SHA_LONG / SHA_LONG64 are openssl/sha.h surface bits
+        // SHA_LBLOCK / ShaLong / ShaLong64 are openssl/sha.h surface bits
         // re-exported from src/sha.rs. Asserting them here makes drift
         // against the C ABI detectable.
         assertEquals(16, SHA_LBLOCK)
-        val long: SHA_LONG = 0xFFFF_FFFFu
-        val long64: SHA_LONG64 = 0xFFFF_FFFF_FFFF_FFFFuL
+        val long: ShaLong = 0xFFFF_FFFFu
+        val long64: ShaLong64 = 0xFFFF_FFFF_FFFF_FFFFuL
         assertEquals(0xFFFF_FFFFu, long)
         assertEquals(0xFFFF_FFFF_FFFF_FFFFuL, long64)
     }
