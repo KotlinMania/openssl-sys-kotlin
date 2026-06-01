@@ -8,7 +8,8 @@ public const val SRTP_AES128_F8_SHA1_32: ULong = 0x0004uL
 public const val SRTP_NULL_SHA1_80: ULong = 0x0005uL
 public const val SRTP_NULL_SHA1_32: ULong = 0x0006uL
 
-/* AEAD SRTP protection profiles from RFC 7714 */
+// AEAD SRTP protection profiles from RFC 7714
+
 // Upstream gate: cfg(ossl110)
 public const val SRTP_AEAD_AES_128_GCM: ULong = 0x0007uL
 

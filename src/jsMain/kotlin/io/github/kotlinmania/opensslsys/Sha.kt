@@ -19,17 +19,12 @@ public typealias SHA_LONG64 = ULong
 // EVP_Q_digest from the host's OpenSSL 3 install. Browser callers raise
 // UnsupportedOperationException via opensslShimOrThrow().
 
-public fun SHA1(data: Uint8Array): Uint8Array? =
-    opensslShimOrThrow().evpQDigest("SHA1", data)
+public fun SHA1(data: Uint8Array): Uint8Array? = opensslShimOrThrow().evpQDigest("SHA1", data)
 
-public fun SHA224(data: Uint8Array): Uint8Array? =
-    opensslShimOrThrow().evpQDigest("SHA224", data)
+public fun SHA224(data: Uint8Array): Uint8Array? = opensslShimOrThrow().evpQDigest("SHA224", data)
 
-public fun SHA256(data: Uint8Array): Uint8Array? =
-    opensslShimOrThrow().evpQDigest("SHA256", data)
+public fun SHA256(data: Uint8Array): Uint8Array? = opensslShimOrThrow().evpQDigest("SHA256", data)
 
-public fun SHA384(data: Uint8Array): Uint8Array? =
-    opensslShimOrThrow().evpQDigest("SHA384", data)
+public fun SHA384(data: Uint8Array): Uint8Array? = opensslShimOrThrow().evpQDigest("SHA384", data)
 
-public fun SHA512(data: Uint8Array): Uint8Array? =
-    opensslShimOrThrow().evpQDigest("SHA512", data)
+public fun SHA512(data: Uint8Array): Uint8Array? = opensslShimOrThrow().evpQDigest("SHA512", data)

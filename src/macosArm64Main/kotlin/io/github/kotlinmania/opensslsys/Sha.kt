@@ -22,21 +22,36 @@ public typealias SHA_LONG64 = ULong
 // algorithm-name argument from a Kotlin String, so the explicit
 // null-terminator the Rust version appends manually is unnecessary here.
 @OptIn(ExperimentalForeignApi::class)
-public fun SHA1(d: CPointer<UByteVar>?, n: size_t, md: CPointer<UByteVar>?): CPointer<UByteVar>? =
-    if (EVP_Q_digest(null, "SHA1", null, d, n, md, null) != 0) md else null
+public fun SHA1(
+    d: CPointer<UByteVar>?,
+    n: size_t,
+    md: CPointer<UByteVar>?,
+): CPointer<UByteVar>? = if (EVP_Q_digest(null, "SHA1", null, d, n, md, null) != 0) md else null
 
 @OptIn(ExperimentalForeignApi::class)
-public fun SHA224(d: CPointer<UByteVar>?, n: size_t, md: CPointer<UByteVar>?): CPointer<UByteVar>? =
-    if (EVP_Q_digest(null, "SHA224", null, d, n, md, null) != 0) md else null
+public fun SHA224(
+    d: CPointer<UByteVar>?,
+    n: size_t,
+    md: CPointer<UByteVar>?,
+): CPointer<UByteVar>? = if (EVP_Q_digest(null, "SHA224", null, d, n, md, null) != 0) md else null
 
 @OptIn(ExperimentalForeignApi::class)
-public fun SHA256(d: CPointer<UByteVar>?, n: size_t, md: CPointer<UByteVar>?): CPointer<UByteVar>? =
-    if (EVP_Q_digest(null, "SHA256", null, d, n, md, null) != 0) md else null
+public fun SHA256(
+    d: CPointer<UByteVar>?,
+    n: size_t,
+    md: CPointer<UByteVar>?,
+): CPointer<UByteVar>? = if (EVP_Q_digest(null, "SHA256", null, d, n, md, null) != 0) md else null
 
 @OptIn(ExperimentalForeignApi::class)
-public fun SHA384(d: CPointer<UByteVar>?, n: size_t, md: CPointer<UByteVar>?): CPointer<UByteVar>? =
-    if (EVP_Q_digest(null, "SHA384", null, d, n, md, null) != 0) md else null
+public fun SHA384(
+    d: CPointer<UByteVar>?,
+    n: size_t,
+    md: CPointer<UByteVar>?,
+): CPointer<UByteVar>? = if (EVP_Q_digest(null, "SHA384", null, d, n, md, null) != 0) md else null
 
 @OptIn(ExperimentalForeignApi::class)
-public fun SHA512(d: CPointer<UByteVar>?, n: size_t, md: CPointer<UByteVar>?): CPointer<UByteVar>? =
-    if (EVP_Q_digest(null, "SHA512", null, d, n, md, null) != 0) md else null
+public fun SHA512(
+    d: CPointer<UByteVar>?,
+    n: size_t,
+    md: CPointer<UByteVar>?,
+): CPointer<UByteVar>? = if (EVP_Q_digest(null, "SHA512", null, d, n, md, null) != 0) md else null

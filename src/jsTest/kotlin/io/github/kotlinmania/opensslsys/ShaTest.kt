@@ -9,19 +9,19 @@
 // assertion runs everywhere.
 package io.github.kotlinmania.opensslsys
 
+import org.khronos.webgl.Uint8Array
+import org.khronos.webgl.get
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertNotNull
 import kotlin.test.assertTrue
-import org.khronos.webgl.Uint8Array
-import org.khronos.webgl.get
 
-private val isNodeRuntime: Boolean = js(
-    "(typeof process !== 'undefined' && process.versions && process.versions.node) ? true : false",
-).unsafeCast<Boolean>()
+private val isNodeRuntime: Boolean =
+    js(
+        "(typeof process !== 'undefined' && process.versions && process.versions.node) ? true : false",
+    ).unsafeCast<Boolean>()
 
 class ShaTest {
-
     @Test
     fun sha256OfAbcMatchesNistVector() {
         if (!isNodeRuntime) return // N-API not available in browser; covered by jsNodeTest.
@@ -36,12 +36,13 @@ class ShaTest {
         assertNotNull(digest, "EVP_Q_digest via N-API returned null for SHA-256")
         assertEquals(32, digest.length)
 
-        val hex = buildString(64) {
-            for (i in 0 until digest.length) {
-                val byte = (digest[i].toInt() and 0xFF)
-                append(byte.toString(16).padStart(2, '0'))
+        val hex =
+            buildString(64) {
+                for (i in 0 until digest.length) {
+                    val byte = (digest[i].toInt() and 0xFF)
+                    append(byte.toString(16).padStart(2, '0'))
+                }
             }
-        }
         assertEquals(
             "ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad",
             hex,

@@ -8,7 +8,11 @@ package io.github.kotlinmania.opensslsys
 import org.khronos.webgl.Uint8Array
 
 internal external interface OpensslShimAddon {
-    fun evpQDigest(name: String, data: Uint8Array): Uint8Array?
+    fun evpQDigest(
+        name: String,
+        data: Uint8Array,
+    ): Uint8Array?
+
     fun opensslVersionNumber(): Double
 }
 
@@ -17,8 +21,9 @@ internal external interface OpensslShimAddon {
 // happen on first access — browser bundles can ship this code as long as
 // no caller actually invokes an SHA function.
 private val shim: OpensslShimAddon? by lazy {
-    val resolved: dynamic = js(
-        """
+    val resolved: dynamic =
+        js(
+            """
         (function () {
           if (typeof process === 'undefined' || !process.versions || !process.versions.node) {
             return null;
@@ -30,7 +35,7 @@ private val shim: OpensslShimAddon? by lazy {
           }
         })()
         """,
-    )
+        )
     if (resolved == null) null else resolved.unsafeCast<OpensslShimAddon>()
 }
 
