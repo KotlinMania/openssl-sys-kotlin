@@ -4,6 +4,9 @@ coroutines = "1.11.0"
 serialization = "1.11.0"
 datetime = "0.8.0"
 collectionsImmutable = "0.4.0"
+libc = "0.1.0"
+sha1 = "0.1.0"
+sha2 = "0.1.0"
 androidKmp = "9.2.1"
 vanniktech = "0.36.0"
 detekt = "1.23.8"
@@ -23,6 +26,9 @@ kotlinx-serialization-core = { module = "org.jetbrains.kotlinx:kotlinx-serializa
 kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "serialization" }
 kotlinx-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "datetime" }
 collections-immutable = { module = "org.jetbrains.kotlinx:kotlinx-collections-immutable", version.ref = "collectionsImmutable" }
+libc-kotlin = { module = "io.github.kotlinmania:libc-kotlin", version.ref = "libc" }
+sha1-kotlin = { module = "io.github.kotlinmania:sha1-kotlin", version.ref = "sha1" }
+sha2-kotlin = { module = "io.github.kotlinmania:sha2-kotlin", version.ref = "sha2" }
 
 [bundles]
 opensslsys-commonMain = [
@@ -31,4 +37,7 @@ opensslsys-commonMain = [
   "kotlinx-serialization-json",
   "kotlinx-datetime",
   "collections-immutable",
+  "libc-kotlin",
+  "sha1-kotlin",
+  "sha2-kotlin",
 ]

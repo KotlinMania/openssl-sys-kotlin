@@ -256,7 +256,6 @@ kotlin {
 
     val xcf = XCFramework(frameworkName)
     val frameworkBundleId = projectNamespace
-    val opensslCinteropTargets = setOf("macosArm64")
 
     // Local helper: attach this target's framework to the XCFramework.
     fun KotlinNativeTarget.addToXcf(static: Boolean = false) {
@@ -317,6 +316,10 @@ kotlin {
     swiftExport {
         moduleName = frameworkName
         flattenPackage = projectNamespace
+        @OptIn(org.jetbrains.kotlin.gradle.swiftexport.ExperimentalSwiftExportDsl::class)
+        configure {
+            settings.put("enableCoroutinesSupport", "true")
+        }
     }
 
     // Android KMP library. Block name is `android` — `androidLibrary` is deprecated in KGP 2.3.x.
@@ -342,19 +345,12 @@ kotlin {
         commonTest.dependencies {
             implementation(kotlin("test"))
         }
-        jsMain.dependencies {
-            implementation(npm("@openssl-sys-kotlin/openssl-shim", "file:${project.projectDir.absolutePath}/node"))
-        }
     }
+}
 
-    targets.matching { it.name in opensslCinteropTargets }.configureEach {
-        val nativeTarget = this as KotlinNativeTarget
-        nativeTarget.compilations.named("main") {
-            cinterops.create("openssl") {
-                defFile(project.file("src/nativeInterop/cinterop/openssl.def"))
-                packageName("openssl")
-            }
-        }
+tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompilationTask<*>>().configureEach {
+    if (name.startsWith("compileSwiftExport")) {
+        compilerOptions.allWarningsAsErrors.set(false)
     }
 }
 
@@ -461,7 +457,7 @@ val patchedKarmaWebpackPackage =
 // TODO: NodeJsRootExtension.versions.* is deprecated and will be removed when the spec-based
 //       NodeJsEnvSpec API gains equivalent properties. Track KGP release notes before removing.
 rootProject.extensions.configure<NodeJsRootExtension>("kotlinNodeJs") {
-    versions.webpack.version = providers.gradleProperty("node.webpack.version").getOrElse("5.107.2")
+    versions.webpack.version = providers.gradleProperty("node.webpack.version").getOrElse("5.106.2")
     versions.webpackCli.version = providers.gradleProperty("node.webpackCli.version").getOrElse("7.0.2")
     versions.karma.version = providers.gradleProperty("node.karma.version").getOrElse("npm:karma-maintained@6.4.7")
     versions.karmaWebpack.version = "file:$patchedKarmaWebpackPackage"
@@ -584,7 +580,7 @@ val codeqlCompileJvm =
     tasks.register<JavaExec>("codeqlCompileJvm") {
         description =
             "Compile ${codeqlKotlinSourceSetNames.joinToString(",")} Kotlin sources " +
-            "with kotlinc $codeqlLanguageVersion for CodeQL Java/Kotlin extraction."
+                "with kotlinc $codeqlLanguageVersion for CodeQL Java/Kotlin extraction."
         group = "verification"
         classpath(codeqlKotlincFiles)
         mainClass.set("org.jetbrains.kotlin.cli.jvm.K2JVMCompiler")
@@ -725,10 +721,7 @@ tasks.register("swiftExportSmokeTest") {
             }.assertNormalExitValue()
 
         val generatedPackageSwift =
-            layout.buildDirectory
-                .file("SPMPackage/macosArm64/Debug/Package.swift")
-                .get()
-                .asFile
+            layout.buildDirectory.file("SPMPackage/macosArm64/Debug/Package.swift").get().asFile
         if (generatedPackageSwift.exists()) {
             val text = generatedPackageSwift.readText()
             if (!text.contains("platforms:")) {
