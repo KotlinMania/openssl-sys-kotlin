@@ -24,27 +24,11 @@ project.pom.licenseUrl=https://opensource.org/licenses/MIT
 
 # CodeQL Specific Dependencies
 # (commonMain deps live in gradle/libs.versions.toml — opensslsys-commonMain bundle)
-project.dependencies.commonMainBundle=opensslsys-commonMain
-project.codeql.kotlinSourceSets=commonMain
-project.codeql.kotlinCommonSourceSets=commonMain
-project.dependencies.codeqlSourceClasspath=\
-    org.jetbrains.kotlin:kotlin-stdlib:2.3.21,\
-    org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm:1.11.0,\
-    org.jetbrains.kotlinx:kotlinx-serialization-core-jvm:1.11.0,\
-    org.jetbrains.kotlinx:kotlinx-serialization-json-jvm:1.11.0,\
-    org.jetbrains.kotlinx:kotlinx-datetime-jvm:0.8.0,\
-    org.jetbrains.kotlinx:kotlinx-collections-immutable-jvm:0.4.0
-
 project.dependencies.codeqlAndroidAar=
 
 # ============================================================================
-# Version catalog (build logic reads these instead of hardcoding literals)
+# Build/toolchain pins (dependency and plugin versions live in libs.versions.toml)
 # ============================================================================
-
-# Kotlin / Plugins
-versions.kotlin=2.3.21
-versions.android.plugin=9.2.1
-versions.vanniktech=0.36.0
 
 # JVM toolchain
 jvm.toolchain=21
@@ -95,12 +79,3 @@ node.webpackCli.version=7.0.2
 node.karma.version=npm:karma-maintained@6.4.7
 node.mocha.version=12.0.0-beta-10
 node.kotlinWebHelpers.version=3.1.0
-
-# CodeQL
-codeql.kotlin.version=2.3.21
-kotlin.languageVersion=2.3
-kotlin.apiVersion=2.3
-
-# Lint plugins
-versions.detekt=1.23.8
-versions.ktlint=14.2.0
