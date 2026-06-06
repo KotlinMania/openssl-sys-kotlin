@@ -31,7 +31,7 @@ sha1-kotlin = { module = "io.github.kotlinmania:sha1-kotlin", version.ref = "sha
 sha2-kotlin = { module = "io.github.kotlinmania:sha2-kotlin", version.ref = "sha2" }
 
 [bundles]
-opensslsys-commonMain = [
+openssl-sys-commonMain = [
   "kotlinx-coroutines-core",
   "kotlinx-serialization-core",
   "kotlinx-serialization-json",
