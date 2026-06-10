@@ -1,5 +1,5 @@
 [versions]
-kotlin = "2.3.21"
+kotlin = "2.4.0"
 coroutines = "1.11.0"
 serialization = "1.11.0"
 datetime = "0.8.0"
@@ -31,7 +31,7 @@ sha1-kotlin = { module = "io.github.kotlinmania:sha1-kotlin", version.ref = "sha
 sha2-kotlin = { module = "io.github.kotlinmania:sha2-kotlin", version.ref = "sha2" }
 
 [bundles]
-opensslsys-commonMain = [
+openssl-sys-commonMain = [
   "kotlinx-coroutines-core",
   "kotlinx-serialization-core",
   "kotlinx-serialization-json",
