@@ -353,8 +353,6 @@ kotlin {
     }
 }
 
-
-
 // ============================================================================
 // Test logging
 // ============================================================================
@@ -614,6 +612,10 @@ tasks.register("swiftExportSmokeTest") {
                 commandLine("swift", "test")
             }.assertNormalExitValue()
     }
+}
+
+tasks.named("test") {
+    dependsOn("swiftExportSmokeTest")
 }
 
 // ============================================================================
