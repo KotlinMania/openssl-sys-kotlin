@@ -1,4 +1,4 @@
-// port-lint: source src/core_dispatch.rs
+// port-lint: source core_dispatch.rs
 package io.github.kotlinmania.opensslsys
 
 // OpenSSL 3.* only
