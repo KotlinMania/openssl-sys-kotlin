@@ -1,4 +1,4 @@
-// port-lint: source src/asn1.rs
+// port-lint: source asn1.rs
 package io.github.kotlinmania.opensslsys
 
 // ASN.1 tag values

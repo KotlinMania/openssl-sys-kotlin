@@ -1,4 +1,4 @@
-// port-lint: source src/sha.rs
+// port-lint: source sha.rs
 @file:OptIn(ExperimentalUnsignedTypes::class)
 
 package io.github.kotlinmania.opensslsys
