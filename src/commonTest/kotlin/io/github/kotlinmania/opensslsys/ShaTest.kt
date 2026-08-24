@@ -61,8 +61,20 @@ class ShaTest {
         assertContentEquals(hexToBytes(expectedHex), actualDigest)
     }
 
-    private fun hexToBytes(hex: String): ByteArray =
-        ByteArray(hex.length / 2) { index ->
-            hex.substring(index * 2, index * 2 + 2).toInt(16).toByte()
+    private fun hexToBytes(hex: String): ByteArray {
+        val out = ByteArray(hex.length / 2)
+        for (i in out.indices) {
+            val high = parseHexDigit(hex[i * 2])
+            val low = parseHexDigit(hex[i * 2 + 1])
+            out[i] = ((high shl 4) or low).toByte()
         }
+        return out
+    }
+
+    private fun parseHexDigit(c: Char): Int = when (c) {
+        in '0'..'9' -> c - '0'
+        in 'a'..'f' -> c - 'a' + 10
+        in 'A'..'F' -> c - 'A' + 10
+        else -> 0
+    }
 }
