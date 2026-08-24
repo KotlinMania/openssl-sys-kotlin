@@ -3,7 +3,6 @@
 
 package io.github.kotlinmania.opensslsys
 
-import io.github.kotlinmania.sha1.Sha1
 import io.github.kotlinmania.sha2.sha256.compress256
 import io.github.kotlinmania.sha2.sha512.compress512
 
@@ -16,7 +15,59 @@ public typealias ShaLong = UInt
 // Upstream gate: cfg(not(osslconf = "OPENSSL_NO_DEPRECATED_3_0"))
 public typealias ShaLong64 = ULong
 
-public fun sha1(data: ByteArray): ByteArray? = Sha1.digest(data)
+public fun sha1(data: ByteArray): ByteArray? {
+    val blocks = paddedBlocks(data, blockSize = 64, lengthFieldSize = 8)
+    var h0 = 0x67452301u
+    var h1 = 0xEFCDAB89u
+    var h2 = 0x98BADCFEu
+    var h3 = 0x10325476u
+    var h4 = 0xC3D2E1F0u
+
+    val w = UIntArray(80)
+    for (block in blocks) {
+        for (i in 0 until 16) {
+            val offset = i * 4
+            w[i] = ((block[offset].toUInt() and 0xffu) shl 24) or
+                ((block[offset + 1].toUInt() and 0xffu) shl 16) or
+                ((block[offset + 2].toUInt() and 0xffu) shl 8) or
+                (block[offset + 3].toUInt() and 0xffu)
+        }
+        for (i in 16 until 80) {
+            val v = w[i - 3] xor w[i - 8] xor w[i - 14] xor w[i - 16]
+            w[i] = (v shl 1) or (v shr 31)
+        }
+
+        var a = h0
+        var b = h1
+        var c = h2
+        var d = h3
+        var e = h4
+
+        for (i in 0 until 80) {
+            val (f, k) = when (i) {
+                in 0..19 -> Pair((b and c) or (b.inv() and d), 0x5A827999u)
+                in 20..39 -> Pair(b xor c xor d, 0x6ED9EBA1u)
+                in 40..59 -> Pair((b and c) or (b and d) or (c and d), 0x8F1BBCDCu)
+                else -> Pair(b xor c xor d, 0xCA62C1D6u)
+            }
+            val temp = ((a shl 5) or (a shr 27)) + f + e + k + w[i]
+            e = d
+            d = c
+            c = (b shl 30) or (b shr 2)
+            b = a
+            a = temp
+        }
+
+        h0 += a
+        h1 += b
+        h2 += c
+        h3 += d
+        h4 += e
+    }
+
+    val state = uintArrayOf(h0, h1, h2, h3, h4)
+    return state.toBigEndianBytes(wordBytes = 4)
+}
 
 public fun sha224(data: ByteArray): ByteArray? =
     sha256FamilyDigest(
