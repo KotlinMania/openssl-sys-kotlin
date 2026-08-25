@@ -6,8 +6,8 @@ Based on AST analysis, here are the concrete next steps.
 
 - **Files Present:** 27/68 (39.7%)
 - **Function parity:** 0/55 matched (target 16) — 0.0%
-- **Class/type parity:** 3/110 matched (target 5) — 2.7%
-- **Combined symbol parity:** 3/165 matched (target 21) — 1.8%
+- **Class/type parity:** 7/110 matched (target 9) — 6.4%
+- **Combined symbol parity:** 7/165 matched (target 25) — 4.2%
 - **Average inline-code cosine:** 0.56 (function body across 27 matched files)
 - **Average documentation cosine:** 0.00 (doc text across 27 matched files)
 - **Cheat-zeroed Files:** 12
@@ -60,18 +60,7 @@ Every matched file is listed below with function and type symbol parity.
 - **Types:** 0/0 matched
 - **Missing types:** _none_
 
-### 4. crypto
-
-- **Target:** `opensslsys.Crypto [ZERO]`
-- **Similarity:** 0.00
-- **Dependents:** 0
-- **Priority Score:** 50510.0
-- **Functions:** 0/2 matched (target 0)
-- **Missing functions:** `OPENSSL_malloc`, `OPENSSL_free`
-- **Types:** 0/3 matched (target 0)
-- **Missing types:** `CRYPTO_EX_new`, `CRYPTO_EX_dup`, `CRYPTO_EX_free`
-
-### 5. bio
+### 4. bio
 
 - **Target:** `opensslsys.Bio [ZERO]`
 - **Similarity:** 0.00
@@ -80,6 +69,17 @@ Every matched file is listed below with function and type symbol parity.
 - **Functions:** 0/4 matched (target 0)
 - **Missing functions:** `BIO_set_retry_read`, `BIO_set_retry_write`, `BIO_clear_retry_flags`, `BIO_get_mem_data`
 - **Types:** 0/0 matched
+- **Missing types:** _none_
+
+### 5. crypto
+
+- **Target:** `opensslsys.Crypto [ZERO]`
+- **Similarity:** 0.00
+- **Dependents:** 0
+- **Priority Score:** 20510.0
+- **Functions:** 0/2 matched (target 0)
+- **Missing functions:** `OPENSSL_malloc`, `OPENSSL_free`
+- **Types:** 3/3 matched
 - **Missing types:** _none_
 
 ### 6. rsa
@@ -115,18 +115,7 @@ Every matched file is listed below with function and type symbol parity.
 - **Types:** 0/0 matched
 - **Missing types:** _none_
 
-### 9. x509v3
-
-- **Target:** `opensslsys.X509v3 [ZERO]`
-- **Similarity:** 0.00
-- **Dependents:** 0
-- **Priority Score:** 10110.0
-- **Functions:** 0/0 matched
-- **Missing functions:** _none_
-- **Types:** 0/1 matched (target 0)
-- **Missing types:** `GENERAL_NAME`
-
-### 10. sha
+### 9. sha
 
 - **Target:** `opensslsys.Sha [ZERO]`
 - **Similarity:** 0.00
@@ -135,6 +124,17 @@ Every matched file is listed below with function and type symbol parity.
 - **Functions:** 0/0 matched (target 11)
 - **Missing functions:** _none_
 - **Types:** 2/2 matched
+- **Missing types:** _none_
+
+### 10. x509v3
+
+- **Target:** `opensslsys.X509v3 [ZERO]`
+- **Similarity:** 0.00
+- **Dependents:** 0
+- **Priority Score:** 110.0
+- **Functions:** 0/0 matched
+- **Missing functions:** _none_
+- **Types:** 1/1 matched
 - **Missing types:** _none_
 
 ### 11. bn
