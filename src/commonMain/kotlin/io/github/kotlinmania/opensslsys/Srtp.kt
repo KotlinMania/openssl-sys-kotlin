@@ -1,4 +1,4 @@
-// port-lint: source srtp.rs
+// port-lint: source openssl-sys/src/srtp.rs
 package io.github.kotlinmania.opensslsys
 
 public const val SRTP_AES128_CM_SHA1_80: ULong = 0x0001uL

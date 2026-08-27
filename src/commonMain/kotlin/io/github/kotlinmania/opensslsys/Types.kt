@@ -1,4 +1,4 @@
-// port-lint: source types.rs
+// port-lint: source openssl-sys/src/types.rs
 package io.github.kotlinmania.opensslsys
 
 /**

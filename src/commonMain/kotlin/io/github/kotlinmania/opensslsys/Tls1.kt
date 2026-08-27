@@ -1,4 +1,4 @@
-// port-lint: source tls1.rs
+// port-lint: source openssl-sys/src/tls1.rs
 package io.github.kotlinmania.opensslsys
 
 public const val TLS1_VERSION: Int = 0x301
