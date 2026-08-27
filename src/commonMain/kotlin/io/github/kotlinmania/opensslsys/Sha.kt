@@ -44,12 +44,13 @@ public fun sha1(data: ByteArray): ByteArray? {
         var e = h4
 
         for (i in 0 until 80) {
-            val (f, k) = when (i) {
-                in 0..19 -> Pair((b and c) or (b.inv() and d), 0x5A827999u)
-                in 20..39 -> Pair(b xor c xor d, 0x6ED9EBA1u)
-                in 40..59 -> Pair((b and c) or (b and d) or (c and d), 0x8F1BBCDCu)
-                else -> Pair(b xor c xor d, 0xCA62C1D6u)
-            }
+            val (f, k) =
+                when (i) {
+                    in 0..19 -> Pair((b and c) or (b.inv() and d), 0x5A827999u)
+                    in 20..39 -> Pair(b xor c xor d, 0x6ED9EBA1u)
+                    in 40..59 -> Pair((b and c) or (b and d) or (c and d), 0x8F1BBCDCu)
+                    else -> Pair(b xor c xor d, 0xCA62C1D6u)
+                }
             val temp = ((a shl 5) or (a shr 27)) + f + e + k + w[i]
             e = d
             d = c
