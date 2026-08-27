@@ -27,7 +27,7 @@ No missing high-value files detected.
 
 Every matched file is listed below with function and type symbol parity.
 
-### 1. openssl-sys.ssl
+### 1. ssl
 
 - **Target:** `opensslsys.Ssl [ZERO]`
 - **Similarity:** 0.00
@@ -38,7 +38,7 @@ Every matched file is listed below with function and type symbol parity.
 - **Types:** 0/0 matched
 - **Missing types:** _none_
 
-### 2. openssl-sys.evp
+### 2. evp
 
 - **Target:** `opensslsys.Evp [ZERO]`
 - **Similarity:** 0.00
@@ -49,7 +49,7 @@ Every matched file is listed below with function and type symbol parity.
 - **Types:** 0/0 matched
 - **Missing types:** _none_
 
-### 3. openssl-sys.tls1
+### 3. tls1
 
 - **Target:** `opensslsys.Tls1 [ZERO]`
 - **Similarity:** 0.00
@@ -60,7 +60,7 @@ Every matched file is listed below with function and type symbol parity.
 - **Types:** 0/0 matched
 - **Missing types:** _none_
 
-### 4. openssl-sys.bio
+### 4. bio
 
 - **Target:** `opensslsys.Bio`
 - **Similarity:** 0.00
@@ -71,7 +71,7 @@ Every matched file is listed below with function and type symbol parity.
 - **Types:** 0/0 matched (target 1)
 - **Missing types:** _none_
 
-### 5. openssl-sys.crypto
+### 5. crypto
 
 - **Target:** `opensslsys.Crypto [ZERO]`
 - **Similarity:** 0.00
@@ -82,7 +82,7 @@ Every matched file is listed below with function and type symbol parity.
 - **Types:** 3/3 matched
 - **Missing types:** _none_
 
-### 6. openssl-sys.rsa
+### 6. rsa
 
 - **Target:** `opensslsys.Rsa [ZERO]`
 - **Similarity:** 0.00
@@ -93,7 +93,7 @@ Every matched file is listed below with function and type symbol parity.
 - **Types:** 0/0 matched
 - **Missing types:** _none_
 
-### 7. openssl-sys.x509_vfy
+### 7. x509_vfy
 
 - **Target:** `opensslsys.X509Vfy [ZERO]`
 - **Similarity:** 0.00
@@ -104,7 +104,7 @@ Every matched file is listed below with function and type symbol parity.
 - **Types:** 0/0 matched
 - **Missing types:** _none_
 
-### 8. openssl-sys.ec
+### 8. ec
 
 - **Target:** `opensslsys.Ec [ZERO]`
 - **Similarity:** 0.00
@@ -115,7 +115,7 @@ Every matched file is listed below with function and type symbol parity.
 - **Types:** 0/0 matched
 - **Missing types:** _none_
 
-### 9. openssl-sys.sha
+### 9. sha
 
 - **Target:** `opensslsys.Sha [ZERO]`
 - **Similarity:** 0.00
@@ -126,7 +126,7 @@ Every matched file is listed below with function and type symbol parity.
 - **Types:** 2/2 matched (target 3)
 - **Missing types:** _none_
 
-### 10. openssl-sys.x509v3
+### 10. x509v3
 
 - **Target:** `opensslsys.X509v3 [ZERO]`
 - **Similarity:** 0.00
@@ -137,7 +137,7 @@ Every matched file is listed below with function and type symbol parity.
 - **Types:** 1/1 matched
 - **Missing types:** _none_
 
-### 11. openssl-sys.bn
+### 11. bn
 
 - **Target:** `opensslsys.Bn`
 - **Similarity:** 1.00
@@ -148,7 +148,7 @@ Every matched file is listed below with function and type symbol parity.
 - **Types:** 1/1 matched
 - **Missing types:** _none_
 
-### 12. openssl-sys.obj_mac
+### 12. obj_mac
 
 - **Target:** `opensslsys.ObjMac [ZERO]`
 - **Similarity:** 0.00
@@ -159,7 +159,7 @@ Every matched file is listed below with function and type symbol parity.
 - **Types:** 0/0 matched
 - **Missing types:** _none_
 
-### 13. openssl-sys.err
+### 13. err
 
 - **Target:** `opensslsys.Err [ZERO]`
 - **Similarity:** 0.00
@@ -170,7 +170,7 @@ Every matched file is listed below with function and type symbol parity.
 - **Types:** 0/0 matched (target 1)
 - **Missing types:** _none_
 
-### 14. openssl-sys.x509
+### 14. x509
 
 - **Target:** `opensslsys.X509`
 - **Similarity:** 1.00
@@ -181,7 +181,7 @@ Every matched file is listed below with function and type symbol parity.
 - **Types:** 0/0 matched
 - **Missing types:** _none_
 
-### 15. openssl-sys.asn1
+### 15. asn1
 
 - **Target:** `opensslsys.Asn1`
 - **Similarity:** 1.00
@@ -192,7 +192,7 @@ Every matched file is listed below with function and type symbol parity.
 - **Types:** 0/0 matched
 - **Missing types:** _none_
 
-### 16. openssl-sys.aes
+### 16. aes
 
 - **Target:** `opensslsys.Aes`
 - **Similarity:** 1.00
@@ -203,7 +203,7 @@ Every matched file is listed below with function and type symbol parity.
 - **Types:** 0/0 matched
 - **Missing types:** _none_
 
-### 17. openssl-sys.ssl3
+### 17. ssl3
 
 - **Target:** `opensslsys.Ssl3`
 - **Similarity:** 1.00
@@ -214,7 +214,7 @@ Every matched file is listed below with function and type symbol parity.
 - **Types:** 0/0 matched
 - **Missing types:** _none_
 
-### 18. openssl-sys.srtp
+### 18. srtp
 
 - **Target:** `opensslsys.Srtp`
 - **Similarity:** 1.00
@@ -225,7 +225,7 @@ Every matched file is listed below with function and type symbol parity.
 - **Types:** 0/0 matched
 - **Missing types:** _none_
 
-### 19. openssl-sys.ocsp
+### 19. ocsp
 
 - **Target:** `opensslsys.Ocsp`
 - **Similarity:** 1.00
@@ -236,7 +236,7 @@ Every matched file is listed below with function and type symbol parity.
 - **Types:** 0/0 matched
 - **Missing types:** _none_
 
-### 20. openssl-sys.types
+### 20. types
 
 - **Target:** `opensslsys.Types`
 - **Similarity:** 1.00
@@ -247,7 +247,7 @@ Every matched file is listed below with function and type symbol parity.
 - **Types:** 0/0 matched (target 2)
 - **Missing types:** _none_
 
-### 21. openssl-sys.pkcs7
+### 21. pkcs7
 
 - **Target:** `opensslsys.Pkcs7`
 - **Similarity:** 1.00
@@ -258,7 +258,7 @@ Every matched file is listed below with function and type symbol parity.
 - **Types:** 0/0 matched
 - **Missing types:** _none_
 
-### 22. openssl-sys.dtls1
+### 22. dtls1
 
 - **Target:** `opensslsys.Dtls1`
 - **Similarity:** 1.00
@@ -269,7 +269,7 @@ Every matched file is listed below with function and type symbol parity.
 - **Types:** 0/0 matched
 - **Missing types:** _none_
 
-### 23. openssl-sys.pem
+### 23. pem
 
 - **Target:** `opensslsys.Pem`
 - **Similarity:** 1.00
@@ -280,7 +280,7 @@ Every matched file is listed below with function and type symbol parity.
 - **Types:** 0/0 matched
 - **Missing types:** _none_
 
-### 24. openssl-sys.dsa
+### 24. dsa
 
 - **Target:** `opensslsys.Dsa`
 - **Similarity:** 1.00
@@ -291,7 +291,7 @@ Every matched file is listed below with function and type symbol parity.
 - **Types:** 0/0 matched
 - **Missing types:** _none_
 
-### 25. openssl-sys.cms
+### 25. cms
 
 - **Target:** `opensslsys.Cms`
 - **Similarity:** 1.00
@@ -302,7 +302,7 @@ Every matched file is listed below with function and type symbol parity.
 - **Types:** 0/0 matched
 - **Missing types:** _none_
 
-### 26. openssl-sys.dh
+### 26. dh
 
 - **Target:** `opensslsys.Dh`
 - **Similarity:** 1.00
@@ -313,7 +313,7 @@ Every matched file is listed below with function and type symbol parity.
 - **Types:** 0/0 matched
 - **Missing types:** _none_
 
-### 27. openssl-sys.core_dispatch
+### 27. core_dispatch
 
 - **Target:** `opensslsys.CoreDispatch`
 - **Similarity:** 1.00

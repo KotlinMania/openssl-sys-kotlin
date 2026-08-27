@@ -1,4 +1,4 @@
-// port-lint: source openssl-sys/src/ec.rs
+// port-lint: source ec.rs
 package io.github.kotlinmania.opensslsys
 
 public const val OPENSSL_EC_EXPLICIT_CURVE: Int = 0
