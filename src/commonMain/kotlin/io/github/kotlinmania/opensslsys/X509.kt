@@ -1,4 +1,4 @@
-// port-lint: source x509.rs
+// port-lint: source openssl-sys/src/x509.rs
 package io.github.kotlinmania.opensslsys
 
 public const val X509_FILETYPE_PEM: Int = 1

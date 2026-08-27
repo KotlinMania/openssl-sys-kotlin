@@ -1,4 +1,4 @@
-// port-lint: source bn.rs
+// port-lint: source openssl-sys/src/bn.rs
 package io.github.kotlinmania.opensslsys
 
 public typealias BnUlong = ULong

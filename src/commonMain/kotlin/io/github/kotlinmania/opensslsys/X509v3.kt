@@ -1,4 +1,4 @@
-// port-lint: source x509v3.rs
+// port-lint: source openssl-sys/src/x509v3.rs
 package io.github.kotlinmania.opensslsys
 
 public const val GEN_OTHERNAME: Int = 0

@@ -1,4 +1,4 @@
-// port-lint: source err.rs
+// port-lint: source openssl-sys/src/err.rs
 package io.github.kotlinmania.opensslsys
 
 public const val ERR_TXT_MALLOCED: Int = 0x01
