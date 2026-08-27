@@ -72,10 +72,11 @@ class ShaTest {
         return out
     }
 
-    private fun parseHexDigit(c: Char): Int = when (c) {
-        in '0'..'9' -> c - '0'
-        in 'a'..'f' -> c - 'a' + 10
-        in 'A'..'F' -> c - 'A' + 10
-        else -> 0
-    }
+    private fun parseHexDigit(c: Char): Int =
+        when (c) {
+            in '0'..'9' -> c - '0'
+            in 'a'..'f' -> c - 'a' + 10
+            in 'A'..'F' -> c - 'A' + 10
+            else -> 0
+        }
 }
