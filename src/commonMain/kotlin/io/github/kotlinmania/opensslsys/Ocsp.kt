@@ -1,4 +1,4 @@
-// port-lint: source openssl-sys/src/ocsp.rs
+// port-lint: source ocsp.rs
 package io.github.kotlinmania.opensslsys
 
 public const val OCSP_REVOKED_STATUS_NOSTATUS: Int = -1

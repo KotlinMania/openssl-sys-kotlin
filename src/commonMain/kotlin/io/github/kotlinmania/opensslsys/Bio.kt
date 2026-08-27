@@ -1,4 +1,4 @@
-// port-lint: source openssl-sys/src/bio.rs
+// port-lint: source bio.rs
 package io.github.kotlinmania.opensslsys
 
 public const val BIO_TYPE_NONE: Int = 0
