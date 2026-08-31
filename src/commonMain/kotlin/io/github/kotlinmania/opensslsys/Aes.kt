@@ -1,4 +1,4 @@
-// port-lint: source aes.rs
+// port-lint: source openssl-sys/src/aes.rs
 package io.github.kotlinmania.opensslsys
 
 // Upstream gate: cfg(not(osslconf = "OPENSSL_NO_DEPRECATED_3_0"))

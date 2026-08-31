@@ -1,4 +1,4 @@
-// port-lint: tests err.rs openssl-sys/src/ssl.rs openssl-sys/src/x509.rs
+// port-lint: tests openssl-sys/src/err.rs openssl-sys/src/ssl.rs openssl-sys/src/x509.rs
 package io.github.kotlinmania.opensslsys
 
 import kotlin.test.Test

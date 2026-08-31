@@ -1,4 +1,4 @@
-// port-lint: source ssl.rs
+// port-lint: source openssl-sys/src/ssl.rs
 package io.github.kotlinmania.opensslsys
 
 public const val SSL_SENT_SHUTDOWN: Int = 1
