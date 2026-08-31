@@ -1,4 +1,4 @@
-// port-lint: source evp.rs
+// port-lint: source openssl-sys/src/evp.rs
 package io.github.kotlinmania.opensslsys
 
 public const val EVP_MAX_MD_SIZE: UInt = 64u

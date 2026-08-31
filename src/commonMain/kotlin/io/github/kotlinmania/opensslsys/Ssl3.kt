@@ -1,4 +1,4 @@
-// port-lint: source ssl3.rs
+// port-lint: source openssl-sys/src/ssl3.rs
 package io.github.kotlinmania.opensslsys
 
 public const val SSL3_VERSION: Int = 0x300
