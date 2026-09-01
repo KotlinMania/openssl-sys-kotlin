@@ -1,4 +1,4 @@
-// port-lint: source openssl-sys/src/cms.rs
+// port-lint: source cms.rs
 package io.github.kotlinmania.opensslsys
 
 public const val CMS_TEXT: UInt = 0x1u

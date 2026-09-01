@@ -2,7 +2,7 @@
   "type": "port",
   "name": "openssl-sys-kotlin",
   "source": {
-    "path": "tmp",
+    "path": "tmp/openssl-sys/src",
     "lang": "rust"
   },
   "target": {

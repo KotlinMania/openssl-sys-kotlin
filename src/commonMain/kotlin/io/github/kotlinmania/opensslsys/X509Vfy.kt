@@ -1,4 +1,4 @@
-// port-lint: source openssl-sys/src/x509_vfy.rs
+// port-lint: source x509_vfy.rs
 package io.github.kotlinmania.opensslsys
 
 public const val X509_V_OK: Int = 0

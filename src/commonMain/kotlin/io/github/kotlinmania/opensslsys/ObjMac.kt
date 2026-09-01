@@ -1,4 +1,4 @@
-// port-lint: source openssl-sys/src/obj_mac.rs
+// port-lint: source obj_mac.rs
 @file:Suppress("ConstPropertyName")
 
 package io.github.kotlinmania.opensslsys

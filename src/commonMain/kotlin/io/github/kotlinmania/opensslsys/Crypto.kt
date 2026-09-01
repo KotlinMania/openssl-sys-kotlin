@@ -1,4 +1,4 @@
-// port-lint: source openssl-sys/src/crypto.rs
+// port-lint: source crypto.rs
 package io.github.kotlinmania.opensslsys
 
 public const val CRYPTO_LOCK_X509: Int = 3

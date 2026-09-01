@@ -1,4 +1,4 @@
-// port-lint: tests openssl-sys/src/sha.rs
+// port-lint: tests sha.rs
 package io.github.kotlinmania.opensslsys
 
 import kotlin.test.Test

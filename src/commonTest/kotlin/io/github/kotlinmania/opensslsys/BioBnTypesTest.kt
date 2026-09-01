@@ -1,4 +1,4 @@
-// port-lint: tests openssl-sys/src/bio.rs openssl-sys/src/bn.rs openssl-sys/src/evp.rs
+// port-lint: tests bio.rs bn.rs evp.rs
 package io.github.kotlinmania.opensslsys
 
 import kotlin.test.Test
