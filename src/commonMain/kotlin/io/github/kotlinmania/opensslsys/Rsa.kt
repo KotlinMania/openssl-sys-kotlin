@@ -1,4 +1,4 @@
-// port-lint: source openssl-sys/src/rsa.rs
+// port-lint: source rsa.rs
 package io.github.kotlinmania.opensslsys
 
 public const val RSA_F4: Long = 0x10001L

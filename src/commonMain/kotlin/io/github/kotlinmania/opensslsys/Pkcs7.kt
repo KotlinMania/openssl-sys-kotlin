@@ -1,4 +1,4 @@
-// port-lint: source openssl-sys/src/pkcs7.rs
+// port-lint: source pkcs7.rs
 package io.github.kotlinmania.opensslsys
 
 public const val PKCS7_TEXT: Int = 0x1
