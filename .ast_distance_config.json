@@ -15,5 +15,16 @@
     "todos": true,
     "lint": true
   },
-  "reexport_modules": []
+  "reexport_modules": [
+    "lib",
+    "lib.rs",
+    "openssl-sys/src/lib.rs",
+    "macros",
+    "macros.rs",
+    "openssl-sys/src/macros.rs",
+    "handwritten/mod",
+    "handwritten.mod",
+    "handwritten/mod.rs",
+    "openssl-sys/src/handwritten/mod.rs"
+  ]
 }
