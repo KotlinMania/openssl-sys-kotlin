@@ -5,9 +5,9 @@ Based on AST analysis, here are the concrete next steps.
 ## Summary
 
 - **Files Present:** 27/68 (39.7%)
-- **Function parity:** 0/63 matched (target 34) — 0.0%
-- **Class/type parity:** 7/111 matched (target 12) — 6.3%
-- **Combined symbol parity:** 7/174 matched (target 46) — 4.0%
+- **Function parity:** 0/55 matched (target 34) — 0.0%
+- **Class/type parity:** 7/110 matched (target 12) — 6.4%
+- **Combined symbol parity:** 7/165 matched (target 46) — 4.2%
 - **Average inline-code cosine:** 0.56 (function body across 27 matched files)
 - **Average documentation cosine:** 0.00 (doc text across 27 matched files)
 - **Cheat-zeroed Files:** 11
@@ -332,4 +332,19 @@ For each file to be considered "complete":
 - All tests ported
 - Documentation ported
 - port-lint header present
+
+## Reexport / Wiring Modules
+
+These files match `reexport_modules` patterns in `.ast_distance_config.json`. They are filtered out of
+normal priority and missing-file ladders because they are wiring
+modules, not direct logic ports. Consult them for call-site routing;
+do not treat them as the next implementation target by default.
+
+### Missing
+
+| Source | Expected target | Deps | Source path | Expected path |
+|--------|-----------------|------|-------------|---------------|
+| `handwritten.mod` | `opensslsys.src.handwritten.Mod` | 0 | `openssl-sys/src/handwritten/mod.rs` | `opensslsys/src/handwritten/Mod.kt` |
+| `openssl-sys.lib` | `opensslsys.src.Lib` | 0 | `openssl-sys/src/lib.rs` | `opensslsys/src/Lib.kt` |
+| `openssl-sys.macros` | `opensslsys.src.Macros` | 0 | `openssl-sys/src/macros.rs` | `opensslsys/src/Macros.kt` |
 
