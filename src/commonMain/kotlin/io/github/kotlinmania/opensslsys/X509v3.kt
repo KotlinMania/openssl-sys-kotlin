@@ -88,4 +88,9 @@ public const val CRL_REASON_AA_COMPROMISE: Int = 10
 
 public class GeneralName(
     public val type: Int = 0,
+    public val d: Long = 0L,
 )
+
+public class StackStGeneralName(
+    override val address: Long = 0L,
+) : OpenSslStackHandle

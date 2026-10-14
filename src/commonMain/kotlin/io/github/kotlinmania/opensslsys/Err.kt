@@ -1,4 +1,4 @@
-// port-lint: source err.rs handwritten/err.rs
+// port-lint: source err.rs
 package io.github.kotlinmania.opensslsys
 
 import io.github.kotlinmania.libc.CULong

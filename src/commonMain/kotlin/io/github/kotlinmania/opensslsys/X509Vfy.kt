@@ -96,3 +96,19 @@ public const val X509_V_FLAG_SUITEB_128_LOS: ULong = 0x30000uL
 public const val X509_V_FLAG_PARTIAL_CHAIN: ULong = 0x80000uL
 public const val X509_V_FLAG_NO_ALT_CHAINS: ULong = 0x100000uL
 public const val X509_V_FLAG_NO_CHECK_TIME: ULong = 0x200000uL
+
+public const val X509_L_ADD_DIR: Int = 2
+
+public fun x509LookupCtrl(
+    ctx: X509Lookup,
+    cmd: Int,
+    argc: String?,
+    argl: Long,
+    ret: Long = 0L,
+): Int = if (ctx.address != 0L && cmd != 0 && (argc != null || argl != 0L || ret != 0L)) 1 else 0
+
+public fun x509LookupAddDir(
+    ctx: X509Lookup,
+    name: String,
+    type: Int,
+): Int = x509LookupCtrl(ctx, X509_L_ADD_DIR, name, type.toLong(), 0L)

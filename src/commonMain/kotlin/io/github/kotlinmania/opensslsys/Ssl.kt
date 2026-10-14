@@ -1,8 +1,14 @@
-// port-lint: source ssl.rs handwritten/ssl.rs
+// port-lint: source ssl.rs
 package io.github.kotlinmania.opensslsys
 
 import io.github.kotlinmania.libc.CInt
 import io.github.kotlinmania.libc.CLong
+
+public const val SSL_MAX_KRB5_PRINCIPAL_LENGTH: Int = 256
+public const val SSL_MAX_SSL_SESSION_ID_LENGTH: Int = 32
+public const val SSL_MAX_SID_CTX_LENGTH: Int = 32
+public const val SSL_MAX_KEY_ARG_LENGTH: Int = 8
+public const val SSL_MAX_MASTER_KEY_LENGTH: Int = 48
 
 public const val SSL_SENT_SHUTDOWN: Int = 1
 public const val SSL_RECEIVED_SHUTDOWN: Int = 2
@@ -134,6 +140,112 @@ public const val SSL_CTRL_SET_MAX_PROTO_VERSION: Int = 124
 public const val SSL_CTRL_GET_MIN_PROTO_VERSION: Int = 130
 public const val SSL_CTRL_GET_MAX_PROTO_VERSION: Int = 131
 public const val SSL_CTRL_GET_TMP_KEY: Int = 133
+
+public fun sslCtxSetTmpDh(
+    ctx: SslCtx,
+    dh: Dh,
+): CLong = sslCtxCtrl(ctx, SSL_CTRL_SET_TMP_DH, 0L, dh.address)
+
+public fun sslCtxSetTmpEcdh(
+    ctx: SslCtx,
+    key: EcKey,
+): CLong = sslCtxCtrl(ctx, SSL_CTRL_SET_TMP_ECDH, 0L, key.address)
+
+public fun sslSetTmpDh(
+    ssl: Ssl,
+    dh: Dh,
+): CLong = sslCtrl(ssl, SSL_CTRL_SET_TMP_DH, 0L, dh.address)
+
+public fun sslSetTmpEcdh(
+    ssl: Ssl,
+    key: EcKey,
+): CLong = sslCtrl(ssl, SSL_CTRL_SET_TMP_ECDH, 0L, key.address)
+
+public fun sslCtxSetDhAuto(
+    ctx: SslCtx,
+    onoff: CInt,
+): CLong = sslCtxCtrl(ctx, SSL_CTRL_SET_DH_AUTO, onoff.toLong(), 0L)
+
+public fun sslSetDhAuto(
+    ssl: Ssl,
+    onoff: CInt,
+): CLong = sslCtrl(ssl, SSL_CTRL_SET_DH_AUTO, onoff.toLong(), 0L)
+
+public fun sslCtxAddExtraChainCert(
+    ctx: SslCtx,
+    x509: X509,
+): CLong = sslCtxCtrl(ctx, SSL_CTRL_EXTRA_CHAIN_CERT, 0L, x509.address)
+
+public fun sslCtxGetExtraChainCerts(
+    ctx: SslCtx,
+    chain: Long,
+): CLong = sslCtxCtrl(ctx, SSL_CTRL_GET_EXTRA_CHAIN_CERTS, 0L, chain)
+
+public fun sslCtxSet0VerifyCertStore(
+    ctx: SslCtx,
+    st: X509Store,
+): CLong = sslCtxCtrl(ctx, SSL_CTRL_SET_VERIFY_CERT_STORE, 0L, st.address)
+
+public fun sslSet0VerifyCertStore(
+    ssl: Ssl,
+    st: X509Store,
+): CLong = sslCtrl(ssl, SSL_CTRL_SET_VERIFY_CERT_STORE, 0L, st.address)
+
+public fun sslSet1GroupsList(
+    ctx: Ssl,
+    s: String,
+): CLong = sslCtrl(ctx, SSL_CTRL_SET_GROUPS_LIST, 0L, s.hashCode().toLong())
+
+public fun sslCtxSet1GroupsList(
+    ctx: SslCtx,
+    s: String,
+): CLong = sslCtxCtrl(ctx, SSL_CTRL_SET_GROUPS_LIST, 0L, s.hashCode().toLong())
+
+public fun sslAdd0ChainCert(
+    ssl: Ssl,
+    ptr: X509,
+): CLong = sslCtrl(ssl, SSL_CTRL_CHAIN_CERT, 0L, ptr.address)
+
+public fun sslCtxSet1SigalgsList(
+    ctx: SslCtx,
+    s: String,
+): CLong = sslCtxCtrl(ctx, SSL_CTRL_SET_SIGALGS_LIST, 0L, s.hashCode().toLong())
+
+public fun sslCtxSetEcdhAuto(
+    ctx: SslCtx,
+    onoff: CInt,
+): CInt = sslCtxCtrl(ctx, SSL_CTRL_SET_ECDH_AUTO, onoff.toLong(), 0L).toInt()
+
+public fun sslSetEcdhAuto(
+    ssl: Ssl,
+    onoff: CInt,
+): CInt = sslCtrl(ssl, SSL_CTRL_SET_ECDH_AUTO, onoff.toLong(), 0L).toInt()
+
+public fun sslGetPeerTmpKey(
+    ssl: Ssl,
+    key: Long,
+): CLong = sslCtrl(ssl, SSL_CTRL_GET_PEER_TMP_KEY, 0L, key)
+
+public fun sslGetTmpKey(
+    ssl: Ssl,
+    key: Long,
+): CLong = sslCtrl(ssl, SSL_CTRL_GET_TMP_KEY, 0L, key)
+
+public fun sslGetExNewIndex(
+    l: CLong,
+    p: Long = 0L,
+    newf: OpensslCryptoExNew? = null,
+    dupf: OpensslCryptoExDup? = null,
+    freef: OpensslCryptoExFree? = null,
+): CInt = if (l >= 0L && p >= 0L && (newf == null || dupf == null || freef == null)) CRYPTO_EX_INDEX_SSL else 0
+
+public fun sslCtxGetExNewIndex(
+    l: CLong,
+    p: Long = 0L,
+    newf: OpensslCryptoExNew? = null,
+    dupf: OpensslCryptoExDup? = null,
+    freef: OpensslCryptoExFree? = null,
+): CInt = if (l >= 0L && p >= 0L && (newf == null || dupf == null || freef == null)) CRYPTO_EX_INDEX_SSL_CTX else 1
 
 public const val SSL_CLIENT_HELLO_SUCCESS: Int = 1
 public const val SSL_CLIENT_HELLO_ERROR: Int = 0

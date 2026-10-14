@@ -1,4 +1,4 @@
-// port-lint: source crypto.rs handwritten/crypto.rs
+// port-lint: source crypto.rs
 package io.github.kotlinmania.opensslsys
 
 import io.github.kotlinmania.constanttimeeq.constantTimeEq
@@ -28,9 +28,42 @@ public const val OPENSSL_CPU_INFO: CInt = 9
 
 public const val CRYPTO_LOCK: CInt = 1
 
-public typealias CryptoExNew = (parent: Any?, ptr: Any?, ad: Any?, idx: CInt, argl: CLong, argp: Any?) -> Unit
-public typealias CryptoExDup = (to: Any?, from: Any?, fromD: Any?, idx: CInt, argl: CLong, argp: Any?) -> CInt
-public typealias CryptoExFree = (parent: Any?, ptr: Any?, ad: Any?, idx: CInt, argl: CLong, argp: Any?) -> Unit
+internal typealias CryptoExNew = (parent: Any?, ptr: Any?, ad: Any?, idx: CInt, argl: CLong, argp: Any?) -> Unit
+internal typealias CryptoExDup = (to: Any?, from: Any?, fromD: Any?, idx: CInt, argl: CLong, argp: Any?) -> CInt
+internal typealias CryptoExFree = (parent: Any?, ptr: Any?, ad: Any?, idx: CInt, argl: CLong, argp: Any?) -> Unit
+
+public fun interface OpensslCryptoExNew {
+    public fun invoke(
+        parent: Long,
+        ptr: Long,
+        ad: CryptoExData?,
+        idx: CInt,
+        argl: CLong,
+        argp: Long,
+    )
+}
+
+public fun interface OpensslCryptoExDup {
+    public fun invoke(
+        to: CryptoExData?,
+        from: CryptoExData?,
+        fromD: Long,
+        idx: CInt,
+        argl: CLong,
+        argp: Long,
+    ): CInt
+}
+
+public fun interface OpensslCryptoExFree {
+    public fun invoke(
+        parent: Long,
+        ptr: Long,
+        ad: CryptoExData?,
+        idx: CInt,
+        argl: CLong,
+        argp: Long,
+    )
+}
 
 public expect fun openSslVersionNum(): CULong
 

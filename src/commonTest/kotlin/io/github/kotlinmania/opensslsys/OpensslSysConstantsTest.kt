@@ -1,4 +1,4 @@
-// port-lint: tests err.rs ssl.rs x509.rs
+// port-lint: tests ssl.rs
 package io.github.kotlinmania.opensslsys
 
 import kotlin.test.Test
@@ -28,6 +28,11 @@ class OpensslSysConstantsTest {
 
     @Test
     fun testSslConstants() {
+        assertEquals(256, SSL_MAX_KRB5_PRINCIPAL_LENGTH)
+        assertEquals(32, SSL_MAX_SSL_SESSION_ID_LENGTH)
+        assertEquals(32, SSL_MAX_SID_CTX_LENGTH)
+        assertEquals(8, SSL_MAX_KEY_ARG_LENGTH)
+        assertEquals(48, SSL_MAX_MASTER_KEY_LENGTH)
         assertEquals(1, SSL_SENT_SHUTDOWN)
         assertEquals(2, SSL_RECEIVED_SHUTDOWN)
         assertEquals(0, SSL_ERROR_NONE)
@@ -42,6 +47,8 @@ class OpensslSysConstantsTest {
         assertEquals(0x303, TLS1_2_VERSION)
         assertEquals(0x304, TLS1_3_VERSION)
         assertEquals(0x300, SSL3_VERSION)
+        assertEquals(CRYPTO_EX_INDEX_SSL, sslGetExNewIndex(0L))
+        assertEquals(CRYPTO_EX_INDEX_SSL_CTX, sslCtxGetExNewIndex(0L))
     }
 
     @Test

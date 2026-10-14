@@ -1,7 +1,114 @@
 // port-lint: source rsa.rs
 package io.github.kotlinmania.opensslsys
 
+import io.github.kotlinmania.libc.CInt
+
 public const val RSA_F4: Long = 0x10001L
+
+public fun evpPkeyCtxSetRsaKeygenBits(
+    ctx: EvpPkeyCtx,
+    bits: CInt,
+): CInt =
+    evpPkeyCtxCtrl(
+        ctx,
+        EVP_PKEY_RSA,
+        EVP_PKEY_OP_KEYGEN,
+        EVP_PKEY_CTRL_RSA_KEYGEN_BITS,
+        bits,
+        0L,
+    )
+
+public fun evpPkeyCtxSetRsaKeygenPubexp(
+    ctx: EvpPkeyCtx,
+    pubexp: Bignum,
+): CInt =
+    evpPkeyCtxCtrl(
+        ctx,
+        EVP_PKEY_RSA,
+        EVP_PKEY_OP_KEYGEN,
+        EVP_PKEY_CTRL_RSA_KEYGEN_PUBEXP,
+        0,
+        pubexp.address,
+    )
+
+public fun evpPkeyCtxSetRsaPadding(
+    ctx: EvpPkeyCtx,
+    pad: CInt,
+): CInt =
+    evpPkeyCtxCtrl(
+        ctx,
+        EVP_PKEY_RSA,
+        -1,
+        EVP_PKEY_CTRL_RSA_PADDING,
+        pad,
+        0L,
+    )
+
+public fun evpPkeyCtxGetRsaPadding(
+    ctx: EvpPkeyCtx,
+    ppad: Long,
+): CInt =
+    evpPkeyCtxCtrl(
+        ctx,
+        EVP_PKEY_RSA,
+        -1,
+        EVP_PKEY_CTRL_GET_RSA_PADDING,
+        0,
+        ppad,
+    )
+
+public fun evpPkeyCtxSetRsaPssSaltlen(
+    ctx: EvpPkeyCtx,
+    len: CInt,
+): CInt =
+    evpPkeyCtxCtrl(
+        ctx,
+        EVP_PKEY_RSA,
+        EVP_PKEY_OP_SIGN or EVP_PKEY_OP_VERIFY,
+        EVP_PKEY_CTRL_RSA_PSS_SALTLEN,
+        len,
+        0L,
+    )
+
+public fun evpPkeyCtxSetRsaMgf1Md(
+    ctx: EvpPkeyCtx,
+    md: EvpMd,
+): CInt =
+    evpPkeyCtxCtrl(
+        ctx,
+        EVP_PKEY_RSA,
+        EVP_PKEY_OP_TYPE_SIG or EVP_PKEY_OP_TYPE_CRYPT,
+        EVP_PKEY_CTRL_RSA_MGF1_MD,
+        0,
+        md.address,
+    )
+
+public fun evpPkeyCtxSetRsaOaepMd(
+    ctx: EvpPkeyCtx,
+    md: EvpMd,
+): CInt =
+    evpPkeyCtxCtrl(
+        ctx,
+        EVP_PKEY_RSA,
+        EVP_PKEY_OP_TYPE_CRYPT,
+        EVP_PKEY_CTRL_RSA_OAEP_MD,
+        0,
+        md.address,
+    )
+
+public fun evpPkeyCtxSet0RsaOaepLabel(
+    ctx: EvpPkeyCtx,
+    label: Long,
+    len: CInt,
+): CInt =
+    evpPkeyCtxCtrl(
+        ctx,
+        EVP_PKEY_RSA,
+        EVP_PKEY_OP_TYPE_CRYPT,
+        EVP_PKEY_CTRL_RSA_OAEP_LABEL,
+        len,
+        label,
+    )
 
 public const val EVP_PKEY_CTRL_RSA_PADDING: Int = EVP_PKEY_ALG_CTRL + 1
 public const val EVP_PKEY_CTRL_RSA_PSS_SALTLEN: Int = EVP_PKEY_ALG_CTRL + 2
