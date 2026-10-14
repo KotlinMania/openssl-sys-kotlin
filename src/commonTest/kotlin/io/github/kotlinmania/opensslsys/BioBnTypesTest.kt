@@ -1,4 +1,4 @@
-// port-lint: tests bio.rs bn.rs evp.rs
+// port-lint: tests bio.rs
 package io.github.kotlinmania.opensslsys
 
 import kotlin.test.Test
@@ -41,19 +41,51 @@ class BioBnTypesTest {
     }
 
     @Test
-    fun testEvpConstants() {
+    fun testEvpConstantsAndHelpers() {
         assertEquals(64u, EVP_MAX_MD_SIZE)
         assertEquals(8, PKCS5_SALT_LEN)
         assertEquals(2048, PKCS12_DEFAULT_ITER)
         assertEquals(EVP_PKEY_ALG_CTRL + 1, EVP_PKEY_CTRL_DH_PARAMGEN_PRIME_LEN)
         assertEquals(EVP_PKEY_ALG_CTRL + 2, EVP_PKEY_CTRL_DH_PARAMGEN_GENERATOR)
+
+        val sha256ByNid = evpGetDigestbynid(NID_sha256)
+        assertNotNull(sha256ByNid)
+        assertEquals(32, evpMdSize(sha256ByNid))
+
+        val pkeyCtx = EvpPkeyCtx(1L)
+        assertEquals(1, evpPkeyCtxSetRsaKeygenBits(pkeyCtx, 2048))
+        assertEquals(1, evpPkeyCtxSetRsaPadding(pkeyCtx, RSA_PKCS1_PSS_PADDING))
+        assertEquals(1, evpPkeyCtxSetEcParamgenCurveNid(pkeyCtx, NID_X9_62_prime256v1))
+        assertEquals(1, evpPkeyCtxSetHkdfMode(pkeyCtx, EVP_PKEY_HKDEF_MODE_EXTRACT_AND_EXPAND))
+
+        val ecKey = evpEcGen("prime256v1")
+        assertNotNull(ecKey)
+        assertEquals(NID_X9_62_prime256v1, evpPkeyId(ecKey))
     }
 
     @Test
-    fun testTypes() {
-        val pkey = EvpPkey()
-        val sig = EvpSignature()
+    fun testTypesAndStacks() {
+        val pkey = EvpPkey(10L)
+        val sig = EvpSignature(20L)
+        val aesKey = AesKey()
+        val asn1Type = Asn1Type(V_ASN1_UTF8STRING)
+        val cms = CmsContentInfo(30L)
+        val pkcs7 = Pkcs7(length = 128L)
+        val pkcs12 = Pkcs12(40L)
+        val x509Stack = StackStX509(50L)
+        val lookup = X509Lookup(60L)
+
         assertNotNull(pkey)
         assertNotNull(sig)
+        assertEquals(0, aesKey.rounds)
+        assertEquals(V_ASN1_UTF8STRING, asn1Type.typeTag)
+        assertEquals(30L, cms.address)
+        assertEquals(128L, pkcs7.length)
+        assertEquals(40L, pkcs12.address)
+        assertEquals(50L, x509Stack.address)
+        assertEquals(1, x509LookupAddDir(lookup, "/etc/ssl/certs", X509_FILETYPE_PEM))
+        assertEquals(2, PointConversionFormT.POINT_CONVERSION_COMPRESSED.value)
+        assertEquals(4, PointConversionFormT.POINT_CONVERSION_UNCOMPRESSED.value)
+        assertEquals(6, PointConversionFormT.POINT_CONVERSION_HYBRID.value)
     }
 }

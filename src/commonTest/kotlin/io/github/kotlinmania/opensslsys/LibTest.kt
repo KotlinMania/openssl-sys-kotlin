@@ -21,9 +21,19 @@ class LibTest {
             1
         }
         val buffer = ByteArray(16)
-        val result = callback(buffer, 16, 0, null)
+        val result = callback(buffer, 16, 0, 0L)
         assertEquals(1, result)
         assertEquals(42, buffer[0])
+
+        val samCallback =
+            OpensslPasswordCallback { buf, size, rwflag, _ ->
+                assertEquals(16, size)
+                assertEquals(1, rwflag)
+                buf[1] = 99
+                2
+            }
+        assertEquals(2, samCallback.invoke(buffer, 16, 1, 0L))
+        assertEquals(99, buffer[1])
     }
 
     @Test

@@ -1,4 +1,4 @@
-// port-lint: source sha.rs handwritten/sha.rs
+// port-lint: source sha.rs
 package io.github.kotlinmania.opensslsys
 
 // Upstream gate: cfg(not(osslconf = "OPENSSL_NO_DEPRECATED_3_0"))
