@@ -1,15 +1,10 @@
 // port-lint: source lib.rs
 package io.github.kotlinmania.opensslsys
 
-import io.github.kotlinmania.libc.CChar
 import io.github.kotlinmania.libc.CInt
-import io.github.kotlinmania.libc.CLong
-import io.github.kotlinmania.libc.CULong
+import kotlin.concurrent.atomics.AtomicBoolean
 
-public typealias CInt = io.github.kotlinmania.libc.CInt
-public typealias CLong = io.github.kotlinmania.libc.CLong
-public typealias CULong = io.github.kotlinmania.libc.CULong
-public typealias CChar = io.github.kotlinmania.libc.CChar
+private val initOnce = AtomicBoolean(false)
 
 public typealias PasswordCallback = (
     buf: ByteArray,
@@ -18,10 +13,19 @@ public typealias PasswordCallback = (
     userData: Any?,
 ) -> CInt
 
+/**
+ * Initializes the OpenSSL library once.
+ */
 public fun opensslInit() {
-    // OpenSSL library initialization hook
+    if (initOnce.compareAndSet(expectedValue = false, newValue = true)) {
+        val initOptions = OPENSSL_INIT_LOAD_SSL_STRINGS or OPENSSL_INIT_NO_ATEXIT
+        opensslInitSsl(initOptions, null)
+    }
 }
 
+/**
+ * Disables explicit initialization of the OpenSSL libraries.
+ */
 public fun assumeInit() {
-    // OpenSSL explicit initialization skip hook
+    initOnce.store(true)
 }
