@@ -59,6 +59,9 @@ local.properties
 /node/node_modules/
 /node/build/
 /node/package-lock.json
+/native/node-openssl/node_modules/
+/native/node-openssl/build/
+/native/node-openssl/package-lock.json
 
 # Swift Package Manager / Xcode workspace state.
 #
