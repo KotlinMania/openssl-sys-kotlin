@@ -1,5 +1,8 @@
-// port-lint: source ssl.rs
+// port-lint: source ssl.rs handwritten/ssl.rs
 package io.github.kotlinmania.opensslsys
+
+import io.github.kotlinmania.libc.CInt
+import io.github.kotlinmania.libc.CLong
 
 public const val SSL_SENT_SHUTDOWN: Int = 1
 public const val SSL_RECEIVED_SHUTDOWN: Int = 2
@@ -70,6 +73,10 @@ public const val SSL_SESS_CACHE_NO_INTERNAL_LOOKUP: Long = 0x100L
 public const val SSL_SESS_CACHE_NO_INTERNAL_STORE: Long = 0x200L
 public val SSL_SESS_CACHE_NO_INTERNAL: Long = SSL_SESS_CACHE_NO_INTERNAL_LOOKUP or SSL_SESS_CACHE_NO_INTERNAL_STORE
 
+public const val OPENSSL_NPN_UNSUPPORTED: Int = 0
+public const val OPENSSL_NPN_NEGOTIATED: Int = 1
+public const val OPENSSL_NPN_NO_OVERLAP: Int = 2
+
 public const val SSL_AD_ILLEGAL_PARAMETER: Int = SSL3_AD_ILLEGAL_PARAMETER
 public const val SSL_AD_DECODE_ERROR: Int = TLS1_AD_DECODE_ERROR
 public const val SSL_AD_UNRECOGNIZED_NAME: Int = TLS1_AD_UNRECOGNIZED_NAME
@@ -135,3 +142,122 @@ public const val SSL_CLIENT_HELLO_RETRY: Int = -1
 public const val SSL_READ_EARLY_DATA_ERROR: Int = 0
 public const val SSL_READ_EARLY_DATA_SUCCESS: Int = 1
 public const val SSL_READ_EARLY_DATA_FINISH: Int = 2
+
+public const val OPENSSL_INIT_LOAD_CRYPTO_STRINGS: ULong = 0x00000002uL
+public const val OPENSSL_INIT_ADD_ALL_CIPHERS: ULong = 0x00000004uL
+public const val OPENSSL_INIT_ADD_ALL_DIGESTS: ULong = 0x00000008uL
+public const val OPENSSL_INIT_NO_ATEXIT: ULong = 0x00080000uL
+public const val OPENSSL_INIT_LOAD_SSL_STRINGS: ULong = 0x00200000uL
+
+public expect fun opensslInitSsl(
+    opts: ULong,
+    settings: OpensslInitSettings? = null,
+): CInt
+
+public expect fun tlsMethod(): SslMethod?
+
+public expect fun tlsClientMethod(): SslMethod?
+
+public expect fun tlsServerMethod(): SslMethod?
+
+public expect fun sslCtxNew(method: SslMethod): SslCtx?
+
+public expect fun sslCtxFree(ctx: SslCtx?)
+
+public expect fun sslCtxCtrl(
+    ctx: SslCtx,
+    cmd: CInt,
+    larg: CLong,
+    parg: Long = 0L,
+): CLong
+
+public expect fun sslCtxGetOptions(ctx: SslCtx): ULong
+
+public expect fun sslCtxSetOptions(
+    ctx: SslCtx,
+    op: ULong,
+): ULong
+
+public expect fun sslCtxClearOptions(
+    ctx: SslCtx,
+    op: ULong,
+): ULong
+
+public expect fun sslNew(ctx: SslCtx): Ssl?
+
+public expect fun sslFree(ssl: Ssl?)
+
+public expect fun sslCtrl(
+    ssl: Ssl,
+    cmd: CInt,
+    larg: CLong,
+    parg: Long = 0L,
+): CLong
+
+public fun sslCtxSetMode(
+    ctx: SslCtx,
+    op: CLong,
+): CLong = sslCtxCtrl(ctx, SSL_CTRL_MODE, op, 0L)
+
+public fun sslCtxGetMode(ctx: SslCtx): CLong = sslCtxCtrl(ctx, SSL_CTRL_MODE, 0L, 0L)
+
+public fun sslCtxSetMinProtoVersion(
+    ctx: SslCtx,
+    version: CInt,
+): CInt = sslCtxCtrl(ctx, SSL_CTRL_SET_MIN_PROTO_VERSION, version.toLong(), 0L).toInt()
+
+public fun sslCtxSetMaxProtoVersion(
+    ctx: SslCtx,
+    version: CInt,
+): CInt = sslCtxCtrl(ctx, SSL_CTRL_SET_MAX_PROTO_VERSION, version.toLong(), 0L).toInt()
+
+public fun sslCtxGetMinProtoVersion(ctx: SslCtx): CInt =
+    sslCtxCtrl(ctx, SSL_CTRL_GET_MIN_PROTO_VERSION, 0L, 0L).toInt()
+
+public fun sslCtxGetMaxProtoVersion(ctx: SslCtx): CInt =
+    sslCtxCtrl(ctx, SSL_CTRL_GET_MAX_PROTO_VERSION, 0L, 0L).toInt()
+
+public fun sslSetMinProtoVersion(
+    s: Ssl,
+    version: CInt,
+): CInt = sslCtrl(s, SSL_CTRL_SET_MIN_PROTO_VERSION, version.toLong(), 0L).toInt()
+
+public fun sslSetMaxProtoVersion(
+    s: Ssl,
+    version: CInt,
+): CInt = sslCtrl(s, SSL_CTRL_SET_MAX_PROTO_VERSION, version.toLong(), 0L).toInt()
+
+public fun sslGetMinProtoVersion(s: Ssl): CInt =
+    sslCtrl(s, SSL_CTRL_GET_MIN_PROTO_VERSION, 0L, 0L).toInt()
+
+public fun sslGetMaxProtoVersion(s: Ssl): CInt =
+    sslCtrl(s, SSL_CTRL_GET_MAX_PROTO_VERSION, 0L, 0L).toInt()
+
+public fun sslSessionReused(ssl: Ssl): CInt =
+    sslCtrl(ssl, SSL_CTRL_GET_SESSION_REUSED, 0L, 0L).toInt()
+
+public fun sslCtxSessSetCacheSize(
+    ctx: SslCtx,
+    t: CLong,
+): CLong = sslCtxCtrl(ctx, SSL_CTRL_SET_SESS_CACHE_SIZE, t, 0L)
+
+public fun sslCtxSessGetCacheSize(ctx: SslCtx): CLong =
+    sslCtxCtrl(ctx, SSL_CTRL_GET_SESS_CACHE_SIZE, 0L, 0L)
+
+public fun sslCtxSetSessionCacheMode(
+    ctx: SslCtx,
+    m: CLong,
+): CLong = sslCtxCtrl(ctx, SSL_CTRL_SET_SESS_CACHE_MODE, m, 0L)
+
+public fun sslCtxSetReadAhead(
+    ctx: SslCtx,
+    m: CLong,
+): CLong = sslCtxCtrl(ctx, SSL_CTRL_SET_READ_AHEAD, m, 0L)
+
+public fun sslSetMtu(
+    ssl: Ssl,
+    mtu: CLong,
+): CLong = sslCtrl(ssl, SSL_CTRL_SET_MTU, mtu, 0L)
+
+public fun sslGetExtmsSupport(ssl: Ssl): CLong =
+    sslCtrl(ssl, SSL_CTRL_GET_EXTMS_SUPPORT, 0L, 0L)

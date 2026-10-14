@@ -1,5 +1,7 @@
-// port-lint: source evp.rs
+// port-lint: source evp.rs handwritten/evp.rs
 package io.github.kotlinmania.opensslsys
+
+import io.github.kotlinmania.libc.CInt
 
 public const val EVP_MAX_MD_SIZE: UInt = 64u
 
@@ -71,3 +73,40 @@ public const val EVP_PKEY_CTRL_HKDF_SALT: Int = EVP_PKEY_ALG_CTRL + 4
 public const val EVP_PKEY_CTRL_HKDF_KEY: Int = EVP_PKEY_ALG_CTRL + 5
 public const val EVP_PKEY_CTRL_HKDF_INFO: Int = EVP_PKEY_ALG_CTRL + 6
 public const val EVP_PKEY_CTRL_HKDF_MODE: Int = EVP_PKEY_ALG_CTRL + 7
+
+public expect fun evpSha1(): EvpMd?
+
+public expect fun evpSha224(): EvpMd?
+
+public expect fun evpSha256(): EvpMd?
+
+public expect fun evpSha384(): EvpMd?
+
+public expect fun evpSha512(): EvpMd?
+
+public expect fun evpGetDigestbyname(name: String): EvpMd?
+
+public expect fun evpMdGetSize(md: EvpMd): CInt
+
+public fun evpMdSize(md: EvpMd): CInt = evpMdGetSize(md)
+
+public expect fun evpMdCtxNew(): EvpMdCtx?
+
+public expect fun evpMdCtxFree(ctx: EvpMdCtx?)
+
+public expect fun evpDigestInitEx(
+    ctx: EvpMdCtx,
+    type: EvpMd,
+    impl: Engine? = null,
+): CInt
+
+public expect fun evpDigestUpdate(
+    ctx: EvpMdCtx,
+    d: ByteArray,
+): CInt
+
+public expect fun evpDigestFinalEx(
+    ctx: EvpMdCtx,
+    md: ByteArray,
+    s: IntArray? = null,
+): CInt

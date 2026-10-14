@@ -1,0 +1,4 @@
+headers = stddef.h stdint.h openssl_wrapper.h
+headerFilter = openssl_wrapper.h
+compilerOpts = -Isrc/nativeInterop/cinterop
+staticLibraries = openssl_wrapper.a
