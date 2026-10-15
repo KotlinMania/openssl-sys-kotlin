@@ -2,9 +2,6 @@
 package io.github.kotlinmania.opensslsys
 
 import io.github.kotlinmania.getrandom.getrandom
-import io.github.kotlinmania.libc.CInt
-import io.github.kotlinmania.libc.CLong
-import io.github.kotlinmania.libc.CULong
 import io.github.kotlinmania.sha1.Sha1
 import io.github.kotlinmania.sha2.Sha224
 import io.github.kotlinmania.sha2.Sha256
@@ -84,9 +81,9 @@ private val knownNids =
         NidEntry(NID_ED25519, "ED25519", "ED25519", "1.3.101.112"),
     )
 
-public actual fun openSslVersionNum(): CULong = 0x30000000uL
+public actual fun openSslVersionNum(): ULong = 0x30000000uL
 
-public actual fun openSslVersion(key: CInt): String? =
+public actual fun openSslVersion(key: Int): String? =
     when (key) {
         OPENSSL_VERSION -> "OpenSSL 3.0.0 (WASI)"
         OPENSSL_CFLAGS -> "compiler: wasm32-wasi"
@@ -104,12 +101,12 @@ public actual fun openSslVersion(key: CInt): String? =
 public actual fun opensslInitCrypto(
     opts: ULong,
     settings: OpensslInitSettings?,
-): CInt = 1
+): Int = 1
 
 public actual fun cryptoMalloc(
     num: ULong,
     file: String,
-    line: CInt,
+    line: Int,
 ): Long {
     if (num == 0uL) return 0L
     val handle = nextHandleId++
@@ -120,7 +117,7 @@ public actual fun cryptoMalloc(
 public actual fun cryptoFree(
     addr: Long,
     file: String,
-    line: CInt,
+    line: Int,
 ) {
     allocatedBlocks.remove(addr)
 }
@@ -153,8 +150,8 @@ public actual fun bioFreeAll(b: Bio?) {
 public actual fun bioRead(
     b: Bio,
     buf: ByteArray,
-    len: CInt,
-): CInt {
+    len: Int,
+): Int {
     val state = bioTable[b.address] ?: return -1
     val actualLen = len.coerceIn(0, buf.size)
     if (actualLen == 0) return 0
@@ -173,8 +170,8 @@ public actual fun bioRead(
 public actual fun bioWrite(
     b: Bio,
     buf: ByteArray,
-    len: CInt,
-): CInt {
+    len: Int,
+): Int {
     val state = bioTable[b.address] ?: return -1
     val actualLen = len.coerceIn(0, buf.size)
     if (actualLen == 0) return 0
@@ -191,10 +188,10 @@ public actual fun bioWrite(
 
 public actual fun bioCtrl(
     b: Bio,
-    cmd: CInt,
-    larg: CLong,
+    cmd: Int,
+    larg: Long,
     parg: Long,
-): CLong {
+): Long {
     val state = bioTable[b.address] ?: return -1L
     return when (cmd) {
         BIO_CTRL_RESET -> {
@@ -264,7 +261,7 @@ public actual fun evpGetDigestbyname(name: String): EvpMd? =
         else -> null
     }
 
-public actual fun evpMdGetSize(md: EvpMd): CInt =
+public actual fun evpMdGetSize(md: EvpMd): Int =
     when (md.address) {
         EVP_MD_SHA1_HANDLE -> SHA_DIGEST_LENGTH
         EVP_MD_SHA224_HANDLE -> SHA224_DIGEST_LENGTH
@@ -290,7 +287,7 @@ public actual fun evpDigestInitEx(
     ctx: EvpMdCtx,
     type: EvpMd,
     impl: Engine?,
-): CInt {
+): Int {
     val state = evpCtxTable[ctx.address] ?: return 0
     if (evpMdGetSize(type) <= 0) return 0
     state.mdHandle = type.address
@@ -301,7 +298,7 @@ public actual fun evpDigestInitEx(
 public actual fun evpDigestUpdate(
     ctx: EvpMdCtx,
     d: ByteArray,
-): CInt {
+): Int {
     val state = evpCtxTable[ctx.address] ?: return 0
     if (state.mdHandle == 0L) return 0
     for (b in d) {
@@ -314,7 +311,7 @@ public actual fun evpDigestFinalEx(
     ctx: EvpMdCtx,
     md: ByteArray,
     s: IntArray?,
-): CInt {
+): Int {
     val state = evpCtxTable[ctx.address] ?: return 0
     val input = state.buffer.toByteArray()
     val digest =
@@ -337,7 +334,7 @@ public actual fun evpDigestFinalEx(
 public actual fun opensslInitSsl(
     opts: ULong,
     settings: OpensslInitSettings?,
-): CInt = 1
+): Int = 1
 
 public actual fun tlsMethod(): SslMethod? = SslMethod(TLS_METHOD_HANDLE)
 
@@ -360,10 +357,10 @@ public actual fun sslCtxFree(ctx: SslCtx?) {
 
 public actual fun sslCtxCtrl(
     ctx: SslCtx,
-    cmd: CInt,
-    larg: CLong,
+    cmd: Int,
+    larg: Long,
     parg: Long,
-): CLong {
+): Long {
     val state = sslCtxTable[ctx.address] ?: return 0L
     return when (cmd) {
         SSL_CTRL_MODE -> {
@@ -435,10 +432,10 @@ public actual fun sslFree(ssl: Ssl?) {
 
 public actual fun sslCtrl(
     ssl: Ssl,
-    cmd: CInt,
-    larg: CLong,
+    cmd: Int,
+    larg: Long,
     parg: Long,
-): CLong {
+): Long {
     val state = sslTable[ssl.address] ?: return 0L
     return when (cmd) {
         SSL_CTRL_MODE -> {
@@ -470,18 +467,18 @@ public actual fun sslCtrl(
     }
 }
 
-public actual fun errGetError(): CULong = if (errorQueue.isEmpty()) 0uL else errorQueue.removeFirst()
+public actual fun errGetError(): ULong = if (errorQueue.isEmpty()) 0uL else errorQueue.removeFirst()
 
-public actual fun errPeekError(): CULong = errorQueue.firstOrNull() ?: 0uL
+public actual fun errPeekError(): ULong = errorQueue.firstOrNull() ?: 0uL
 
-public actual fun errPeekLastError(): CULong = errorQueue.lastOrNull() ?: 0uL
+public actual fun errPeekLastError(): ULong = errorQueue.lastOrNull() ?: 0uL
 
 public actual fun errClearError() {
     errorQueue.clear()
 }
 
 public actual fun errErrorStringN(
-    e: CULong,
+    e: ULong,
     maxLen: Int,
 ): String {
     val lib = errGetLib(e)
@@ -492,8 +489,8 @@ public actual fun errErrorStringN(
 
 public actual fun randBytes(
     buf: ByteArray,
-    num: CInt,
-): CInt {
+    num: Int,
+): Int {
     if (num < 0) return 0
     val actual = num.coerceIn(0, buf.size)
     if (actual == 0) return 1
@@ -506,19 +503,19 @@ public actual fun randBytes(
     }
 }
 
-public actual fun randStatus(): CInt = 1
+public actual fun randStatus(): Int = 1
 
-public actual fun objNid2sn(n: CInt): String? = knownNids.firstOrNull { it.nid == n }?.sn
+public actual fun objNid2sn(n: Int): String? = knownNids.firstOrNull { it.nid == n }?.sn
 
-public actual fun objNid2ln(n: CInt): String? = knownNids.firstOrNull { it.nid == n }?.ln
+public actual fun objNid2ln(n: Int): String? = knownNids.firstOrNull { it.nid == n }?.ln
 
-public actual fun objSn2nid(sn: String): CInt =
+public actual fun objSn2nid(sn: String): Int =
     knownNids.firstOrNull { it.sn.equals(sn, ignoreCase = true) }?.nid ?: NID_undef
 
-public actual fun objLn2nid(ln: String): CInt =
+public actual fun objLn2nid(ln: String): Int =
     knownNids.firstOrNull { it.ln.equals(ln, ignoreCase = true) }?.nid ?: NID_undef
 
-public actual fun objTxt2nid(s: String): CInt =
+public actual fun objTxt2nid(s: String): Int =
     knownNids
         .firstOrNull {
             it.sn.equals(s, ignoreCase = true) ||

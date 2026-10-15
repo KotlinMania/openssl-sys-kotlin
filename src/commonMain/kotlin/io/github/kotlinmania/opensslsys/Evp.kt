@@ -1,9 +1,6 @@
 // port-lint: source evp.rs
 package io.github.kotlinmania.opensslsys
 
-import io.github.kotlinmania.libc.CInt
-import io.github.kotlinmania.libc.SizeT
-
 public const val EVP_MAX_MD_SIZE: UInt = 64u
 
 public const val PKCS5_SALT_LEN: Int = 8
@@ -36,7 +33,7 @@ public val EVP_PKEY_PRIVATE_KEY: Int = EVP_PKEY_KEY_PARAMETERS or OSSL_KEYMGMT_S
 public val EVP_PKEY_PUBLIC_KEY: Int = EVP_PKEY_KEY_PARAMETERS or OSSL_KEYMGMT_SELECT_PUBLIC_KEY
 public val EVP_PKEY_KEYPAIR: Int = EVP_PKEY_PUBLIC_KEY or OSSL_KEYMGMT_SELECT_PRIVATE_KEY
 
-public fun evpGetDigestbynid(type: CInt): EvpMd? {
+public fun evpGetDigestbynid(type: Int): EvpMd? {
     val sn = objNid2sn(type) ?: return null
     return evpGetDigestbyname(sn)
 }
@@ -44,41 +41,41 @@ public fun evpGetDigestbynid(type: CInt): EvpMd? {
 public fun evpMdCtxMd(ctx: EvpMdCtx): EvpMd? =
     if (ctx.address != 0L) EvpMd(ctx.address) else null
 
-public fun evpMdCtxGetSize(ctx: EvpMdCtx): CInt {
+public fun evpMdCtxGetSize(ctx: EvpMdCtx): Int {
     val md = evpMdCtxMd(ctx) ?: return 0
     return evpMdGetSize(md)
 }
 
-public fun evpMdCtxSize(ctx: EvpMdCtx): CInt = evpMdCtxGetSize(ctx)
+public fun evpMdCtxSize(ctx: EvpMdCtx): Int = evpMdCtxGetSize(ctx)
 
-public fun evpMdBlockSize(md: EvpMd): CInt = if (md.address != 0L) 64 else 0
+public fun evpMdBlockSize(md: EvpMd): Int = if (md.address != 0L) 64 else 0
 
-public fun evpMdSize(md: EvpMd): CInt = evpMdGetSize(md)
+public fun evpMdSize(md: EvpMd): Int = evpMdGetSize(md)
 
-public fun evpMdType(md: EvpMd): CInt = if (md.address != 0L) NID_sha256 else NID_undef
+public fun evpMdType(md: EvpMd): Int = if (md.address != 0L) NID_sha256 else NID_undef
 
-public fun evpCipherKeyLength(cipher: EvpCipher): CInt = if (cipher.address != 0L) 32 else 0
+public fun evpCipherKeyLength(cipher: EvpCipher): Int = if (cipher.address != 0L) 32 else 0
 
-public fun evpCipherBlockSize(cipher: EvpCipher): CInt = if (cipher.address != 0L) 16 else 0
+public fun evpCipherBlockSize(cipher: EvpCipher): Int = if (cipher.address != 0L) 16 else 0
 
-public fun evpCipherIvLength(cipher: EvpCipher): CInt = if (cipher.address != 0L) 16 else 0
+public fun evpCipherIvLength(cipher: EvpCipher): Int = if (cipher.address != 0L) 16 else 0
 
-public fun evpCipherNid(cipher: EvpCipher): CInt =
+public fun evpCipherNid(cipher: EvpCipher): Int =
     if (cipher.address != 0L) cipher.address.toInt() else NID_undef
 
-public fun evpCipherCtxBlockSize(ctx: EvpCipherCtx): CInt = if (ctx.address != 0L) 16 else 0
+public fun evpCipherCtxBlockSize(ctx: EvpCipherCtx): Int = if (ctx.address != 0L) 16 else 0
 
-public fun evpCipherCtxKeyLength(ctx: EvpCipherCtx): CInt = if (ctx.address != 0L) 32 else 0
+public fun evpCipherCtxKeyLength(ctx: EvpCipherCtx): Int = if (ctx.address != 0L) 32 else 0
 
-public fun evpCipherCtxIvLength(ctx: EvpCipherCtx): CInt = if (ctx.address != 0L) 16 else 0
+public fun evpCipherCtxIvLength(ctx: EvpCipherCtx): Int = if (ctx.address != 0L) 16 else 0
 
-public fun evpCipherCtxNum(ctx: EvpCipherCtx): CInt = 0
+public fun evpCipherCtxNum(ctx: EvpCipherCtx): Int = 0
 
 public fun evpDigestSignUpdate(
     ctx: EvpMdCtx,
     data: ByteArray,
-    dsize: SizeT = data.size.toULong(),
-): CInt {
+    dsize: ULong = data.size.toULong(),
+): Int {
     val len = dsize.toInt().coerceIn(0, data.size)
     val slice = if (len == data.size) data else data.copyOfRange(0, len)
     return evpDigestUpdate(ctx, slice)
@@ -87,23 +84,23 @@ public fun evpDigestSignUpdate(
 public fun evpDigestVerifyUpdate(
     ctx: EvpMdCtx,
     data: ByteArray,
-    dsize: SizeT = data.size.toULong(),
-): CInt {
+    dsize: ULong = data.size.toULong(),
+): Int {
     val len = dsize.toInt().coerceIn(0, data.size)
     val slice = if (len == data.size) data else data.copyOfRange(0, len)
     return evpDigestUpdate(ctx, slice)
 }
 
-public fun evpPkeyGetSize(pkey: EvpPkey): CInt = if (pkey.address != 0L) 256 else 0
+public fun evpPkeyGetSize(pkey: EvpPkey): Int = if (pkey.address != 0L) 256 else 0
 
-public fun evpPkeySize(pkey: EvpPkey): CInt = evpPkeyGetSize(pkey)
+public fun evpPkeySize(pkey: EvpPkey): Int = evpPkeyGetSize(pkey)
 
-public fun evpPkeyId(pkey: EvpPkey): CInt =
+public fun evpPkeyId(pkey: EvpPkey): Int =
     if (pkey.address != 0L) pkey.address.toInt() else NID_undef
 
-public fun evpPkeyBits(pkey: EvpPkey): CInt = if (pkey.address != 0L) 2048 else 0
+public fun evpPkeyBits(pkey: EvpPkey): Int = if (pkey.address != 0L) 2048 else 0
 
-public fun evpPkeySecurityBits(pkey: EvpPkey): CInt = if (pkey.address != 0L) 112 else 0
+public fun evpPkeySecurityBits(pkey: EvpPkey): Int = if (pkey.address != 0L) 112 else 0
 
 public const val EVP_PKEY_OP_PARAMGEN: Int = 1 shl 1
 public const val EVP_PKEY_OP_KEYGEN: Int = 1 shl 2
@@ -146,17 +143,17 @@ public const val EVP_PKEY_CTRL_HKDF_MODE: Int = EVP_PKEY_ALG_CTRL + 7
 
 public fun evpPkeyCtxCtrl(
     ctx: EvpPkeyCtx,
-    keytype: CInt,
-    optype: CInt,
-    cmd: CInt,
-    p1: CInt,
+    keytype: Int,
+    optype: Int,
+    cmd: Int,
+    p1: Int,
     p2: Long = 0L,
-): CInt = if (ctx.address != 0L && cmd != 0 && (keytype != 0 || optype != 0 || p1 != 0 || p2 != 0L)) 1 else 0
+): Int = if (ctx.address != 0L && cmd != 0 && (keytype != 0 || optype != 0 || p1 != 0 || p2 != 0L)) 1 else 0
 
 public fun evpPkeyCtxSetHkdfMode(
     ctx: EvpPkeyCtx,
-    mode: CInt,
-): CInt =
+    mode: Int,
+): Int =
     evpPkeyCtxCtrl(
         ctx,
         -1,
@@ -169,7 +166,7 @@ public fun evpPkeyCtxSetHkdfMode(
 public fun evpPkeyCtxSetHkdfMd(
     ctx: EvpPkeyCtx,
     md: EvpMd,
-): CInt =
+): Int =
     evpPkeyCtxCtrl(
         ctx,
         -1,
@@ -182,8 +179,8 @@ public fun evpPkeyCtxSetHkdfMd(
 public fun evpPkeyCtxSet1HkdfSalt(
     ctx: EvpPkeyCtx,
     salt: ByteArray,
-    saltlen: CInt = salt.size,
-): CInt =
+    saltlen: Int = salt.size,
+): Int =
     evpPkeyCtxCtrl(
         ctx,
         -1,
@@ -196,8 +193,8 @@ public fun evpPkeyCtxSet1HkdfSalt(
 public fun evpPkeyCtxSet1HkdfKey(
     ctx: EvpPkeyCtx,
     key: ByteArray,
-    keylen: CInt = key.size,
-): CInt =
+    keylen: Int = key.size,
+): Int =
     evpPkeyCtxCtrl(
         ctx,
         -1,
@@ -210,8 +207,8 @@ public fun evpPkeyCtxSet1HkdfKey(
 public fun evpPkeyCtxAdd1HkdfInfo(
     ctx: EvpPkeyCtx,
     info: ByteArray,
-    infolen: CInt = info.size,
-): CInt =
+    infolen: Int = info.size,
+): Int =
     evpPkeyCtxCtrl(
         ctx,
         -1,
@@ -224,7 +221,7 @@ public fun evpPkeyCtxAdd1HkdfInfo(
 public fun evpPkeyCtxSetSignatureMd(
     cxt: EvpPkeyCtx,
     md: EvpMd,
-): CInt =
+): Int =
     evpPkeyCtxCtrl(
         cxt,
         -1,
@@ -236,29 +233,29 @@ public fun evpPkeyCtxSetSignatureMd(
 
 public fun evpPkeyAssign(
     pkey: EvpPkey,
-    type: CInt,
+    type: Int,
     key: Long,
-): CInt = if (pkey.address != 0L && type != 0 && key != 0L) 1 else 0
+): Int = if (pkey.address != 0L && type != 0 && key != 0L) 1 else 0
 
 public fun evpPkeyAssignRsa(
     pkey: EvpPkey,
     rsa: Rsa,
-): CInt = evpPkeyAssign(pkey, EVP_PKEY_RSA, rsa.address)
+): Int = evpPkeyAssign(pkey, EVP_PKEY_RSA, rsa.address)
 
 public fun evpPkeyAssignDsa(
     pkey: EvpPkey,
     dsa: Dsa,
-): CInt = evpPkeyAssign(pkey, EVP_PKEY_DSA, dsa.address)
+): Int = evpPkeyAssign(pkey, EVP_PKEY_DSA, dsa.address)
 
 public fun evpPkeyAssignDh(
     pkey: EvpPkey,
     dh: Dh,
-): CInt = evpPkeyAssign(pkey, EVP_PKEY_DH, dh.address)
+): Int = evpPkeyAssign(pkey, EVP_PKEY_DH, dh.address)
 
 public fun evpPkeyAssignEcKey(
     pkey: EvpPkey,
     ecKey: EcKey,
-): CInt = evpPkeyAssign(pkey, EVP_PKEY_EC, ecKey.address)
+): Int = evpPkeyAssign(pkey, EVP_PKEY_EC, ecKey.address)
 
 public expect fun evpSha1(): EvpMd?
 
@@ -272,7 +269,7 @@ public expect fun evpSha512(): EvpMd?
 
 public expect fun evpGetDigestbyname(name: String): EvpMd?
 
-public expect fun evpMdGetSize(md: EvpMd): CInt
+public expect fun evpMdGetSize(md: EvpMd): Int
 
 public expect fun evpMdCtxNew(): EvpMdCtx?
 
@@ -282,15 +279,15 @@ public expect fun evpDigestInitEx(
     ctx: EvpMdCtx,
     type: EvpMd,
     impl: Engine? = null,
-): CInt
+): Int
 
 public expect fun evpDigestUpdate(
     ctx: EvpMdCtx,
     d: ByteArray,
-): CInt
+): Int
 
 public expect fun evpDigestFinalEx(
     ctx: EvpMdCtx,
     md: ByteArray,
     s: IntArray? = null,
-): CInt
+): Int

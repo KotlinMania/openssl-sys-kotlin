@@ -1,30 +1,27 @@
 // port-lint: source lib.rs crypto.rs sha.rs bio.rs evp.rs ssl.rs err.rs handwritten/rand.rs handwritten/object.rs
 package io.github.kotlinmania.opensslsys
 
-import io.github.kotlinmania.libc.CInt
-import io.github.kotlinmania.libc.CLong
-import io.github.kotlinmania.libc.CULong
 import io.github.kotlinmania.opensslsys.internal.OpensslJni
 
-public actual fun openSslVersionNum(): CULong = OpensslJni.openSslVersionNum().toULong()
+public actual fun openSslVersionNum(): ULong = OpensslJni.openSslVersionNum().toULong()
 
-public actual fun openSslVersion(key: CInt): String? = OpensslJni.openSslVersion(key)
+public actual fun openSslVersion(key: Int): String? = OpensslJni.openSslVersion(key)
 
 public actual fun opensslInitCrypto(
     opts: ULong,
     settings: OpensslInitSettings?,
-): CInt = OpensslJni.opensslInitCrypto(opts.toLong(), settings?.address ?: 0L)
+): Int = OpensslJni.opensslInitCrypto(opts.toLong(), settings?.address ?: 0L)
 
 public actual fun cryptoMalloc(
     num: ULong,
     file: String,
-    line: CInt,
+    line: Int,
 ): Long = OpensslJni.cryptoMalloc(num.toLong(), file, line)
 
 public actual fun cryptoFree(
     addr: Long,
     file: String,
-    line: CInt,
+    line: Int,
 ) {
     if (addr != 0L) {
         OpensslJni.cryptoFree(addr, file, line)
@@ -60,21 +57,21 @@ public actual fun bioFreeAll(b: Bio?) {
 public actual fun bioRead(
     b: Bio,
     buf: ByteArray,
-    len: CInt,
-): CInt = OpensslJni.bioRead(b.address, buf, len)
+    len: Int,
+): Int = OpensslJni.bioRead(b.address, buf, len)
 
 public actual fun bioWrite(
     b: Bio,
     buf: ByteArray,
-    len: CInt,
-): CInt = OpensslJni.bioWrite(b.address, buf, len)
+    len: Int,
+): Int = OpensslJni.bioWrite(b.address, buf, len)
 
 public actual fun bioCtrl(
     b: Bio,
-    cmd: CInt,
-    larg: CLong,
+    cmd: Int,
+    larg: Long,
     parg: Long,
-): CLong = OpensslJni.bioCtrl(b.address, cmd, larg, parg)
+): Long = OpensslJni.bioCtrl(b.address, cmd, larg, parg)
 
 public actual fun bioGetMemData(b: Bio): ByteArray = OpensslJni.bioGetMemData(b.address)
 
@@ -108,7 +105,7 @@ public actual fun evpGetDigestbyname(name: String): EvpMd? {
     return if (ptr != 0L) EvpMd(ptr) else null
 }
 
-public actual fun evpMdGetSize(md: EvpMd): CInt = OpensslJni.evpMdGetSize(md.address)
+public actual fun evpMdGetSize(md: EvpMd): Int = OpensslJni.evpMdGetSize(md.address)
 
 public actual fun evpMdCtxNew(): EvpMdCtx? {
     val ptr = OpensslJni.evpMdCtxNew()
@@ -125,23 +122,23 @@ public actual fun evpDigestInitEx(
     ctx: EvpMdCtx,
     type: EvpMd,
     impl: Engine?,
-): CInt = OpensslJni.evpDigestInitEx(ctx.address, type.address, impl?.address ?: 0L)
+): Int = OpensslJni.evpDigestInitEx(ctx.address, type.address, impl?.address ?: 0L)
 
 public actual fun evpDigestUpdate(
     ctx: EvpMdCtx,
     d: ByteArray,
-): CInt = OpensslJni.evpDigestUpdate(ctx.address, d)
+): Int = OpensslJni.evpDigestUpdate(ctx.address, d)
 
 public actual fun evpDigestFinalEx(
     ctx: EvpMdCtx,
     md: ByteArray,
     s: IntArray?,
-): CInt = OpensslJni.evpDigestFinalEx(ctx.address, md, s)
+): Int = OpensslJni.evpDigestFinalEx(ctx.address, md, s)
 
 public actual fun opensslInitSsl(
     opts: ULong,
     settings: OpensslInitSettings?,
-): CInt = OpensslJni.opensslInitSsl(opts.toLong(), settings?.address ?: 0L)
+): Int = OpensslJni.opensslInitSsl(opts.toLong(), settings?.address ?: 0L)
 
 public actual fun tlsMethod(): SslMethod? {
     val ptr = OpensslJni.tlsMethod()
@@ -171,10 +168,10 @@ public actual fun sslCtxFree(ctx: SslCtx?) {
 
 public actual fun sslCtxCtrl(
     ctx: SslCtx,
-    cmd: CInt,
-    larg: CLong,
+    cmd: Int,
+    larg: Long,
     parg: Long,
-): CLong = OpensslJni.sslCtxCtrl(ctx.address, cmd, larg, parg)
+): Long = OpensslJni.sslCtxCtrl(ctx.address, cmd, larg, parg)
 
 public actual fun sslCtxGetOptions(ctx: SslCtx): ULong = OpensslJni.sslCtxGetOptions(ctx.address).toULong()
 
@@ -201,39 +198,39 @@ public actual fun sslFree(ssl: Ssl?) {
 
 public actual fun sslCtrl(
     ssl: Ssl,
-    cmd: CInt,
-    larg: CLong,
+    cmd: Int,
+    larg: Long,
     parg: Long,
-): CLong = OpensslJni.sslCtrl(ssl.address, cmd, larg, parg)
+): Long = OpensslJni.sslCtrl(ssl.address, cmd, larg, parg)
 
-public actual fun errGetError(): CULong = OpensslJni.errGetError().toULong()
+public actual fun errGetError(): ULong = OpensslJni.errGetError().toULong()
 
-public actual fun errPeekError(): CULong = OpensslJni.errPeekError().toULong()
+public actual fun errPeekError(): ULong = OpensslJni.errPeekError().toULong()
 
-public actual fun errPeekLastError(): CULong = OpensslJni.errPeekLastError().toULong()
+public actual fun errPeekLastError(): ULong = OpensslJni.errPeekLastError().toULong()
 
 public actual fun errClearError() {
     OpensslJni.errClearError()
 }
 
 public actual fun errErrorStringN(
-    e: CULong,
+    e: ULong,
     maxLen: Int,
 ): String = OpensslJni.errErrorStringN(e.toLong(), maxLen)
 
 public actual fun randBytes(
     buf: ByteArray,
-    num: CInt,
-): CInt = OpensslJni.randBytes(buf, num)
+    num: Int,
+): Int = OpensslJni.randBytes(buf, num)
 
-public actual fun randStatus(): CInt = OpensslJni.randStatus()
+public actual fun randStatus(): Int = OpensslJni.randStatus()
 
-public actual fun objNid2sn(n: CInt): String? = OpensslJni.objNid2sn(n)
+public actual fun objNid2sn(n: Int): String? = OpensslJni.objNid2sn(n)
 
-public actual fun objNid2ln(n: CInt): String? = OpensslJni.objNid2ln(n)
+public actual fun objNid2ln(n: Int): String? = OpensslJni.objNid2ln(n)
 
-public actual fun objSn2nid(sn: String): CInt = OpensslJni.objSn2nid(sn)
+public actual fun objSn2nid(sn: String): Int = OpensslJni.objSn2nid(sn)
 
-public actual fun objLn2nid(ln: String): CInt = OpensslJni.objLn2nid(ln)
+public actual fun objLn2nid(ln: String): Int = OpensslJni.objLn2nid(ln)
 
-public actual fun objTxt2nid(s: String): CInt = OpensslJni.objTxt2nid(s)
+public actual fun objTxt2nid(s: String): Int = OpensslJni.objTxt2nid(s)

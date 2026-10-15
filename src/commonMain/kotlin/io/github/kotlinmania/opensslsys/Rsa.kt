@@ -1,14 +1,12 @@
 // port-lint: source rsa.rs
 package io.github.kotlinmania.opensslsys
 
-import io.github.kotlinmania.libc.CInt
-
 public const val RSA_F4: Long = 0x10001L
 
 public fun evpPkeyCtxSetRsaKeygenBits(
     ctx: EvpPkeyCtx,
-    bits: CInt,
-): CInt =
+    bits: Int,
+): Int =
     evpPkeyCtxCtrl(
         ctx,
         EVP_PKEY_RSA,
@@ -21,7 +19,7 @@ public fun evpPkeyCtxSetRsaKeygenBits(
 public fun evpPkeyCtxSetRsaKeygenPubexp(
     ctx: EvpPkeyCtx,
     pubexp: Bignum,
-): CInt =
+): Int =
     evpPkeyCtxCtrl(
         ctx,
         EVP_PKEY_RSA,
@@ -33,8 +31,8 @@ public fun evpPkeyCtxSetRsaKeygenPubexp(
 
 public fun evpPkeyCtxSetRsaPadding(
     ctx: EvpPkeyCtx,
-    pad: CInt,
-): CInt =
+    pad: Int,
+): Int =
     evpPkeyCtxCtrl(
         ctx,
         EVP_PKEY_RSA,
@@ -47,7 +45,7 @@ public fun evpPkeyCtxSetRsaPadding(
 public fun evpPkeyCtxGetRsaPadding(
     ctx: EvpPkeyCtx,
     ppad: Long,
-): CInt =
+): Int =
     evpPkeyCtxCtrl(
         ctx,
         EVP_PKEY_RSA,
@@ -59,8 +57,8 @@ public fun evpPkeyCtxGetRsaPadding(
 
 public fun evpPkeyCtxSetRsaPssSaltlen(
     ctx: EvpPkeyCtx,
-    len: CInt,
-): CInt =
+    len: Int,
+): Int =
     evpPkeyCtxCtrl(
         ctx,
         EVP_PKEY_RSA,
@@ -73,7 +71,7 @@ public fun evpPkeyCtxSetRsaPssSaltlen(
 public fun evpPkeyCtxSetRsaMgf1Md(
     ctx: EvpPkeyCtx,
     md: EvpMd,
-): CInt =
+): Int =
     evpPkeyCtxCtrl(
         ctx,
         EVP_PKEY_RSA,
@@ -86,7 +84,7 @@ public fun evpPkeyCtxSetRsaMgf1Md(
 public fun evpPkeyCtxSetRsaOaepMd(
     ctx: EvpPkeyCtx,
     md: EvpMd,
-): CInt =
+): Int =
     evpPkeyCtxCtrl(
         ctx,
         EVP_PKEY_RSA,
@@ -99,8 +97,8 @@ public fun evpPkeyCtxSetRsaOaepMd(
 public fun evpPkeyCtxSet0RsaOaepLabel(
     ctx: EvpPkeyCtx,
     label: Long,
-    len: CInt,
-): CInt =
+    len: Int,
+): Int =
     evpPkeyCtxCtrl(
         ctx,
         EVP_PKEY_RSA,

@@ -2,9 +2,6 @@
 package io.github.kotlinmania.opensslsys
 
 import io.github.kotlinmania.getrandom.getrandom
-import io.github.kotlinmania.libc.CInt
-import io.github.kotlinmania.libc.CLong
-import io.github.kotlinmania.libc.CULong
 import io.github.kotlinmania.opensslsys.internal.ensureOpensslAddonLoaded
 import io.github.kotlinmania.opensslsys.internal.wasmBioCtrl
 import io.github.kotlinmania.opensslsys.internal.wasmBioFreeAll
@@ -168,14 +165,14 @@ private val knownNids =
         NidEntry(NID_ED25519, "ED25519", "ED25519", "1.3.101.112"),
     )
 
-public actual fun openSslVersionNum(): CULong =
+public actual fun openSslVersionNum(): ULong =
     if (ensureOpensslAddonLoaded()) {
         wasmOpenSslVersionNum().toLong().toULong()
     } else {
         0x30000000uL
     }
 
-public actual fun openSslVersion(key: CInt): String? =
+public actual fun openSslVersion(key: Int): String? =
     if (ensureOpensslAddonLoaded()) {
         wasmOpenSslVersion(key)
     } else {
@@ -197,7 +194,7 @@ public actual fun openSslVersion(key: CInt): String? =
 public actual fun opensslInitCrypto(
     opts: ULong,
     settings: OpensslInitSettings?,
-): CInt =
+): Int =
     if (ensureOpensslAddonLoaded()) {
         wasmOpensslInitCrypto(opts.toDouble(), (settings?.address ?: 0L).toDouble())
     } else {
@@ -207,7 +204,7 @@ public actual fun opensslInitCrypto(
 public actual fun cryptoMalloc(
     num: ULong,
     file: String,
-    line: CInt,
+    line: Int,
 ): Long {
     if (ensureOpensslAddonLoaded()) {
         return wasmCryptoMalloc(num.toDouble(), file, line).toLong()
@@ -221,7 +218,7 @@ public actual fun cryptoMalloc(
 public actual fun cryptoFree(
     addr: Long,
     file: String,
-    line: CInt,
+    line: Int,
 ) {
     if (ensureOpensslAddonLoaded()) {
         if (addr != 0L) {
@@ -299,8 +296,8 @@ public actual fun bioFreeAll(b: Bio?) {
 public actual fun bioRead(
     b: Bio,
     buf: ByteArray,
-    len: CInt,
-): CInt {
+    len: Int,
+): Int {
     val actualLen = len.coerceIn(0, buf.size)
     if (actualLen == 0) return 0
     if (ensureOpensslAddonLoaded()) {
@@ -330,8 +327,8 @@ public actual fun bioRead(
 public actual fun bioWrite(
     b: Bio,
     buf: ByteArray,
-    len: CInt,
-): CInt {
+    len: Int,
+): Int {
     val actualLen = len.coerceIn(0, buf.size)
     if (actualLen == 0) return 0
     if (ensureOpensslAddonLoaded()) {
@@ -351,10 +348,10 @@ public actual fun bioWrite(
 
 public actual fun bioCtrl(
     b: Bio,
-    cmd: CInt,
-    larg: CLong,
+    cmd: Int,
+    larg: Long,
     parg: Long,
-): CLong {
+): Long {
     if (ensureOpensslAddonLoaded()) {
         return wasmBioCtrl(b.address.toDouble(), cmd, larg.toDouble(), parg.toDouble()).toLong()
     }
@@ -465,7 +462,7 @@ public actual fun evpGetDigestbyname(name: String): EvpMd? =
         }
     }
 
-public actual fun evpMdGetSize(md: EvpMd): CInt =
+public actual fun evpMdGetSize(md: EvpMd): Int =
     if (ensureOpensslAddonLoaded()) {
         wasmEvpMdGetSize(md.address.toDouble())
     } else {
@@ -503,7 +500,7 @@ public actual fun evpDigestInitEx(
     ctx: EvpMdCtx,
     type: EvpMd,
     impl: Engine?,
-): CInt {
+): Int {
     if (ensureOpensslAddonLoaded()) {
         return wasmEvpDigestInitEx(
             ctx.address.toDouble(),
@@ -521,7 +518,7 @@ public actual fun evpDigestInitEx(
 public actual fun evpDigestUpdate(
     ctx: EvpMdCtx,
     d: ByteArray,
-): CInt {
+): Int {
     if (ensureOpensslAddonLoaded()) {
         return wasmEvpDigestUpdateHex(ctx.address.toDouble(), d.toHex())
     }
@@ -537,7 +534,7 @@ public actual fun evpDigestFinalEx(
     ctx: EvpMdCtx,
     md: ByteArray,
     s: IntArray?,
-): CInt {
+): Int {
     if (ensureOpensslAddonLoaded()) {
         val packed = wasmEvpDigestFinalExHex(ctx.address.toDouble())
         val colon = packed.indexOf(':')
@@ -574,7 +571,7 @@ public actual fun evpDigestFinalEx(
 public actual fun opensslInitSsl(
     opts: ULong,
     settings: OpensslInitSettings?,
-): CInt =
+): Int =
     if (ensureOpensslAddonLoaded()) {
         wasmOpensslInitSsl(opts.toDouble(), (settings?.address ?: 0L).toDouble())
     } else {
@@ -628,10 +625,10 @@ public actual fun sslCtxFree(ctx: SslCtx?) {
 
 public actual fun sslCtxCtrl(
     ctx: SslCtx,
-    cmd: CInt,
-    larg: CLong,
+    cmd: Int,
+    larg: Long,
     parg: Long,
-): CLong {
+): Long {
     if (ensureOpensslAddonLoaded()) {
         return wasmSslCtxCtrl(ctx.address.toDouble(), cmd, larg.toDouble(), parg.toDouble()).toLong()
     }
@@ -725,10 +722,10 @@ public actual fun sslFree(ssl: Ssl?) {
 
 public actual fun sslCtrl(
     ssl: Ssl,
-    cmd: CInt,
-    larg: CLong,
+    cmd: Int,
+    larg: Long,
     parg: Long,
-): CLong {
+): Long {
     if (ensureOpensslAddonLoaded()) {
         return wasmSslCtrl(ssl.address.toDouble(), cmd, larg.toDouble(), parg.toDouble()).toLong()
     }
@@ -763,21 +760,21 @@ public actual fun sslCtrl(
     }
 }
 
-public actual fun errGetError(): CULong =
+public actual fun errGetError(): ULong =
     if (ensureOpensslAddonLoaded()) {
         wasmErrGetError().toLong().toULong()
     } else {
         if (errorQueue.isEmpty()) 0uL else errorQueue.removeFirst()
     }
 
-public actual fun errPeekError(): CULong =
+public actual fun errPeekError(): ULong =
     if (ensureOpensslAddonLoaded()) {
         wasmErrPeekError().toLong().toULong()
     } else {
         errorQueue.firstOrNull() ?: 0uL
     }
 
-public actual fun errPeekLastError(): CULong =
+public actual fun errPeekLastError(): ULong =
     if (ensureOpensslAddonLoaded()) {
         wasmErrPeekLastError().toLong().toULong()
     } else {
@@ -793,7 +790,7 @@ public actual fun errClearError() {
 }
 
 public actual fun errErrorStringN(
-    e: CULong,
+    e: ULong,
     maxLen: Int,
 ): String {
     if (ensureOpensslAddonLoaded()) {
@@ -807,8 +804,8 @@ public actual fun errErrorStringN(
 
 public actual fun randBytes(
     buf: ByteArray,
-    num: CInt,
-): CInt {
+    num: Int,
+): Int {
     if (num < 0) return 0
     val actual = num.coerceIn(0, buf.size)
     if (actual == 0) return 1
@@ -832,37 +829,37 @@ public actual fun randBytes(
     }
 }
 
-public actual fun randStatus(): CInt = if (ensureOpensslAddonLoaded()) wasmRandStatus() else 1
+public actual fun randStatus(): Int = if (ensureOpensslAddonLoaded()) wasmRandStatus() else 1
 
-public actual fun objNid2sn(n: CInt): String? =
+public actual fun objNid2sn(n: Int): String? =
     if (ensureOpensslAddonLoaded()) {
         wasmObjNid2sn(n)
     } else {
         knownNids.firstOrNull { it.nid == n }?.sn
     }
 
-public actual fun objNid2ln(n: CInt): String? =
+public actual fun objNid2ln(n: Int): String? =
     if (ensureOpensslAddonLoaded()) {
         wasmObjNid2ln(n)
     } else {
         knownNids.firstOrNull { it.nid == n }?.ln
     }
 
-public actual fun objSn2nid(sn: String): CInt =
+public actual fun objSn2nid(sn: String): Int =
     if (ensureOpensslAddonLoaded()) {
         wasmObjSn2nid(sn)
     } else {
         knownNids.firstOrNull { it.sn.equals(sn, ignoreCase = true) }?.nid ?: NID_undef
     }
 
-public actual fun objLn2nid(ln: String): CInt =
+public actual fun objLn2nid(ln: String): Int =
     if (ensureOpensslAddonLoaded()) {
         wasmObjLn2nid(ln)
     } else {
         knownNids.firstOrNull { it.ln.equals(ln, ignoreCase = true) }?.nid ?: NID_undef
     }
 
-public actual fun objTxt2nid(s: String): CInt =
+public actual fun objTxt2nid(s: String): Int =
     if (ensureOpensslAddonLoaded()) {
         wasmObjTxt2nid(s)
     } else {

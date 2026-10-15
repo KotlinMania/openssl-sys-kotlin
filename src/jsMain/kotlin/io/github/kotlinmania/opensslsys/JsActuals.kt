@@ -2,9 +2,6 @@
 package io.github.kotlinmania.opensslsys
 
 import io.github.kotlinmania.getrandom.getrandom
-import io.github.kotlinmania.libc.CInt
-import io.github.kotlinmania.libc.CLong
-import io.github.kotlinmania.libc.CULong
 import io.github.kotlinmania.sha1.Sha1
 import io.github.kotlinmania.sha2.Sha224
 import io.github.kotlinmania.sha2.Sha256
@@ -113,7 +110,7 @@ private val knownNids =
         NidEntry(NID_ED25519, "ED25519", "ED25519", "1.3.101.112"),
     )
 
-public actual fun openSslVersionNum(): CULong {
+public actual fun openSslVersionNum(): ULong {
     val native = OpensslNative
     return if (native != null) {
         native.openSslVersionNum().toLong().toULong()
@@ -122,7 +119,7 @@ public actual fun openSslVersionNum(): CULong {
     }
 }
 
-public actual fun openSslVersion(key: CInt): String? {
+public actual fun openSslVersion(key: Int): String? {
     val native = OpensslNative
     return if (native != null) {
         native.openSslVersion(key)
@@ -146,7 +143,7 @@ public actual fun openSslVersion(key: CInt): String? {
 public actual fun opensslInitCrypto(
     opts: ULong,
     settings: OpensslInitSettings?,
-): CInt {
+): Int {
     val native = OpensslNative
     return if (native != null) {
         native.opensslInitCrypto(opts.toDouble(), (settings?.address ?: 0L).toDouble())
@@ -158,7 +155,7 @@ public actual fun opensslInitCrypto(
 public actual fun cryptoMalloc(
     num: ULong,
     file: String,
-    line: CInt,
+    line: Int,
 ): Long {
     val native = OpensslNative
     if (native != null) {
@@ -173,7 +170,7 @@ public actual fun cryptoMalloc(
 public actual fun cryptoFree(
     addr: Long,
     file: String,
-    line: CInt,
+    line: Int,
 ) {
     val native = OpensslNative
     if (native != null) {
@@ -267,8 +264,8 @@ public actual fun bioFreeAll(b: Bio?) {
 public actual fun bioRead(
     b: Bio,
     buf: ByteArray,
-    len: CInt,
-): CInt {
+    len: Int,
+): Int {
     val native = OpensslNative
     val actualLen = len.coerceIn(0, buf.size)
     if (actualLen == 0) return 0
@@ -299,8 +296,8 @@ public actual fun bioRead(
 public actual fun bioWrite(
     b: Bio,
     buf: ByteArray,
-    len: CInt,
-): CInt {
+    len: Int,
+): Int {
     val native = OpensslNative
     val actualLen = len.coerceIn(0, buf.size)
     if (actualLen == 0) return 0
@@ -321,10 +318,10 @@ public actual fun bioWrite(
 
 public actual fun bioCtrl(
     b: Bio,
-    cmd: CInt,
-    larg: CLong,
+    cmd: Int,
+    larg: Long,
     parg: Long,
-): CLong {
+): Long {
     val native = OpensslNative
     if (native != null) {
         return native.bioCtrl(b.address.toDouble(), cmd, larg.toDouble(), parg.toDouble()).toLong()
@@ -449,7 +446,7 @@ public actual fun evpGetDigestbyname(name: String): EvpMd? {
     }
 }
 
-public actual fun evpMdGetSize(md: EvpMd): CInt {
+public actual fun evpMdGetSize(md: EvpMd): Int {
     val native = OpensslNative
     return if (native != null) {
         native.evpMdGetSize(md.address.toDouble())
@@ -492,7 +489,7 @@ public actual fun evpDigestInitEx(
     ctx: EvpMdCtx,
     type: EvpMd,
     impl: Engine?,
-): CInt {
+): Int {
     val native = OpensslNative
     if (native != null) {
         return native.evpDigestInitEx(
@@ -511,7 +508,7 @@ public actual fun evpDigestInitEx(
 public actual fun evpDigestUpdate(
     ctx: EvpMdCtx,
     d: ByteArray,
-): CInt {
+): Int {
     val native = OpensslNative
     if (native != null) {
         return native.evpDigestUpdateHex(ctx.address.toDouble(), d.toHex())
@@ -528,7 +525,7 @@ public actual fun evpDigestFinalEx(
     ctx: EvpMdCtx,
     md: ByteArray,
     s: IntArray?,
-): CInt {
+): Int {
     val native = OpensslNative
     if (native != null) {
         val packed = native.evpDigestFinalExHex(ctx.address.toDouble())
@@ -566,7 +563,7 @@ public actual fun evpDigestFinalEx(
 public actual fun opensslInitSsl(
     opts: ULong,
     settings: OpensslInitSettings?,
-): CInt {
+): Int {
     val native = OpensslNative
     return if (native != null) {
         native.opensslInitSsl(opts.toDouble(), (settings?.address ?: 0L).toDouble())
@@ -631,10 +628,10 @@ public actual fun sslCtxFree(ctx: SslCtx?) {
 
 public actual fun sslCtxCtrl(
     ctx: SslCtx,
-    cmd: CInt,
-    larg: CLong,
+    cmd: Int,
+    larg: Long,
     parg: Long,
-): CLong {
+): Long {
     val native = OpensslNative
     if (native != null) {
         return native.sslCtxCtrl(ctx.address.toDouble(), cmd, larg.toDouble(), parg.toDouble()).toLong()
@@ -735,10 +732,10 @@ public actual fun sslFree(ssl: Ssl?) {
 
 public actual fun sslCtrl(
     ssl: Ssl,
-    cmd: CInt,
-    larg: CLong,
+    cmd: Int,
+    larg: Long,
     parg: Long,
-): CLong {
+): Long {
     val native = OpensslNative
     if (native != null) {
         return native.sslCtrl(ssl.address.toDouble(), cmd, larg.toDouble(), parg.toDouble()).toLong()
@@ -774,7 +771,7 @@ public actual fun sslCtrl(
     }
 }
 
-public actual fun errGetError(): CULong {
+public actual fun errGetError(): ULong {
     val native = OpensslNative
     return if (native != null) {
         native.errGetError().toLong().toULong()
@@ -783,7 +780,7 @@ public actual fun errGetError(): CULong {
     }
 }
 
-public actual fun errPeekError(): CULong {
+public actual fun errPeekError(): ULong {
     val native = OpensslNative
     return if (native != null) {
         native.errPeekError().toLong().toULong()
@@ -792,7 +789,7 @@ public actual fun errPeekError(): CULong {
     }
 }
 
-public actual fun errPeekLastError(): CULong {
+public actual fun errPeekLastError(): ULong {
     val native = OpensslNative
     return if (native != null) {
         native.errPeekLastError().toLong().toULong()
@@ -811,7 +808,7 @@ public actual fun errClearError() {
 }
 
 public actual fun errErrorStringN(
-    e: CULong,
+    e: ULong,
     maxLen: Int,
 ): String {
     val native = OpensslNative
@@ -826,8 +823,8 @@ public actual fun errErrorStringN(
 
 public actual fun randBytes(
     buf: ByteArray,
-    num: CInt,
-): CInt {
+    num: Int,
+): Int {
     if (num < 0) return 0
     val actual = num.coerceIn(0, buf.size)
     if (actual == 0) return 1
@@ -852,12 +849,12 @@ public actual fun randBytes(
     }
 }
 
-public actual fun randStatus(): CInt {
+public actual fun randStatus(): Int {
     val native = OpensslNative
     return native?.randStatus() ?: 1
 }
 
-public actual fun objNid2sn(n: CInt): String? {
+public actual fun objNid2sn(n: Int): String? {
     val native = OpensslNative
     return if (native != null) {
         native.objNid2sn(n)
@@ -866,7 +863,7 @@ public actual fun objNid2sn(n: CInt): String? {
     }
 }
 
-public actual fun objNid2ln(n: CInt): String? {
+public actual fun objNid2ln(n: Int): String? {
     val native = OpensslNative
     return if (native != null) {
         native.objNid2ln(n)
@@ -875,7 +872,7 @@ public actual fun objNid2ln(n: CInt): String? {
     }
 }
 
-public actual fun objSn2nid(sn: String): CInt {
+public actual fun objSn2nid(sn: String): Int {
     val native = OpensslNative
     return if (native != null) {
         native.objSn2nid(sn)
@@ -884,7 +881,7 @@ public actual fun objSn2nid(sn: String): CInt {
     }
 }
 
-public actual fun objLn2nid(ln: String): CInt {
+public actual fun objLn2nid(ln: String): Int {
     val native = OpensslNative
     return if (native != null) {
         native.objLn2nid(ln)
@@ -893,7 +890,7 @@ public actual fun objLn2nid(ln: String): CInt {
     }
 }
 
-public actual fun objTxt2nid(s: String): CInt {
+public actual fun objTxt2nid(s: String): Int {
     val native = OpensslNative
     return if (native != null) {
         native.objTxt2nid(s)

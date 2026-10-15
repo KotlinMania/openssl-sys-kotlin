@@ -1,19 +1,16 @@
 // port-lint: source handwritten/bio.rs
 package io.github.kotlinmania.opensslsys
 
-import io.github.kotlinmania.libc.CInt
-import io.github.kotlinmania.libc.CLong
-
-internal typealias BioInfoCb = (bio: Bio, oper: CInt, argp: String?, arglen: CInt, argi: CLong, ret: CLong) -> Unit
+internal typealias BioInfoCb = (bio: Bio, oper: Int, argp: String?, arglen: Int, argi: Long, ret: Long) -> Unit
 
 public fun interface OpensslBioInfoCb {
     public fun invoke(
         bio: Bio,
-        oper: CInt,
+        oper: Int,
         argp: String?,
-        arglen: CInt,
-        argi: CLong,
-        ret: CLong,
+        arglen: Int,
+        argi: Long,
+        ret: Long,
     )
 }
 

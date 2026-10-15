@@ -1,9 +1,6 @@
 // port-lint: source tls1.rs
 package io.github.kotlinmania.opensslsys
 
-import io.github.kotlinmania.libc.CInt
-import io.github.kotlinmania.libc.CLong
-
 public const val TLS1_VERSION: Int = 0x301
 public const val TLS1_1_VERSION: Int = 0x302
 public const val TLS1_2_VERSION: Int = 0x303
@@ -23,46 +20,46 @@ public fun interface OpensslTlsextServernameCallback {
         ssl: Ssl,
         al: IntArray,
         arg: Long,
-    ): CInt
+    ): Int
 }
 
 public fun interface OpensslTlsextStatusCallback {
     public fun invoke(
         ssl: Ssl,
         arg: Long,
-    ): CInt
+    ): Int
 }
 
 public fun sslSetTlsextHostName(
     s: Ssl,
     name: String,
-): CLong = sslCtrl(s, SSL_CTRL_SET_TLSEXT_HOSTNAME, TLSEXT_NAMETYPE_host_name.toLong(), name.hashCode().toLong())
+): Long = sslCtrl(s, SSL_CTRL_SET_TLSEXT_HOSTNAME, TLSEXT_NAMETYPE_host_name.toLong(), name.hashCode().toLong())
 
 public fun sslSetTlsextStatusType(
     s: Ssl,
-    type: CInt,
-): CLong = sslCtrl(s, SSL_CTRL_SET_TLSEXT_STATUS_REQ_TYPE, type.toLong(), 0L)
+    type: Int,
+): Long = sslCtrl(s, SSL_CTRL_SET_TLSEXT_STATUS_REQ_TYPE, type.toLong(), 0L)
 
 public fun sslGetTlsextStatusOcspResp(
     ssl: Ssl,
     resp: Long,
-): CLong = sslCtrl(ssl, SSL_CTRL_GET_TLSEXT_STATUS_REQ_OCSP_RESP, 0L, resp)
+): Long = sslCtrl(ssl, SSL_CTRL_GET_TLSEXT_STATUS_REQ_OCSP_RESP, 0L, resp)
 
 public fun sslSetTlsextStatusOcspResp(
     ssl: Ssl,
     resp: Long,
-    len: CLong,
-): CLong = sslCtrl(ssl, SSL_CTRL_SET_TLSEXT_STATUS_REQ_OCSP_RESP, len, resp)
+    len: Long,
+): Long = sslCtrl(ssl, SSL_CTRL_SET_TLSEXT_STATUS_REQ_OCSP_RESP, len, resp)
 
 public fun sslCtxSetTlsextServernameCallback(
     ctx: SslCtx,
     cb: OpensslTlsextServernameCallback? = null,
-): CLong = sslCtxCtrl(ctx, SSL_CTRL_SET_TLSEXT_SERVERNAME_CB, 0L, if (cb != null) 1L else 0L)
+): Long = sslCtxCtrl(ctx, SSL_CTRL_SET_TLSEXT_SERVERNAME_CB, 0L, if (cb != null) 1L else 0L)
 
 public fun sslCtxSetTlsextServernameCallbackFixedRust(
     ctx: SslCtx,
     cb: OpensslTlsextServernameCallback? = null,
-): CLong = sslCtxCtrl(ctx, SSL_CTRL_SET_TLSEXT_SERVERNAME_CB, 0L, if (cb != null) 1L else 0L)
+): Long = sslCtxCtrl(ctx, SSL_CTRL_SET_TLSEXT_SERVERNAME_CB, 0L, if (cb != null) 1L else 0L)
 
 public const val SSL_TLSEXT_ERR_OK: Int = 0
 public const val SSL_TLSEXT_ERR_ALERT_WARNING: Int = 1
@@ -72,14 +69,14 @@ public const val SSL_TLSEXT_ERR_NOACK: Int = 3
 public fun sslCtxSetTlsextServernameArg(
     ctx: SslCtx,
     arg: Long,
-): CLong = sslCtxCtrl(ctx, SSL_CTRL_SET_TLSEXT_SERVERNAME_ARG, 0L, arg)
+): Long = sslCtxCtrl(ctx, SSL_CTRL_SET_TLSEXT_SERVERNAME_ARG, 0L, arg)
 
 public fun sslCtxSetTlsextStatusCb(
     ctx: SslCtx,
     cb: OpensslTlsextStatusCallback? = null,
-): CLong = sslCtxCtrl(ctx, SSL_CTRL_SET_TLSEXT_STATUS_REQ_CB, 0L, if (cb != null) 1L else 0L)
+): Long = sslCtxCtrl(ctx, SSL_CTRL_SET_TLSEXT_STATUS_REQ_CB, 0L, if (cb != null) 1L else 0L)
 
 public fun sslCtxSetTlsextStatusArg(
     ctx: SslCtx,
     arg: Long,
-): CLong = sslCtxCtrl(ctx, SSL_CTRL_SET_TLSEXT_STATUS_REQ_CB_ARG, 0L, arg)
+): Long = sslCtxCtrl(ctx, SSL_CTRL_SET_TLSEXT_STATUS_REQ_CB_ARG, 0L, arg)
