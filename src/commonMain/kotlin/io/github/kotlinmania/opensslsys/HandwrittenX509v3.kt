@@ -1,8 +1,6 @@
 // port-lint: source handwritten/x509v3.rs
 package io.github.kotlinmania.opensslsys
 
-import io.github.kotlinmania.libc.CInt
-
 public class ConfMethod(
     public val address: Long = 0L,
 )
@@ -28,7 +26,7 @@ public class DistPointNameStAnonUnion(
 )
 
 public class DistPointName(
-    public val typeTag: CInt = 0,
+    public val typeTag: Int = 0,
     public val name: DistPointNameStAnonUnion = DistPointNameStAnonUnion(),
     public val dpname: X509Name? = null,
 )
@@ -37,7 +35,7 @@ public class DistPoint(
     public val distpoint: DistPointName? = null,
     public val reasons: Asn1BitString? = null,
     public val crlIssuer: StackStGeneralName? = null,
-    public val dpReasons: CInt = 0,
+    public val dpReasons: Int = 0,
 )
 
 public class StackStDistPoint(

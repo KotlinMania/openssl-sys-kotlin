@@ -1,8 +1,6 @@
 // port-lint: source err.rs
 package io.github.kotlinmania.opensslsys
 
-import io.github.kotlinmania.libc.CULong
-
 public const val ERR_TXT_MALLOCED: Int = 0x01
 public const val ERR_TXT_STRING: Int = 0x02
 
@@ -44,15 +42,15 @@ public fun errPack(lib: Int, function: Int, reason: Int): ULong =
     ((lib.toULong() and ERR_LIB_MASK) shl ERR_LIB_OFFSET.toInt()) or
         (reason.toULong() and ERR_REASON_MASK)
 
-public expect fun errGetError(): CULong
+public expect fun errGetError(): ULong
 
-public expect fun errPeekError(): CULong
+public expect fun errPeekError(): ULong
 
-public expect fun errPeekLastError(): CULong
+public expect fun errPeekLastError(): ULong
 
 public expect fun errClearError()
 
 public expect fun errErrorStringN(
-    e: CULong,
+    e: ULong,
     maxLen: Int = 256,
 ): String

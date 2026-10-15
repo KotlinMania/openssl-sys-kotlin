@@ -3,9 +3,6 @@
 
 package io.github.kotlinmania.opensslsys
 
-import io.github.kotlinmania.libc.CInt
-import io.github.kotlinmania.libc.CLong
-import io.github.kotlinmania.libc.CULong
 import kotlinx.cinterop.ByteVar
 import kotlinx.cinterop.COpaquePointer
 import kotlinx.cinterop.UIntVar
@@ -82,25 +79,25 @@ private inline fun <R> ByteArray.usePinnedPtr(block: (COpaquePointer?) -> R): R 
         usePinned { pinned -> block(pinned.addressOf(0)) }
     }
 
-public actual fun openSslVersionNum(): CULong = openssl_version_num()
+public actual fun openSslVersionNum(): ULong = openssl_version_num()
 
-public actual fun openSslVersion(key: CInt): String? = openssl_version(key)?.toKString()
+public actual fun openSslVersion(key: Int): String? = openssl_version(key)?.toKString()
 
 public actual fun opensslInitCrypto(
     opts: ULong,
     settings: OpensslInitSettings?,
-): CInt = openssl_init_crypto(opts, (settings?.address ?: 0L).toULong())
+): Int = openssl_init_crypto(opts, (settings?.address ?: 0L).toULong())
 
 public actual fun cryptoMalloc(
     num: ULong,
     file: String,
-    line: CInt,
+    line: Int,
 ): Long = openssl_crypto_malloc(num, file, line).toLong()
 
 public actual fun cryptoFree(
     addr: Long,
     file: String,
-    line: CInt,
+    line: Int,
 ) {
     if (addr != 0L) {
         openssl_crypto_free(addr.toULong(), file, line)
@@ -156,8 +153,8 @@ public actual fun bioFreeAll(b: Bio?) {
 public actual fun bioRead(
     b: Bio,
     buf: ByteArray,
-    len: CInt,
-): CInt {
+    len: Int,
+): Int {
     val actualLen = len.coerceIn(0, buf.size)
     if (actualLen == 0) return 0
     return buf.usePinnedPtr { ptr ->
@@ -168,8 +165,8 @@ public actual fun bioRead(
 public actual fun bioWrite(
     b: Bio,
     buf: ByteArray,
-    len: CInt,
-): CInt {
+    len: Int,
+): Int {
     val actualLen = len.coerceIn(0, buf.size)
     if (actualLen == 0) return 0
     return buf.usePinnedPtr { ptr ->
@@ -179,10 +176,10 @@ public actual fun bioWrite(
 
 public actual fun bioCtrl(
     b: Bio,
-    cmd: CInt,
-    larg: CLong,
+    cmd: Int,
+    larg: Long,
     parg: Long,
-): CLong = openssl_bio_ctrl(b.address.toULong(), cmd, larg, parg.toULong())
+): Long = openssl_bio_ctrl(b.address.toULong(), cmd, larg, parg.toULong())
 
 public actual fun bioGetMemData(b: Bio): ByteArray =
     memScoped {
@@ -227,7 +224,7 @@ public actual fun evpGetDigestbyname(name: String): EvpMd? {
     return if (ptr != 0L) EvpMd(ptr) else null
 }
 
-public actual fun evpMdGetSize(md: EvpMd): CInt = openssl_evp_md_get_size(md.address.toULong())
+public actual fun evpMdGetSize(md: EvpMd): Int = openssl_evp_md_get_size(md.address.toULong())
 
 public actual fun evpMdCtxNew(): EvpMdCtx? {
     val ptr = openssl_evp_md_ctx_new().toLong()
@@ -244,12 +241,12 @@ public actual fun evpDigestInitEx(
     ctx: EvpMdCtx,
     type: EvpMd,
     impl: Engine?,
-): CInt = openssl_evp_digest_init_ex(ctx.address.toULong(), type.address.toULong(), (impl?.address ?: 0L).toULong())
+): Int = openssl_evp_digest_init_ex(ctx.address.toULong(), type.address.toULong(), (impl?.address ?: 0L).toULong())
 
 public actual fun evpDigestUpdate(
     ctx: EvpMdCtx,
     d: ByteArray,
-): CInt =
+): Int =
     d.usePinnedPtr { ptr ->
         openssl_evp_digest_update(ctx.address.toULong(), ptr, d.size.toULong())
     }
@@ -258,7 +255,7 @@ public actual fun evpDigestFinalEx(
     ctx: EvpMdCtx,
     md: ByteArray,
     s: IntArray?,
-): CInt =
+): Int =
     memScoped {
         val lenVar = alloc<UIntVar>()
         val rc =
@@ -274,7 +271,7 @@ public actual fun evpDigestFinalEx(
 public actual fun opensslInitSsl(
     opts: ULong,
     settings: OpensslInitSettings?,
-): CInt = openssl_init_ssl(opts, (settings?.address ?: 0L).toULong())
+): Int = openssl_init_ssl(opts, (settings?.address ?: 0L).toULong())
 
 public actual fun tlsMethod(): SslMethod? {
     val ptr = openssl_tls_method().toLong()
@@ -304,10 +301,10 @@ public actual fun sslCtxFree(ctx: SslCtx?) {
 
 public actual fun sslCtxCtrl(
     ctx: SslCtx,
-    cmd: CInt,
-    larg: CLong,
+    cmd: Int,
+    larg: Long,
     parg: Long,
-): CLong = openssl_ssl_ctx_ctrl(ctx.address.toULong(), cmd, larg, parg.toULong())
+): Long = openssl_ssl_ctx_ctrl(ctx.address.toULong(), cmd, larg, parg.toULong())
 
 public actual fun sslCtxGetOptions(ctx: SslCtx): ULong = openssl_ssl_ctx_get_options(ctx.address.toULong())
 
@@ -334,23 +331,23 @@ public actual fun sslFree(ssl: Ssl?) {
 
 public actual fun sslCtrl(
     ssl: Ssl,
-    cmd: CInt,
-    larg: CLong,
+    cmd: Int,
+    larg: Long,
     parg: Long,
-): CLong = openssl_ssl_ctrl(ssl.address.toULong(), cmd, larg, parg.toULong())
+): Long = openssl_ssl_ctrl(ssl.address.toULong(), cmd, larg, parg.toULong())
 
-public actual fun errGetError(): CULong = openssl_err_get_error()
+public actual fun errGetError(): ULong = openssl_err_get_error()
 
-public actual fun errPeekError(): CULong = openssl_err_peek_error()
+public actual fun errPeekError(): ULong = openssl_err_peek_error()
 
-public actual fun errPeekLastError(): CULong = openssl_err_peek_last_error()
+public actual fun errPeekLastError(): ULong = openssl_err_peek_last_error()
 
 public actual fun errClearError() {
     openssl_err_clear_error()
 }
 
 public actual fun errErrorStringN(
-    e: CULong,
+    e: ULong,
     maxLen: Int,
 ): String =
     memScoped {
@@ -362,8 +359,8 @@ public actual fun errErrorStringN(
 
 public actual fun randBytes(
     buf: ByteArray,
-    num: CInt,
-): CInt {
+    num: Int,
+): Int {
     val actual = num.coerceIn(0, buf.size)
     if (actual == 0) return 1
     return buf.usePinnedPtr { ptr ->
@@ -371,14 +368,14 @@ public actual fun randBytes(
     }
 }
 
-public actual fun randStatus(): CInt = openssl_rand_status()
+public actual fun randStatus(): Int = openssl_rand_status()
 
-public actual fun objNid2sn(n: CInt): String? = openssl_obj_nid2sn(n)?.toKString()
+public actual fun objNid2sn(n: Int): String? = openssl_obj_nid2sn(n)?.toKString()
 
-public actual fun objNid2ln(n: CInt): String? = openssl_obj_nid2ln(n)?.toKString()
+public actual fun objNid2ln(n: Int): String? = openssl_obj_nid2ln(n)?.toKString()
 
-public actual fun objSn2nid(sn: String): CInt = openssl_obj_sn2nid(sn)
+public actual fun objSn2nid(sn: String): Int = openssl_obj_sn2nid(sn)
 
-public actual fun objLn2nid(ln: String): CInt = openssl_obj_ln2nid(ln)
+public actual fun objLn2nid(ln: String): Int = openssl_obj_ln2nid(ln)
 
-public actual fun objTxt2nid(s: String): CInt = openssl_obj_txt2nid(s)
+public actual fun objTxt2nid(s: String): Int = openssl_obj_txt2nid(s)

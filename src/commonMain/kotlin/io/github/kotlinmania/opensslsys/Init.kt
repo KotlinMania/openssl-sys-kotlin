@@ -1,20 +1,19 @@
 // port-lint: source lib.rs
 package io.github.kotlinmania.opensslsys
 
-import io.github.kotlinmania.libc.CInt
 import kotlin.concurrent.atomics.AtomicBoolean
 
 internal val INIT: AtomicBoolean = AtomicBoolean(false)
 
-internal typealias PasswordCallback = (buf: ByteArray, size: CInt, rwflag: CInt, userData: Long) -> CInt
+internal typealias PasswordCallback = (buf: ByteArray, size: Int, rwflag: Int, userData: Long) -> Int
 
 public fun interface OpensslPasswordCallback {
     public fun invoke(
         buf: ByteArray,
-        size: CInt,
-        rwflag: CInt,
+        size: Int,
+        rwflag: Int,
         userData: Long,
-    ): CInt
+    ): Int
 }
 
 /**
@@ -34,5 +33,5 @@ internal fun init() {
 internal fun bioGetMemData(
     b: Bio,
     pp: LongArray,
-): io.github.kotlinmania.libc.CLong =
+): Long =
     bioCtrl(b, BIO_CTRL_INFO, 0L, if (pp.isNotEmpty()) pp[0] else 0L)

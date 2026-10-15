@@ -1,9 +1,6 @@
 // port-lint: source ssl.rs
 package io.github.kotlinmania.opensslsys
 
-import io.github.kotlinmania.libc.CInt
-import io.github.kotlinmania.libc.CLong
-
 public const val SSL_MAX_KRB5_PRINCIPAL_LENGTH: Int = 256
 public const val SSL_MAX_SSL_SESSION_ID_LENGTH: Int = 32
 public const val SSL_MAX_SID_CTX_LENGTH: Int = 32
@@ -144,108 +141,108 @@ public const val SSL_CTRL_GET_TMP_KEY: Int = 133
 public fun sslCtxSetTmpDh(
     ctx: SslCtx,
     dh: Dh,
-): CLong = sslCtxCtrl(ctx, SSL_CTRL_SET_TMP_DH, 0L, dh.address)
+): Long = sslCtxCtrl(ctx, SSL_CTRL_SET_TMP_DH, 0L, dh.address)
 
 public fun sslCtxSetTmpEcdh(
     ctx: SslCtx,
     key: EcKey,
-): CLong = sslCtxCtrl(ctx, SSL_CTRL_SET_TMP_ECDH, 0L, key.address)
+): Long = sslCtxCtrl(ctx, SSL_CTRL_SET_TMP_ECDH, 0L, key.address)
 
 public fun sslSetTmpDh(
     ssl: Ssl,
     dh: Dh,
-): CLong = sslCtrl(ssl, SSL_CTRL_SET_TMP_DH, 0L, dh.address)
+): Long = sslCtrl(ssl, SSL_CTRL_SET_TMP_DH, 0L, dh.address)
 
 public fun sslSetTmpEcdh(
     ssl: Ssl,
     key: EcKey,
-): CLong = sslCtrl(ssl, SSL_CTRL_SET_TMP_ECDH, 0L, key.address)
+): Long = sslCtrl(ssl, SSL_CTRL_SET_TMP_ECDH, 0L, key.address)
 
 public fun sslCtxSetDhAuto(
     ctx: SslCtx,
-    onoff: CInt,
-): CLong = sslCtxCtrl(ctx, SSL_CTRL_SET_DH_AUTO, onoff.toLong(), 0L)
+    onoff: Int,
+): Long = sslCtxCtrl(ctx, SSL_CTRL_SET_DH_AUTO, onoff.toLong(), 0L)
 
 public fun sslSetDhAuto(
     ssl: Ssl,
-    onoff: CInt,
-): CLong = sslCtrl(ssl, SSL_CTRL_SET_DH_AUTO, onoff.toLong(), 0L)
+    onoff: Int,
+): Long = sslCtrl(ssl, SSL_CTRL_SET_DH_AUTO, onoff.toLong(), 0L)
 
 public fun sslCtxAddExtraChainCert(
     ctx: SslCtx,
     x509: X509,
-): CLong = sslCtxCtrl(ctx, SSL_CTRL_EXTRA_CHAIN_CERT, 0L, x509.address)
+): Long = sslCtxCtrl(ctx, SSL_CTRL_EXTRA_CHAIN_CERT, 0L, x509.address)
 
 public fun sslCtxGetExtraChainCerts(
     ctx: SslCtx,
     chain: Long,
-): CLong = sslCtxCtrl(ctx, SSL_CTRL_GET_EXTRA_CHAIN_CERTS, 0L, chain)
+): Long = sslCtxCtrl(ctx, SSL_CTRL_GET_EXTRA_CHAIN_CERTS, 0L, chain)
 
 public fun sslCtxSet0VerifyCertStore(
     ctx: SslCtx,
     st: X509Store,
-): CLong = sslCtxCtrl(ctx, SSL_CTRL_SET_VERIFY_CERT_STORE, 0L, st.address)
+): Long = sslCtxCtrl(ctx, SSL_CTRL_SET_VERIFY_CERT_STORE, 0L, st.address)
 
 public fun sslSet0VerifyCertStore(
     ssl: Ssl,
     st: X509Store,
-): CLong = sslCtrl(ssl, SSL_CTRL_SET_VERIFY_CERT_STORE, 0L, st.address)
+): Long = sslCtrl(ssl, SSL_CTRL_SET_VERIFY_CERT_STORE, 0L, st.address)
 
 public fun sslSet1GroupsList(
     ctx: Ssl,
     s: String,
-): CLong = sslCtrl(ctx, SSL_CTRL_SET_GROUPS_LIST, 0L, s.hashCode().toLong())
+): Long = sslCtrl(ctx, SSL_CTRL_SET_GROUPS_LIST, 0L, s.hashCode().toLong())
 
 public fun sslCtxSet1GroupsList(
     ctx: SslCtx,
     s: String,
-): CLong = sslCtxCtrl(ctx, SSL_CTRL_SET_GROUPS_LIST, 0L, s.hashCode().toLong())
+): Long = sslCtxCtrl(ctx, SSL_CTRL_SET_GROUPS_LIST, 0L, s.hashCode().toLong())
 
 public fun sslAdd0ChainCert(
     ssl: Ssl,
     ptr: X509,
-): CLong = sslCtrl(ssl, SSL_CTRL_CHAIN_CERT, 0L, ptr.address)
+): Long = sslCtrl(ssl, SSL_CTRL_CHAIN_CERT, 0L, ptr.address)
 
 public fun sslCtxSet1SigalgsList(
     ctx: SslCtx,
     s: String,
-): CLong = sslCtxCtrl(ctx, SSL_CTRL_SET_SIGALGS_LIST, 0L, s.hashCode().toLong())
+): Long = sslCtxCtrl(ctx, SSL_CTRL_SET_SIGALGS_LIST, 0L, s.hashCode().toLong())
 
 public fun sslCtxSetEcdhAuto(
     ctx: SslCtx,
-    onoff: CInt,
-): CInt = sslCtxCtrl(ctx, SSL_CTRL_SET_ECDH_AUTO, onoff.toLong(), 0L).toInt()
+    onoff: Int,
+): Int = sslCtxCtrl(ctx, SSL_CTRL_SET_ECDH_AUTO, onoff.toLong(), 0L).toInt()
 
 public fun sslSetEcdhAuto(
     ssl: Ssl,
-    onoff: CInt,
-): CInt = sslCtrl(ssl, SSL_CTRL_SET_ECDH_AUTO, onoff.toLong(), 0L).toInt()
+    onoff: Int,
+): Int = sslCtrl(ssl, SSL_CTRL_SET_ECDH_AUTO, onoff.toLong(), 0L).toInt()
 
 public fun sslGetPeerTmpKey(
     ssl: Ssl,
     key: Long,
-): CLong = sslCtrl(ssl, SSL_CTRL_GET_PEER_TMP_KEY, 0L, key)
+): Long = sslCtrl(ssl, SSL_CTRL_GET_PEER_TMP_KEY, 0L, key)
 
 public fun sslGetTmpKey(
     ssl: Ssl,
     key: Long,
-): CLong = sslCtrl(ssl, SSL_CTRL_GET_TMP_KEY, 0L, key)
+): Long = sslCtrl(ssl, SSL_CTRL_GET_TMP_KEY, 0L, key)
 
 public fun sslGetExNewIndex(
-    l: CLong,
+    l: Long,
     p: Long = 0L,
     newf: OpensslCryptoExNew? = null,
     dupf: OpensslCryptoExDup? = null,
     freef: OpensslCryptoExFree? = null,
-): CInt = if (l >= 0L && p >= 0L && (newf == null || dupf == null || freef == null)) CRYPTO_EX_INDEX_SSL else 0
+): Int = if (l >= 0L && p >= 0L && (newf == null || dupf == null || freef == null)) CRYPTO_EX_INDEX_SSL else 0
 
 public fun sslCtxGetExNewIndex(
-    l: CLong,
+    l: Long,
     p: Long = 0L,
     newf: OpensslCryptoExNew? = null,
     dupf: OpensslCryptoExDup? = null,
     freef: OpensslCryptoExFree? = null,
-): CInt = if (l >= 0L && p >= 0L && (newf == null || dupf == null || freef == null)) CRYPTO_EX_INDEX_SSL_CTX else 1
+): Int = if (l >= 0L && p >= 0L && (newf == null || dupf == null || freef == null)) CRYPTO_EX_INDEX_SSL_CTX else 1
 
 public const val SSL_CLIENT_HELLO_SUCCESS: Int = 1
 public const val SSL_CLIENT_HELLO_ERROR: Int = 0
@@ -264,7 +261,7 @@ public const val OPENSSL_INIT_LOAD_SSL_STRINGS: ULong = 0x00200000uL
 public expect fun opensslInitSsl(
     opts: ULong,
     settings: OpensslInitSettings? = null,
-): CInt
+): Int
 
 public expect fun tlsMethod(): SslMethod?
 
@@ -278,10 +275,10 @@ public expect fun sslCtxFree(ctx: SslCtx?)
 
 public expect fun sslCtxCtrl(
     ctx: SslCtx,
-    cmd: CInt,
-    larg: CLong,
+    cmd: Int,
+    larg: Long,
     parg: Long = 0L,
-): CLong
+): Long
 
 public expect fun sslCtxGetOptions(ctx: SslCtx): ULong
 
@@ -301,75 +298,75 @@ public expect fun sslFree(ssl: Ssl?)
 
 public expect fun sslCtrl(
     ssl: Ssl,
-    cmd: CInt,
-    larg: CLong,
+    cmd: Int,
+    larg: Long,
     parg: Long = 0L,
-): CLong
+): Long
 
 public fun sslCtxSetMode(
     ctx: SslCtx,
-    op: CLong,
-): CLong = sslCtxCtrl(ctx, SSL_CTRL_MODE, op, 0L)
+    op: Long,
+): Long = sslCtxCtrl(ctx, SSL_CTRL_MODE, op, 0L)
 
-public fun sslCtxGetMode(ctx: SslCtx): CLong = sslCtxCtrl(ctx, SSL_CTRL_MODE, 0L, 0L)
+public fun sslCtxGetMode(ctx: SslCtx): Long = sslCtxCtrl(ctx, SSL_CTRL_MODE, 0L, 0L)
 
 public fun sslCtxSetMinProtoVersion(
     ctx: SslCtx,
-    version: CInt,
-): CInt = sslCtxCtrl(ctx, SSL_CTRL_SET_MIN_PROTO_VERSION, version.toLong(), 0L).toInt()
+    version: Int,
+): Int = sslCtxCtrl(ctx, SSL_CTRL_SET_MIN_PROTO_VERSION, version.toLong(), 0L).toInt()
 
 public fun sslCtxSetMaxProtoVersion(
     ctx: SslCtx,
-    version: CInt,
-): CInt = sslCtxCtrl(ctx, SSL_CTRL_SET_MAX_PROTO_VERSION, version.toLong(), 0L).toInt()
+    version: Int,
+): Int = sslCtxCtrl(ctx, SSL_CTRL_SET_MAX_PROTO_VERSION, version.toLong(), 0L).toInt()
 
-public fun sslCtxGetMinProtoVersion(ctx: SslCtx): CInt =
+public fun sslCtxGetMinProtoVersion(ctx: SslCtx): Int =
     sslCtxCtrl(ctx, SSL_CTRL_GET_MIN_PROTO_VERSION, 0L, 0L).toInt()
 
-public fun sslCtxGetMaxProtoVersion(ctx: SslCtx): CInt =
+public fun sslCtxGetMaxProtoVersion(ctx: SslCtx): Int =
     sslCtxCtrl(ctx, SSL_CTRL_GET_MAX_PROTO_VERSION, 0L, 0L).toInt()
 
 public fun sslSetMinProtoVersion(
     s: Ssl,
-    version: CInt,
-): CInt = sslCtrl(s, SSL_CTRL_SET_MIN_PROTO_VERSION, version.toLong(), 0L).toInt()
+    version: Int,
+): Int = sslCtrl(s, SSL_CTRL_SET_MIN_PROTO_VERSION, version.toLong(), 0L).toInt()
 
 public fun sslSetMaxProtoVersion(
     s: Ssl,
-    version: CInt,
-): CInt = sslCtrl(s, SSL_CTRL_SET_MAX_PROTO_VERSION, version.toLong(), 0L).toInt()
+    version: Int,
+): Int = sslCtrl(s, SSL_CTRL_SET_MAX_PROTO_VERSION, version.toLong(), 0L).toInt()
 
-public fun sslGetMinProtoVersion(s: Ssl): CInt =
+public fun sslGetMinProtoVersion(s: Ssl): Int =
     sslCtrl(s, SSL_CTRL_GET_MIN_PROTO_VERSION, 0L, 0L).toInt()
 
-public fun sslGetMaxProtoVersion(s: Ssl): CInt =
+public fun sslGetMaxProtoVersion(s: Ssl): Int =
     sslCtrl(s, SSL_CTRL_GET_MAX_PROTO_VERSION, 0L, 0L).toInt()
 
-public fun sslSessionReused(ssl: Ssl): CInt =
+public fun sslSessionReused(ssl: Ssl): Int =
     sslCtrl(ssl, SSL_CTRL_GET_SESSION_REUSED, 0L, 0L).toInt()
 
 public fun sslCtxSessSetCacheSize(
     ctx: SslCtx,
-    t: CLong,
-): CLong = sslCtxCtrl(ctx, SSL_CTRL_SET_SESS_CACHE_SIZE, t, 0L)
+    t: Long,
+): Long = sslCtxCtrl(ctx, SSL_CTRL_SET_SESS_CACHE_SIZE, t, 0L)
 
-public fun sslCtxSessGetCacheSize(ctx: SslCtx): CLong =
+public fun sslCtxSessGetCacheSize(ctx: SslCtx): Long =
     sslCtxCtrl(ctx, SSL_CTRL_GET_SESS_CACHE_SIZE, 0L, 0L)
 
 public fun sslCtxSetSessionCacheMode(
     ctx: SslCtx,
-    m: CLong,
-): CLong = sslCtxCtrl(ctx, SSL_CTRL_SET_SESS_CACHE_MODE, m, 0L)
+    m: Long,
+): Long = sslCtxCtrl(ctx, SSL_CTRL_SET_SESS_CACHE_MODE, m, 0L)
 
 public fun sslCtxSetReadAhead(
     ctx: SslCtx,
-    m: CLong,
-): CLong = sslCtxCtrl(ctx, SSL_CTRL_SET_READ_AHEAD, m, 0L)
+    m: Long,
+): Long = sslCtxCtrl(ctx, SSL_CTRL_SET_READ_AHEAD, m, 0L)
 
 public fun sslSetMtu(
     ssl: Ssl,
-    mtu: CLong,
-): CLong = sslCtrl(ssl, SSL_CTRL_SET_MTU, mtu, 0L)
+    mtu: Long,
+): Long = sslCtrl(ssl, SSL_CTRL_SET_MTU, mtu, 0L)
 
-public fun sslGetExtmsSupport(ssl: Ssl): CLong =
+public fun sslGetExtmsSupport(ssl: Ssl): Long =
     sslCtrl(ssl, SSL_CTRL_GET_EXTMS_SUPPORT, 0L, 0L)

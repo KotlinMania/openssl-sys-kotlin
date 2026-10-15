@@ -1,15 +1,13 @@
 // port-lint: source ec.rs
 package io.github.kotlinmania.opensslsys
 
-import io.github.kotlinmania.libc.CInt
-
 public const val OPENSSL_EC_EXPLICIT_CURVE: Int = 0
 public const val OPENSSL_EC_NAMED_CURVE: Int = 1
 
 public fun evpPkeyCtxSetEcParamgenCurveNid(
     ctx: EvpPkeyCtx,
-    nid: CInt,
-): CInt =
+    nid: Int,
+): Int =
     evpPkeyCtxCtrl(
         ctx,
         EVP_PKEY_EC,

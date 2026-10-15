@@ -1,13 +1,10 @@
 // port-lint: source handwritten/asn1.rs
 package io.github.kotlinmania.opensslsys
 
-import io.github.kotlinmania.libc.CInt
-import io.github.kotlinmania.libc.CLong
-
 public class Asn1Encoding(
     public val enc: Long = 0L,
-    public val len: CLong = 0L,
-    public val modified: CInt = 0,
+    public val len: Long = 0L,
+    public val modified: Int = 0,
 )
 
 public class StackStAsn1Object(
@@ -39,6 +36,6 @@ public class Asn1TypeValue(
 )
 
 public class Asn1Type(
-    public val typeTag: CInt = 0,
+    public val typeTag: Int = 0,
     public val value: Asn1TypeValue = Asn1TypeValue(),
 )

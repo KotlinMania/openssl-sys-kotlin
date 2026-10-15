@@ -1,9 +1,6 @@
 // port-lint: source handwritten/pkcs7.rs
 package io.github.kotlinmania.opensslsys
 
-import io.github.kotlinmania.libc.CInt
-import io.github.kotlinmania.libc.CLong
-
 public class Pkcs7Ctx(
     public val libctx: OsslLibCtx? = null,
     public val propq: String? = null,
@@ -67,9 +64,9 @@ public class Pkcs7Data(
 
 public class Pkcs7(
     public val asn1: Long = 0L,
-    public val length: CLong = 0L,
-    public val state: CInt = 0,
-    public val detached: CInt = 0,
+    public val length: Long = 0L,
+    public val state: Int = 0,
+    public val detached: Int = 0,
     public val typeTag: Asn1Object? = null,
     public val d: Pkcs7Data = Pkcs7Data(),
     public val ctx: Pkcs7Ctx = Pkcs7Ctx(),

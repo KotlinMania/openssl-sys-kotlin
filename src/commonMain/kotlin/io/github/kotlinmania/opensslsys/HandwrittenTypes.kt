@@ -1,10 +1,6 @@
 // port-lint: source handwritten/types.rs
 package io.github.kotlinmania.opensslsys
 
-import io.github.kotlinmania.libc.CInt
-import io.github.kotlinmania.libc.CUInt
-import io.github.kotlinmania.libc.SizeT
-
 public class Asn1Object(
     public val address: Long = 0L,
 )
@@ -13,7 +9,7 @@ public class Asn1Value(
     public val address: Long = 0L,
 )
 
-public typealias Asn1Boolean = CInt
+public typealias Asn1Boolean = Int
 
 public class Asn1Integer(
     public val address: Long = 0L,
@@ -101,7 +97,7 @@ public class BioPollDescriptor(
 
 public class BioMsg(
     public val data: Long = 0L,
-    public val dataLen: SizeT = 0uL,
+    public val dataLen: ULong = 0uL,
     public val peer: BioAddr? = null,
     public val local: BioAddr? = null,
     public val flags: ULong = 0uL,
@@ -232,7 +228,7 @@ public class X509Lookup(
 )
 
 public class X509v3Ctx(
-    public val flags: CInt = 0,
+    public val flags: Int = 0,
     public val issuerCert: Long = 0L,
     public val subjectCert: Long = 0L,
     public val subjectReq: Long = 0L,
@@ -270,7 +266,7 @@ public class SslConnCloseInfo(
     public val errorCode: ULong = 0uL,
     public val frameType: ULong = 0uL,
     public val reason: String? = null,
-    public val reasonLen: SizeT = 0uL,
+    public val reasonLen: ULong = 0uL,
     public val flags: UInt = 0u,
 )
 
@@ -309,10 +305,10 @@ public class OsslLibCtx(
 
 public class OsslParam(
     public val key: Long = 0L,
-    public val dataType: CUInt = 0u,
+    public val dataType: UInt = 0u,
     public val data: Long = 0L,
-    public val dataSize: SizeT = 0uL,
-    public val returnSize: SizeT = 0uL,
+    public val dataSize: ULong = 0uL,
+    public val returnSize: ULong = 0uL,
 )
 
 public class OsslParamBld(
@@ -335,16 +331,16 @@ public class OsslDecoderCtx(
     public val address: Long = 0L,
 )
 
-internal typealias OsslPassphraseCallback = (pass: ByteArray, passSize: SizeT, passLen: LongArray, params: OsslParam?, arg: Long) -> CInt
+internal typealias OsslPassphraseCallback = (pass: ByteArray, passSize: ULong, passLen: LongArray, params: OsslParam?, arg: Long) -> Int
 
 public fun interface OpensslPassphraseCallback {
     public fun invoke(
         pass: ByteArray,
-        passSize: SizeT,
+        passSize: ULong,
         passLen: LongArray,
         params: OsslParam?,
         arg: Long,
-    ): CInt
+    ): Int
 }
 
 public class EvpMac(
