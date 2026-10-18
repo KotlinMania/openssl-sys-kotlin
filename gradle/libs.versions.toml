@@ -17,7 +17,7 @@ libc = "0.1.9"
 p256 = "0.1.0"
 sha1 = "0.1.0"
 sha2 = "0.1.0"
-zeroize = "0.1.0"
+zeroize = "0.1.1"
 
 [plugins]
 kotlin-multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
