@@ -1,44 +1,56 @@
 import groovy.json.JsonOutput
+import java.security.MessageDigest
+import java.util.Properties
+import javax.xml.parsers.DocumentBuilderFactory
 import org.gradle.api.artifacts.component.ModuleComponentIdentifier
 import org.gradle.api.artifacts.component.ModuleComponentSelector
 import org.gradle.api.artifacts.result.ResolvedDependencyResult
+import org.gradle.api.tasks.testing.AbstractTestTask
 import org.gradle.api.tasks.testing.Test
 import org.w3c.dom.Element
-import javax.xml.parsers.DocumentBuilderFactory
 
 plugins {
     alias(libs.plugins.kotlin.multiplatform)
     alias(libs.plugins.android.kmp)
 }
-// Isolate outputs when allocated; this fixture never writes into producer checkouts.
+
 providers.gradleProperty("consumerBuildRoot").orNull?.let { layout.buildDirectory.set(file(it)) }
+val producerProperties = Properties().apply {
+    file("../../gradle.properties").inputStream().use { load(it) }
+}
+val producerVersion = providers.gradleProperty("producerVersion")
+    .getOrElse(producerProperties.getProperty("project.version", "0.1.2"))
 val expectedVersions = mapOf(
-    "async-trait-kotlin" to providers.gradleProperty("asyncVersion").get(),
-    "android-system-properties-kotlin" to providers.gradleProperty("systemPropertiesVersion").get(),
+    "openssl-sys-kotlin" to producerVersion,
 )
+
 kotlin {
     jvmToolchain(21)
     compilerOptions { allWarningsAsErrors.set(true) }
     android {
-        namespace = "io.github.kotlinmania.template.publicationconsumer"
-        compileSdk = providers.gradleProperty("consumerCompileSdk").get().toInt()
-        minSdk = 24
+        namespace = "io.github.kotlinmania.opensslsys.publicationconsumer"
+        compileSdk = providers.gradleProperty("consumerCompileSdk")
+            .getOrElse(producerProperties.getProperty("android.compileSdk", "34"))
+            .toInt()
+        minSdk = producerProperties.getProperty("android.minSdk", "24").toInt()
         withHostTestBuilder { sourceSetTreeName = "test" }
     }
     sourceSets {
         commonMain.dependencies {
-            expectedVersions.forEach { (module, version) -> implementation("io.github.kotlinmania:$module:$version") }
+            expectedVersions.forEach { (module, version) ->
+                implementation("io.github.kotlinmania:$module:$version")
+            }
         }
         commonTest.dependencies { implementation(kotlin("test")) }
     }
 }
+
+tasks.withType<AbstractTestTask>().configureEach { outputs.upToDateWhen { false } }
 val hostTests = tasks.withType<Test>().matching { it.name == "testAndroidHostTest" }
-hostTests.configureEach { outputs.upToDateWhen { false } }
 
 kotlin.targets.named("android") {
     compilations.named("main") {
         val compileDependencies = configurations.getByName(compileDependencyConfigurationName)
-        // Fail explicitly if the Android plugin changes its resolvable configuration layout.
         val runtimeName = compileDependencyConfigurationName.replace("CompileClasspath", "RuntimeClasspath")
         val runtimeDependencies = configurations.named(runtimeName)
         val classpathReceipt = layout.buildDirectory.file("reports/publication/raw-classpaths.json")
@@ -65,10 +77,15 @@ kotlin.targets.named("android") {
         val checkClasspath = tasks.register<Exec>("checkAndroidPublicationClasspath") {
             dependsOn(writeClasspath)
             mustRunAfter(hostTests)
-            commandLine("python3", file("../check_android_classpath.py"), classpathReceipt.get().asFile,
-                "--configurations", "--receipt", layout.buildDirectory.file("reports/publication/duplicates.json").get().asFile)
+            commandLine(
+                "python3",
+                file("../check_android_classpath.py"),
+                classpathReceipt.get().asFile,
+                "--configurations",
+                "--receipt",
+                layout.buildDirectory.file("reports/publication/duplicates.json").get().asFile,
+            )
         }
-        // Keep diagnostics when an executed host test fails; neither result is converted to success.
         hostTests.configureEach { finalizedBy(checkClasspath) }
         tasks.register("verifyAndroidConsumer") {
             dependsOn(compileTaskProvider, hostTests, checkClasspath)
@@ -80,14 +97,23 @@ kotlin.targets.named("android") {
                         val version = expectedVersions[requested.module] ?: return@forEach
                         val variant = dependency.resolvedVariant.externalVariant.orElse(dependency.resolvedVariant)
                         val owner = variant.owner as ModuleComponentIdentifier
-                        val attributes = variant.attributes.keySet().associate { it.name to variant.attributes.getAttribute(it).toString() }
+                        val attributes = variant.attributes.keySet().associate {
+                            it.name to variant.attributes.getAttribute(it).toString()
+                        }
                         check(owner.group == "io.github.kotlinmania" && owner.module == "${requested.module}-android" && owner.version == version)
-                        check(attributes["org.jetbrains.kotlin.platform.type"] == "androidJvm" &&
-                            attributes["org.gradle.libraryelements"] == "aar" && attributes["org.gradle.jvm.environment"] == "android")
+                        check(
+                            attributes["org.jetbrains.kotlin.platform.type"] == "androidJvm" &&
+                                attributes["org.gradle.libraryelements"] == "aar" &&
+                                attributes["org.gradle.jvm.environment"] == "android",
+                        )
                         selections += "${owner.group}:${owner.module}:${owner.version} $attributes"
                     }
                 check(selections.size == expectedVersions.size) { "Not every root dependency selected an Android AAR" }
-                val expected = setOf("publishedAsyncResultAndQuoteApi", "publishedThrowingApi", "publishedAndroidPropertyInputValidation")
+                val expected = setOf(
+                    "publishedVersionAndMemoryLifecycle",
+                    "publishedShaDigestsAndConstantTimeHelpers",
+                    "publishedBioErrRandNidAndPublicTypes",
+                )
                 val executed = mutableSetOf<String>()
                 check(hostTests.size == 1)
                 val parser = DocumentBuilderFactory.newInstance().newDocumentBuilder()
