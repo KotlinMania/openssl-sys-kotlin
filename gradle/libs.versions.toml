@@ -18,6 +18,7 @@ p256 = "0.1.0"
 sha1 = "0.1.2"
 sha2 = "0.1.0"
 zeroize = "0.1.1"
+procMacro = "0.1.4"
 
 [plugins]
 kotlin-multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
@@ -44,6 +45,7 @@ p256 = { module = "io.github.kotlinmania:p256-kotlin", version.ref = "p256" }
 sha1 = { module = "io.github.kotlinmania:sha1-kotlin", version.ref = "sha1" }
 sha2 = { module = "io.github.kotlinmania:sha2-kotlin", version.ref = "sha2" }
 zeroize = { module = "io.github.kotlinmania:zeroize-kotlin", version.ref = "zeroize" }
+proc-macro-kotlin = { module = "io.github.kotlinmania:proc-macro-kotlin", version.ref = "procMacro" }
 
 [bundles]
 opensslsys-commonMain = [
@@ -61,4 +63,5 @@ opensslsys-commonMain = [
   "sha1",
   "sha2",
   "zeroize",
+  "proc-macro-kotlin",
 ]
