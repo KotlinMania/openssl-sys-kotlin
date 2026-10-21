@@ -1,4 +1,3 @@
-// port-lint: source lib.rs crypto.rs sha.rs bio.rs evp.rs ssl.rs err.rs handwritten/rand.rs handwritten/object.rs
 package io.github.kotlinmania.opensslsys
 
 import io.github.kotlinmania.getrandom.getrandom
@@ -69,15 +68,15 @@ private data class NidEntry(
 
 private val knownNids =
     listOf(
-        NidEntry(NID_undef, "UNDEF", "undefined", "0.0"),
-        NidEntry(NID_sha1, "SHA1", "sha1", "1.3.14.3.2.26"),
-        NidEntry(NID_sha224, "SHA224", "sha224", "2.16.840.1.101.3.4.2.4"),
-        NidEntry(NID_sha256, "SHA256", "sha256", "2.16.840.1.101.3.4.2.1"),
-        NidEntry(NID_sha384, "SHA384", "sha384", "2.16.840.1.101.3.4.2.2"),
-        NidEntry(NID_sha512, "SHA512", "sha512", "2.16.840.1.101.3.4.2.3"),
-        NidEntry(NID_X9_62_prime256v1, "prime256v1", "X9.62 prime256v1", "1.2.840.10045.3.1.7"),
-        NidEntry(NID_secp384r1, "secp384r1", "secp384r1", "1.3.132.0.34"),
-        NidEntry(NID_secp521r1, "secp521r1", "secp521r1", "1.3.132.0.35"),
+        NidEntry(NID_UNDEF, "UNDEF", "undefined", "0.0"),
+        NidEntry(NID_SHA1, "SHA1", "sha1", "1.3.14.3.2.26"),
+        NidEntry(NID_SHA224, "SHA224", "sha224", "2.16.840.1.101.3.4.2.4"),
+        NidEntry(NID_SHA256, "SHA256", "sha256", "2.16.840.1.101.3.4.2.1"),
+        NidEntry(NID_SHA384, "SHA384", "sha384", "2.16.840.1.101.3.4.2.2"),
+        NidEntry(NID_SHA512, "SHA512", "sha512", "2.16.840.1.101.3.4.2.3"),
+        NidEntry(NID_X9_62_PRIME256V1, "prime256v1", "X9.62 prime256v1", "1.2.840.10045.3.1.7"),
+        NidEntry(NID_SECP384R1, "secp384r1", "secp384r1", "1.3.132.0.34"),
+        NidEntry(NID_SECP521R1, "secp521r1", "secp521r1", "1.3.132.0.35"),
         NidEntry(NID_ED25519, "ED25519", "ED25519", "1.3.101.112"),
     )
 
@@ -510,10 +509,10 @@ public actual fun objNid2sn(n: Int): String? = knownNids.firstOrNull { it.nid ==
 public actual fun objNid2ln(n: Int): String? = knownNids.firstOrNull { it.nid == n }?.ln
 
 public actual fun objSn2nid(sn: String): Int =
-    knownNids.firstOrNull { it.sn.equals(sn, ignoreCase = true) }?.nid ?: NID_undef
+    knownNids.firstOrNull { it.sn.equals(sn, ignoreCase = true) }?.nid ?: NID_UNDEF
 
 public actual fun objLn2nid(ln: String): Int =
-    knownNids.firstOrNull { it.ln.equals(ln, ignoreCase = true) }?.nid ?: NID_undef
+    knownNids.firstOrNull { it.ln.equals(ln, ignoreCase = true) }?.nid ?: NID_UNDEF
 
 public actual fun objTxt2nid(s: String): Int =
     knownNids
@@ -521,4 +520,4 @@ public actual fun objTxt2nid(s: String): Int =
             it.sn.equals(s, ignoreCase = true) ||
                 it.ln.equals(s, ignoreCase = true) ||
                 it.oid == s
-        }?.nid ?: NID_undef
+        }?.nid ?: NID_UNDEF

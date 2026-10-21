@@ -12,8 +12,8 @@ public const val DTLS1_2_VERSION: Int = 0xFEFD
 public const val TLS1_AD_DECODE_ERROR: Int = 50
 public const val TLS1_AD_UNRECOGNIZED_NAME: Int = 112
 
-public const val TLSEXT_NAMETYPE_host_name: Int = 0
-public const val TLSEXT_STATUSTYPE_ocsp: Int = 1
+public const val TLSEXT_NAMETYPE_HOST_NAME: Int = 0
+public const val TLSEXT_STATUSTYPE_OCSP: Int = 1
 
 public fun interface OpensslTlsextServernameCallback {
     public fun invoke(
@@ -33,7 +33,7 @@ public fun interface OpensslTlsextStatusCallback {
 public fun sslSetTlsextHostName(
     s: Ssl,
     name: String,
-): Long = sslCtrl(s, SSL_CTRL_SET_TLSEXT_HOSTNAME, TLSEXT_NAMETYPE_host_name.toLong(), name.hashCode().toLong())
+): Long = sslCtrl(s, SSL_CTRL_SET_TLSEXT_HOSTNAME, TLSEXT_NAMETYPE_HOST_NAME.toLong(), name.hashCode().toLong())
 
 public fun sslSetTlsextStatusType(
     s: Ssl,

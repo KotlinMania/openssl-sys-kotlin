@@ -1,4 +1,4 @@
-// port-lint: tests lib.rs crypto.rs
+// port-lint: tests crypto.rs
 package io.github.kotlinmania.opensslsys
 
 import kotlin.test.Test

@@ -41,16 +41,16 @@ public const val EXFLAG_INVALID_POLICY: UInt = 0x800u
 public const val EXFLAG_FRESHEST: UInt = 0x1000u
 public const val EXFLAG_SS: UInt = 0x2000u
 
-public const val X509v3_KU_DIGITAL_SIGNATURE: UInt = 0x0080u
-public const val X509v3_KU_NON_REPUDIATION: UInt = 0x0040u
-public const val X509v3_KU_KEY_ENCIPHERMENT: UInt = 0x0020u
-public const val X509v3_KU_DATA_ENCIPHERMENT: UInt = 0x0010u
-public const val X509v3_KU_KEY_AGREEMENT: UInt = 0x0008u
-public const val X509v3_KU_KEY_CERT_SIGN: UInt = 0x0004u
-public const val X509v3_KU_CRL_SIGN: UInt = 0x0002u
-public const val X509v3_KU_ENCIPHER_ONLY: UInt = 0x0001u
-public const val X509v3_KU_DECIPHER_ONLY: UInt = 0x8000u
-public const val X509v3_KU_UNDEF: UInt = 0xffffu
+public const val X509V3_KU_DIGITAL_SIGNATURE: UInt = 0x0080u
+public const val X509V3_KU_NON_REPUDIATION: UInt = 0x0040u
+public const val X509V3_KU_KEY_ENCIPHERMENT: UInt = 0x0020u
+public const val X509V3_KU_DATA_ENCIPHERMENT: UInt = 0x0010u
+public const val X509V3_KU_KEY_AGREEMENT: UInt = 0x0008u
+public const val X509V3_KU_KEY_CERT_SIGN: UInt = 0x0004u
+public const val X509V3_KU_CRL_SIGN: UInt = 0x0002u
+public const val X509V3_KU_ENCIPHER_ONLY: UInt = 0x0001u
+public const val X509V3_KU_DECIPHER_ONLY: UInt = 0x8000u
+public const val X509V3_KU_UNDEF: UInt = 0xffffu
 
 public const val XKU_SSL_SERVER: UInt = 0x1u
 public const val XKU_SSL_CLIENT: UInt = 0x2u

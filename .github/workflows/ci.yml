@@ -43,11 +43,16 @@ jobs:
     permissions:
       contents: read
   android:
+    needs: macos
     uses: ./.github/workflows/android.yml
     permissions:
       contents: read
   android-native:
     uses: ./.github/workflows/android-native.yml
+    permissions:
+      contents: read
+  jvm:
+    uses: ./.github/workflows/jvm.yml
     permissions:
       contents: read
   linux:

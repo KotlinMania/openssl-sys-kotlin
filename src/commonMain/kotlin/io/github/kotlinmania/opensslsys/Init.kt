@@ -1,4 +1,3 @@
-// port-lint: source lib.rs
 package io.github.kotlinmania.opensslsys
 
 import kotlin.concurrent.atomics.AtomicBoolean
