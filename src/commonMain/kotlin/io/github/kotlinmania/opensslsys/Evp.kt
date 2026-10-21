@@ -6,21 +6,21 @@ public const val EVP_MAX_MD_SIZE: UInt = 64u
 public const val PKCS5_SALT_LEN: Int = 8
 public const val PKCS12_DEFAULT_ITER: Int = 2048
 
-public const val EVP_PKEY_RSA: Int = NID_rsaEncryption
-public const val EVP_PKEY_RSA_PSS: Int = NID_rsassaPss
-public const val EVP_PKEY_DSA: Int = NID_dsa
-public const val EVP_PKEY_DH: Int = NID_dhKeyAgreement
-public const val EVP_PKEY_DHX: Int = NID_dhpublicnumber
-public const val EVP_PKEY_EC: Int = NID_X9_62_id_ecPublicKey
-public const val EVP_PKEY_SM2: Int = NID_sm2
+public const val EVP_PKEY_RSA: Int = NID_RSAENCRYPTION
+public const val EVP_PKEY_RSA_PSS: Int = NID_RSASSAPSS
+public const val EVP_PKEY_DSA: Int = NID_DSA
+public const val EVP_PKEY_DH: Int = NID_DHKEYAGREEMENT
+public const val EVP_PKEY_DHX: Int = NID_DHPUBLICNUMBER
+public const val EVP_PKEY_EC: Int = NID_X9_62_ID_ECPUBLICKEY
+public const val EVP_PKEY_SM2: Int = NID_SM2
 public const val EVP_PKEY_X25519: Int = NID_X25519
 public const val EVP_PKEY_ED25519: Int = NID_ED25519
 public const val EVP_PKEY_X448: Int = NID_X448
 public const val EVP_PKEY_ED448: Int = NID_ED448
-public const val EVP_PKEY_HMAC: Int = NID_hmac
-public const val EVP_PKEY_CMAC: Int = NID_cmac
-public const val EVP_PKEY_POLY1305: Int = NID_poly1305
-public const val EVP_PKEY_HKDF: Int = NID_hkdf
+public const val EVP_PKEY_HMAC: Int = NID_HMAC
+public const val EVP_PKEY_CMAC: Int = NID_CMAC
+public const val EVP_PKEY_POLY1305: Int = NID_POLY1305
+public const val EVP_PKEY_HKDF: Int = NID_HKDF
 
 public const val EVP_CIPHER_CTX_FLAG_WRAP_ALLOW: Int = 0x1
 
@@ -52,7 +52,7 @@ public fun evpMdBlockSize(md: EvpMd): Int = if (md.address != 0L) 64 else 0
 
 public fun evpMdSize(md: EvpMd): Int = evpMdGetSize(md)
 
-public fun evpMdType(md: EvpMd): Int = if (md.address != 0L) NID_sha256 else NID_undef
+public fun evpMdType(md: EvpMd): Int = if (md.address != 0L) NID_SHA256 else NID_UNDEF
 
 public fun evpCipherKeyLength(cipher: EvpCipher): Int = if (cipher.address != 0L) 32 else 0
 
@@ -61,7 +61,7 @@ public fun evpCipherBlockSize(cipher: EvpCipher): Int = if (cipher.address != 0L
 public fun evpCipherIvLength(cipher: EvpCipher): Int = if (cipher.address != 0L) 16 else 0
 
 public fun evpCipherNid(cipher: EvpCipher): Int =
-    if (cipher.address != 0L) cipher.address.toInt() else NID_undef
+    if (cipher.address != 0L) cipher.address.toInt() else NID_UNDEF
 
 public fun evpCipherCtxBlockSize(ctx: EvpCipherCtx): Int = if (ctx.address != 0L) 16 else 0
 
@@ -96,7 +96,7 @@ public fun evpPkeyGetSize(pkey: EvpPkey): Int = if (pkey.address != 0L) 256 else
 public fun evpPkeySize(pkey: EvpPkey): Int = evpPkeyGetSize(pkey)
 
 public fun evpPkeyId(pkey: EvpPkey): Int =
-    if (pkey.address != 0L) pkey.address.toInt() else NID_undef
+    if (pkey.address != 0L) pkey.address.toInt() else NID_UNDEF
 
 public fun evpPkeyBits(pkey: EvpPkey): Int = if (pkey.address != 0L) 2048 else 0
 

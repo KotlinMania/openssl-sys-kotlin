@@ -22,6 +22,7 @@ import org.jetbrains.kotlin.gradle.targets.js.yarn.YarnRootExtension
 import org.jetbrains.kotlin.gradle.targets.wasm.nodejs.WasmNodeJsEnvSpec
 import org.jetbrains.kotlin.gradle.targets.wasm.yarn.WasmYarnRootEnvSpec
 import java.io.ByteArrayInputStream
+import java.io.ByteArrayOutputStream
 import java.net.URI
 import java.net.http.HttpClient
 import java.net.http.HttpRequest
@@ -1538,7 +1539,7 @@ tasks.register("swiftExportSmokeTest") {
             }.assertNormalExitValue()
 
         val developerDir =
-            java.io.ByteArrayOutputStream().use { out ->
+            ByteArrayOutputStream().use { out ->
                 execOperations
                     .exec {
                         commandLine("xcode-select", "-p")
@@ -1547,17 +1548,7 @@ tasks.register("swiftExportSmokeTest") {
                 out.toString().trim()
             }
         val swiftTestCommand =
-            mutableListOf(
-                "swift",
-                "test",
-                "-v",
-                "-Xswiftc",
-                "-swift-version",
-                "-Xswiftc",
-                "6",
-                "-Xswiftc",
-                "-warnings-as-errors",
-            )
+            mutableListOf("swift", "test", "-v", "-Xswiftc", "-swift-version", "-Xswiftc", "6", "-Xswiftc", "-warnings-as-errors")
         if (developerDir.endsWith("CommandLineTools")) {
             val frameworks = "$developerDir/Library/Developer/Frameworks"
             swiftTestCommand +=
@@ -1580,7 +1571,7 @@ tasks.register("swiftExportSmokeTest") {
                     "$developerDir/Library/Developer/usr/lib",
                 )
         }
-        val swiftTestOutput = java.io.ByteArrayOutputStream()
+        val swiftTestOutput = ByteArrayOutputStream()
         val swiftTestResult =
             execOperations.exec {
                 workingDir = layout.projectDirectory.dir("swift-test-harness").asFile

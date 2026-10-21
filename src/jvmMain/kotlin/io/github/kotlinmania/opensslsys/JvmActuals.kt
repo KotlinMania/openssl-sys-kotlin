@@ -1,4 +1,3 @@
-// port-lint: source lib.rs crypto.rs sha.rs bio.rs evp.rs ssl.rs err.rs handwritten/rand.rs handwritten/object.rs
 package io.github.kotlinmania.opensslsys
 
 import io.github.kotlinmania.opensslsys.internal.OpensslJni

@@ -1,4 +1,3 @@
-// port-lint: source N/A
 package io.github.kotlinmania.opensslsys
 
 public external interface OpensslNativeBindings {

@@ -19,7 +19,7 @@ public fun evpPkeyCtxSetEcParamgenCurveNid(
 
 public fun evpEcGen(curve: String): EvpPkey? {
     val nid = objSn2nid(curve)
-    return if (nid != NID_undef) EvpPkey(nid.toLong()) else null
+    return if (nid != NID_UNDEF) EvpPkey(nid.toLong()) else null
 }
 
 public const val EVP_PKEY_CTRL_EC_PARAMGEN_CURVE_NID: Int = EVP_PKEY_ALG_CTRL + 1

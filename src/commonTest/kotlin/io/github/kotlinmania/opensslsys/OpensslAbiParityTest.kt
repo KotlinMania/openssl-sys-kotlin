@@ -1,4 +1,3 @@
-// port-lint: tests sha.rs bio.rs evp.rs ssl.rs err.rs handwritten/rand.rs handwritten/object.rs
 package io.github.kotlinmania.opensslsys
 
 import kotlin.test.Test
@@ -144,9 +143,9 @@ class OpensslAbiParityTest {
         val ctx = sslCtxNew(method)
         assertNotNull(ctx)
         try {
-            val added = sslCtxSetOptions(ctx, SSL_OP_NO_SSLv2 or SSL_OP_NO_SSLv3)
-            assertTrue((added and SSL_OP_NO_SSLv3) == SSL_OP_NO_SSLv3)
-            assertTrue((sslCtxGetOptions(ctx) and SSL_OP_NO_SSLv3) == SSL_OP_NO_SSLv3)
+            val added = sslCtxSetOptions(ctx, SSL_OP_NO_SSLV2 or SSL_OP_NO_SSLV3)
+            assertTrue((added and SSL_OP_NO_SSLV3) == SSL_OP_NO_SSLV3)
+            assertTrue((sslCtxGetOptions(ctx) and SSL_OP_NO_SSLV3) == SSL_OP_NO_SSLV3)
 
             assertEquals(1, sslCtxSetMinProtoVersion(ctx, TLS1_2_VERSION))
             assertEquals(TLS1_2_VERSION, sslCtxGetMinProtoVersion(ctx))
@@ -188,10 +187,10 @@ class OpensslAbiParityTest {
         assertEquals(1, randBytes(randomBytes, randomBytes.size))
         assertTrue(randomBytes.any { it != 0.toByte() })
 
-        assertEquals(NID_sha256, objSn2nid("SHA256"))
-        assertEquals(NID_sha256, objLn2nid("sha256"))
-        assertEquals(NID_sha256, objTxt2nid("2.16.840.1.101.3.4.2.1"))
-        assertEquals("SHA256", objNid2sn(NID_sha256))
-        assertEquals("sha256", objNid2ln(NID_sha256))
+        assertEquals(NID_SHA256, objSn2nid("SHA256"))
+        assertEquals(NID_SHA256, objLn2nid("sha256"))
+        assertEquals(NID_SHA256, objTxt2nid("2.16.840.1.101.3.4.2.1"))
+        assertEquals("SHA256", objNid2sn(NID_SHA256))
+        assertEquals("sha256", objNid2ln(NID_SHA256))
     }
 }

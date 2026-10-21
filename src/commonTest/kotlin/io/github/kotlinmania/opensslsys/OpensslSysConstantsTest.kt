@@ -74,8 +74,8 @@ class OpensslSysConstantsTest {
 
     @Test
     fun testObjMacAndCrypto() {
-        assertEquals(0, NID_undef)
-        assertEquals(116, NID_dsa)
+        assertEquals(0, NID_UNDEF)
+        assertEquals(116, NID_DSA)
         assertEquals(0, OPENSSL_VERSION)
         assertEquals(1, OPENSSL_CFLAGS)
     }
